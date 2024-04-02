@@ -48,9 +48,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::post('/user/delete', [UserController::class, 'Destroy'])->name('user.delete');
 
     //    Sales route 
-    Route::get('/due-collections', [CollectionController::class, 'Index'])->name('collections.index');
-    Route::get('/collections/create', [CollectionController::class, 'Create'])->name('collections.create');
-    Route::post('/collections/store', [CollectionController::class, 'Store'])->name('collections.store');
+    Route::get('/collections', [CollectionController::class, 'Index'])->name('collections.index');
+    Route::get('/get-user/{id}', [CollectionController::class, 'GetUser']);
+    Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
+    Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
+
     Route::get('/generate-invoice/{invoice_id}', [CollectionController::class, 'GenerateInv'])->name('sales.update'); //generate voucher 
 });
 

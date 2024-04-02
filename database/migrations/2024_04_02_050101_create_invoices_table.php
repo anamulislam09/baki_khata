@@ -11,27 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ledgers', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
             $table->integer('auth_id')->nullable();
             $table->string('user_id')->nullable();
-            $table->string('invoice_id')->nullable();
-            $table->bigInteger('amount')->default(0);
-            $table->bigInteger('collection')->default(0);
-            $table->bigInteger('due')->default(0);
+            $table->string('invoice_id');
+            $table->decimal('amount', 20, 2)->default(0);
+            $table->decimal('collection', 20, 2)->default(0);
+            $table->decimal('due', 20, 2)->default(0);
             $table->string('date');
             $table->string('month');
             $table->integer('year');
+            $table->integer('collection_status')->default(0);
             $table->timestamps();
         });
     }
 
-    /** 
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('ledgers');
+        Schema::dropIfExists('invoices');
     }
 };

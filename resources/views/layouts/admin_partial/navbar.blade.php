@@ -2,14 +2,17 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav" style="width: 40%">
         <li class="info">
+            @if (Auth::guard('admin')->user()->role == 0)
             <a href="{{ route('admin.dashboard') }}" class="d-block text-light">{{ Auth::guard('admin')->user()->name }}</a>
+            @endif
+            <a href="{{ route('admin.dashboard') }}" class="d-block text-light">{{ Auth::guard('admin')->user()->shop_name }}</a>
         </li>
     </ul>
     <ul class="navbar-nav d-flex justify-content-center">
         @if (Auth::guard('admin')->user()->role == 0)
             <li class="nav-item mt-3">
                 <a href="{{ route('customers.all') }}"
-                    class="nav-link {{ Request::routeIs('customers.all') || Request::routeIs('customers.create') || Request::routeIs('customers.edit') ? 'active' : '' }}">
+                    class="nav-link text-light {{ Request::routeIs('customers.all') || Request::routeIs('customers.create') || Request::routeIs('customers.edit') ? 'active' : '' }}">
                     <p>Customers</p>
                 </a>
             </li>

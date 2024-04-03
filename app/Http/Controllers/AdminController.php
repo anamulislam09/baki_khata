@@ -63,6 +63,7 @@ class AdminController extends Controller
         }
 
         $data['name'] = $request->name;
+        $data['shop_name'] = $request->shop_name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
         $customer = Customer::create($data);

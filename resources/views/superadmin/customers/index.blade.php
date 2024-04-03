@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('admin_content')
-    <div class="content-wrapper">
+    {{-- <div class="content-wrapper"> --}}
         <!-- Main content -->
         <section class="content mt-3">
             <div class="container-fluid">
@@ -15,7 +15,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row ml-3">
+                            {{-- <div class="row ml-3">
                                 <div class="col-3 form-group">
                                     <label for="">Status</label>
                                     <select name="status" class="form-control submitable" id="status">
@@ -24,7 +24,7 @@
                                         <option value="1">Active</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="dataTable" class="table table-bordered table-striped">
@@ -77,5 +77,5 @@
                 </div>
             </div>
         </section>
-    </div>
+    {{-- </div> --}}
     @endsection

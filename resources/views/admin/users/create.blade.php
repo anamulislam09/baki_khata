@@ -1,21 +1,19 @@
 @extends('layouts.admin')
 
 @section('admin_content')
-    <div class="content-wrapper">
-        <!-- Main content -->
-        <section class="content mt-3">
+        <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card card-primary">
+                            <div class="card">
                               <div class="card-header ">
                                   <div class="row">
                                       <div class="col-lg-10 col-sm-12 pt-2">
                                         <h3 class="card-title">Users Entry form</h3>
                                       </div>
                                       <div class="col-lg-2 col-sm-12">
-                                        <a href="{{ route('users.index') }}" class="btn btn-light text-dark">See Users
+                                        <a href="{{ route('users.index') }}" class="btn btn-info text-light">See Users
                                         </a>
                                       </div>
                                   </div>
@@ -52,5 +50,5 @@
                 </div>
             </div>
         </section>
-    </div>
+    {{-- </div> --}}
 @endsection

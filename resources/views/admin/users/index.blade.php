@@ -15,21 +15,21 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card card-primary">
+                            <div class="card">
                                 <div class="card-header ">
                                     <div class="row">
                                         <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
                                           <h3 class="card-title">All Users</h3>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-4">
-                                          <a href="{{ route('user.create') }}" class="btn btn-light btn-sm text-dark">Add New
+                                          <a href="{{ route('user.create') }}" class="btn btn-info text-light">Add New
                                           </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>

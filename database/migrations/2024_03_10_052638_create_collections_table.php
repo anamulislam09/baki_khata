@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('user_id')->nullable();
             $table->string('due_collection_id');
             $table->string('invoice_id');
-            $table->decimal('amount', 20, 2)->default(0);
-            $table->decimal('collection', 20, 2)->default(0);
-            $table->decimal('due', 20, 2)->default(0);
+            $table->double('amount', 20, 2)->default(0);
+            $table->double('collection', 20, 2)->default(0);
+            $table->double('due', 20, 2)->default(0);
             $table->string('date');
             $table->string('month');
             $table->integer('year');

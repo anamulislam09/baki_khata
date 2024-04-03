@@ -2,7 +2,7 @@
 
 @section('admin_content')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
-    <div class="content-wrapper">
+    {{-- <div class="content-wrapper"> --}}
         <!-- Main content -->
         <section class="content mt-3">
             <div class="container-fluid">
@@ -76,5 +76,5 @@
                 </div>
             </div>
         </section>
-    </div>
+    {{-- </div> --}}
 @endsection

@@ -59,6 +59,14 @@
             </div>
           </div>
           <div class="input-group mb-3">
+            <input type="text" class="form-control" name="shop_name" placeholder="Enter Shop Name" required>
+            <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Shop Name">
+              <div class="input-group-text">
+                <span class="fa fa-home" ></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
             <input type="text" class="form-control" name="phone" placeholder="Enter a Valid Phone Number " required>
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Phone Number">
               <div class="input-group-text">

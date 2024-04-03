@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->integer('auth_id')->nullable();
             $table->string('user_id')->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();

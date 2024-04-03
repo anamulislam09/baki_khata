@@ -6,37 +6,18 @@
             font-size: 15px;
         }
     </style>
-    {{-- <div class="content-wrapper"> --}}
-    <!-- Content Header (Page header) -->
-    {{-- <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1> All Collections</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Collection List</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
-
     <!-- Main content -->
     <section class="  content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header bg-primary">
+                        <div class="card-header ">
                             <div class="row ">
-                                <div class="col-lg-10 col-md-10 col-sm-8 pt-2">
+                                <div class="col-lg-10 col-md-10 col-sm-8 pt-2 text-center">
                                     <h3 class="card-title">All Due Collections</h3>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-4">
-                                    {{-- <a href="{{ route('collections.create') }}" class="btn btn-light">Add new</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -51,8 +32,8 @@
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label>Select User</label>
-                                                        <select class="form-control form-control-sm select2"
-                                                            name="customer_id" id="customer_id" style="width: 100%;">
+                                                        <select class="form-control form-control-sm select2" name="customer_id"
+                                                            id="customer_id" style="width: 100%;">
                                                             <option value="" selected disabled>018XXXXX</option>
                                                             @foreach ($users as $row)
                                                                 <option class="pb-3" value="{{ $row->user_id }}">
@@ -61,9 +42,13 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                                    <a href="#" class="btn btn-info add" data-toggle="modal"
+                                                        data-target="#addUser" style="margin-top: 30px">Add New</a>
+                                                </div>
                                             </div>
                                             <form action="{{ route('sales.collection.store') }}" method="post"
-                                                id="salesForm">
+                                                id="salesForm" class="form">
                                                 @csrf
                                                 <input type="hidden" id="user_id" name="user_id">
                                                 <div class="row">
@@ -88,11 +73,12 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <div class="card-body mt-2">
-                                        <div class="form-group">
+                                    <div class="card-body mt-2 form">
+                                        <div class="form-group ">
                                             <h5 for="">Due Collection</h5>
                                             <hr>
-                                            <form action="{{ route('due.collection') }}" method="post" id="dueCollectionForm">
+                                            <form action="{{ route('due.collection') }}" method="post"
+                                                id="dueCollectionForm">
                                                 @csrf
                                                 <input type="hidden" name="user_id" id="users_id">
                                                 <div class="row">
@@ -103,7 +89,8 @@
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-6 form-group clearfix"
                                                         style="margin-top: 30px">
-                                                        <button type="submit" id="dueSubmitBtn" class="btn btn-primary">Collect</button>
+                                                        <button type="submit" id="dueSubmitBtn"
+                                                            class="btn btn-primary">Collect</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -122,38 +109,20 @@
                                                     <th width="15%">Date</th>
                                                     <th width="20%">Sales Amount</th>
                                                     <th width="20%">Receive Amount </th>
-                                                    <th width="15%">Due Amount</th>
+                                                    <th width="15%">Balance</th>
                                                     <th width="15%"> Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="item-table"></tbody>
-                                            {{-- <tbody>
-                                                @foreach ($collections as $key => $item)
-                                                    @php
-                                                        $user = DB::table('users')
-                                                            ->where('customer_id', Auth::guard('admin')->user()->id)
-                                                            ->where('user_id', $item->user_id)
-                                                            ->first();
-                                                        $createdBy = DB::table('customers')
-                                                            ->where('id', $item->auth_id)
-                                                            ->first();
-                                                    @endphp
-                                                    <tr>
-                                                        <td>{{ $item->invoice_id }}</td>
-                                                        <td>{{ $user->name }}</td>
-                                                        <td class="d-none">{{ $user->phone }}</td>
-                                                        <td class="d-none">{{ $user->user_id }}</td>
-                                                        <td>{{ $item->amount }}</td>
-                                                        <td>{{ $item->date }}/{{ $item->month }}/{{ $item->year }}</td>
-                                                        <td>{{ $createdBy->name }}</td>
-                                                        <td>
-                                                            <a href="{{ route('sales.update', $item->invoice_id) }}"
-                                                                class="btn btn-sm btn-info"><i class="fas fa-book"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-        
-                                            </tbody> --}}
+                                            <tfoot class="form">
+                                                <tr>
+                                                    <td colspan="2">Total =</td>
+                                                    <td id="amount"></td>
+                                                    <td id="total_collection"></td>
+                                                    <td id="total_due"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -164,13 +133,56 @@
             </div>
         </div>
     </section>
+
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New User </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal_body">
+                    <form action="{{ route('StoreUser') }}" method="POST" id="userForm">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="mb-3 mt-3">
+                                <label for="user_name" class="form-label"> User Name:</label>
+                                <input type="text" class="form-control" value="" name="name">
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label for="phone" class="form-label"> User Phone:</label>
+                                <input type="text" class="form-control" value="" name="phone" required>
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label for="user_email" class="form-label"> User Email:</label>
+                                <input type="text" class="form-control" value="" name="email">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- </div> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         var searchRequest = null;
         $(function() {
+            $(".form").hide();
             var minlength = 4;
             $("#customer_id").change(function() {
+                $(".form").show();
+                $(".add").hide();
                 customerLeader($(this).val());
             });
         });
@@ -178,7 +190,6 @@
         $("#salesForm").submit(function(e) {
             e.preventDefault();
             let custID = $("#customer_id").val();
-            console.log(custID);
             var form = $(this);
             $.ajax({
                 type: "POST",
@@ -187,6 +198,20 @@
                 dataType: 'JSON',
                 success: function(data) {
                     customerLeader(custID);
+                }
+            });
+        });
+
+        $("#userForm").submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function(data) {
+                    history.go(0);
                 }
             });
         });
@@ -206,7 +231,7 @@
             });
         });
 
-        function customerLeader(custID){
+        function customerLeader(custID) {
             $.ajax({
                 type: "GET",
                 url: "{{ url('admin/get-user') }}/" + custID,
@@ -215,15 +240,21 @@
                     $('#user').text(res.users.name);
                     $('#user_id').val(res.users.user_id);
                     $('#users_id').val(res.users.user_id);
+                    $('#amount').text(res.total_amount);
+                    $('#total_collection').text(res.total_collection);
+                    $('#total_due').text(res.total_due);
+
                     var tbody = '';
-                    res.ledger.forEach((element, index)=> {
+                    res.ledger.forEach((element, index) => {
+                        url = '{{ url('admin/generate-invoice') }}/' + element.invoice_id;
                         tbody += '<tr>'
-                        tbody += '<td>'+ (index+1) +'</td>'
-                        tbody += '<td>'+ element.date +'</td>'
-                        tbody += '<td>'+ element.amount +'</td>'
-                        tbody += '<td>'+ element.collection +'</td>'
-                        tbody += '<td>'+ element.due +'</td>'
-                        tbody += '<td><a href = ""><span class="fa fa-book">'+element.due+'</span></a></td>'
+                        tbody += '<td>' + (index + 1) + '</td>'
+                        tbody += '<td>' + element.date + '/' + element.month + '/' + element.year +
+                            '</td>'
+                        tbody += '<td>' + element.amount + '</td>'
+                        tbody += '<td>' + element.collection + '</td>'
+                        tbody += '<td>' + element.due + '</td>'
+                        tbody += '<td><a href="' + url + '"><span class="fa fa-book"></span></a></td>'
                         tbody += '</tr>'
                     });
                     $('#item-table').html(tbody);

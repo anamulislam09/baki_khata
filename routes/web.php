@@ -43,9 +43,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/users', [UserController::class, 'Index'])->name('users.index');
     Route::get('/user/create', [UserController::class, 'Create'])->name('user.create');
     Route::post('/user/store', [UserController::class, 'Store'])->name('user.store');
+    Route::post('/user/store/model', [UserController::class, 'StoreUser'])->name('StoreUser');
     Route::get('/user/edit/{user_id}', [UserController::class, 'Edit']);
     Route::post('/user/update', [UserController::class, 'Update'])->name('user.update');
-    Route::post('/user/delete', [UserController::class, 'Destroy'])->name('user.delete');
+    Route::get('/user/delete/{user_id}', [UserController::class, 'Destroy'])->name('user.delete');
 
     //    Sales route 
     Route::get('/collections', [CollectionController::class, 'Index'])->name('collections.index');
@@ -53,11 +54,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
     Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 
-    Route::get('/generate-invoice/{invoice_id}', [CollectionController::class, 'GenerateInv'])->name('sales.update'); //generate voucher 
+    Route::get('/generate-invoice/{invoice_id}', [CollectionController::class, 'GenerateInv'])->name('invoice.create'); //generate voucher 
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.pages.admin_login');
 });
 
 // Route::get('/dashboard', function () {

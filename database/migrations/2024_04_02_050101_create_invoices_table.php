@@ -16,10 +16,10 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->integer('auth_id')->nullable();
             $table->string('user_id')->nullable();
-            $table->string('invoice_id');
-            $table->decimal('amount', 20, 2)->default(0);
-            $table->decimal('collection', 20, 2)->default(0);
-            $table->decimal('due', 20, 2)->default(0);
+            $table->string('invoice_id')->nullable();
+            $table->double('amount', 20, 2)->default(0);
+            $table->double('collection', 20, 2)->default(0);
+            $table->double('due', 20, 2)->default(0);
             $table->string('date');
             $table->string('month');
             $table->integer('year');

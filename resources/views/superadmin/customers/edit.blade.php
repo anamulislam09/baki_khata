@@ -12,10 +12,10 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-lg-10 col-sm-12">
-                                        <h3 class="card-title">Edit Customer </h3>
+                                        <h3 class="card-title">Edit Client </h3>
                                     </div>
                                     <div class="col-lg-2 col-sm-12">
-                                        <a href="{{ route('customers.all') }}" class="btn btn-outline-primary">Cancel Edit
+                                        <a href="{{ route('client.all') }}" class="btn btn-outline-primary">Cancel Edit
                                         </a>
                                     </div>
                                 </div>
@@ -24,12 +24,12 @@
                             <div class="card-body">
                                 <div class="row m-auto">
                                     <div class="col-8 m-auto" style="border: 1px solid #ddd">
-                                        <form action="{{ route('customers.update') }}" method="POST">
+                                        <form action="{{ route('client.update') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $data->id }}">
                                             <div class="modal-body">
                                                 <div class="mb-3 mt-3">
-                                                    <label for="user_name" class="form-label"> Customer Name:</label>
+                                                    <label for="user_name" class="form-label"> Client Name:</label>
                                                     <input type="text" class="form-control" value="{{ $data->name }}"
                                                         name="name">
                                                 </div>
@@ -40,13 +40,13 @@
                                                 @endphp
 
                                                 <div class="mb-3 mt-3">
-                                                    <label for="user_phone" class="form-label"> Customer phone:</label>
+                                                    <label for="user_phone" class="form-label"> Client phone:</label>
                                                     <input type="text" class="form-control" value="{{ $details->phone }}"
                                                         name="phone">
                                                 </div>
 
                                                 <div class="mb-3 mt-3">
-                                                    <label for="user_email" class="form-label"> Customer email:</label>
+                                                    <label for="user_email" class="form-label"> Client email:</label>
                                                     <input type="email" class="form-control" value="{{ $data->email }}"
                                                         name="email">
                                                 </div>

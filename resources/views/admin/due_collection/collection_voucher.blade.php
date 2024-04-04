@@ -161,7 +161,7 @@
             </div>
 
             <div class="right-text">
-                <p style="margin-top: 0px">{!! DNS1D::getBarcodeHTML("$inv->invoice_id", 'C128', 1.5, 25) !!}</p>
+                <p style="margin-top: 0px">{!! DNS1D::getBarcodeHTML("$inv->invoice_id", 'C128', 1, 30) !!}</p>
                 <p>Date :{{ date('m/d/y') }}</p>
             </div>
         </div>
@@ -332,7 +332,7 @@
                 @php
                     $customer = App\Models\Customer::where('id', $inv->auth_id)->first();
                 @endphp
-                <p style=" margin-bottom:-0px; text-align:center; width:40%">
+                <p style=" margin-bottom:-20px; text-align:center; width:40%">
                     {{ $customer->name }}</p>
                 <h4>Prepared by</h4>
             </div>

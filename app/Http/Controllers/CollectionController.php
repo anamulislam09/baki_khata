@@ -20,7 +20,7 @@ class CollectionController extends Controller
         return view('admin.due_collection.index', compact('users'));
     }
 
-    public function GetUser($id)
+    public function GetCustomer($id)
     {
         $data['users'] = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->first();
         $data['ledger'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->get();

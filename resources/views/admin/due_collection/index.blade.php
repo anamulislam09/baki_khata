@@ -31,7 +31,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        <label>Select User</label>
+                                                        <label>Select Customer</label>
                                                         <select class="form-control form-control-sm select2" name="customer_id"
                                                             id="customer_id" style="width: 100%;">
                                                             <option value="" selected disabled>018XXXXX</option>
@@ -101,7 +101,7 @@
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <strong>Due Collection From <span id="user"></span></strong>
+                                        <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp; Ledger Account</strong>
                                         <table id="" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -116,7 +116,7 @@
                                             <tbody id="item-table"></tbody>
                                             <tfoot class="form">
                                                 <tr>
-                                                    <td colspan="2">Total =</td>
+                                                    <td colspan="2"><strong>Total =</strong></td>
                                                     <td id="amount"></td>
                                                     <td id="total_collection"></td>
                                                     <td id="total_due"></td>
@@ -139,28 +139,28 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New User </h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Customer </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div id="modal_body">
-                    <form action="{{ route('StoreUser') }}" method="POST" id="userForm">
+                    <form action="{{ route('Storecustomer') }}" method="POST" id="userForm">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3 mt-3">
-                                <label for="user_name" class="form-label"> User Name:</label>
-                                <input type="text" class="form-control" value="" name="name">
+                                <label for="user_name" class="form-label"> Customer Name:</label>
+                                <input type="text" class="form-control" value="" name="name" placeholder="Enter Full Name">
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="phone" class="form-label"> User Phone:</label>
-                                <input type="text" class="form-control" value="" name="phone" required>
+                                <label for="phone" class="form-label"> Customer Phone:</label>
+                                <input type="text" class="form-control" value="" name="phone" placeholder="Enter Valid Phone" required>
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="user_email" class="form-label"> User Email:</label>
-                                <input type="text" class="form-control" value="" name="email">
+                                <label for="user_email" class="form-label"> Customer Email:</label>
+                                <input type="text" class="form-control" value="" name="email" placeholder="Enter Valid Email">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -198,6 +198,7 @@
                 dataType: 'JSON',
                 success: function(data) {
                     customerLeader(custID);
+                    $("#salesForm")[0].reset();
                 }
             });
         });
@@ -227,6 +228,7 @@
                 dataType: 'JSON',
                 success: function(data) {
                     customerLeader(custID);
+                    $("#dueCollectionForm")[0].reset();
                 }
             });
         });
@@ -234,10 +236,10 @@
         function customerLeader(custID) {
             $.ajax({
                 type: "GET",
-                url: "{{ url('admin/get-user') }}/" + custID,
+                url: "{{ url('admin/get-customers') }}/" + custID,
                 dataType: "json",
                 success: function(res) {
-                    $('#user').text(res.users.name);
+                    $('#user').text(res.users.name + '`s');
                     $('#user_id').val(res.users.user_id);
                     $('#users_id').val(res.users.user_id);
                     $('#amount').text(res.total_amount);
@@ -254,7 +256,7 @@
                         tbody += '<td>' + element.amount + '</td>'
                         tbody += '<td>' + element.collection + '</td>'
                         tbody += '<td>' + element.due + '</td>'
-                        tbody += '<td><a href="' + url + '"><span class="fa fa-book"></span></a></td>'
+                        tbody += '<td class="text-center"><a href="' + url + '" target ="_blank"><span class="fa fa-book"></span></a></td>'
                         tbody += '</tr>'
                     });
                     $('#item-table').html(tbody);

@@ -1,19 +1,19 @@
-<form action="{{ route('user.create') }}" method="POST" id="userForm">
+<form action="{{ route('customers.create') }}" method="POST" id="userForm">
     @csrf
     <div class="modal-body">
         <div class="mb-3 mt-3">
-            <label for="user_name" class="form-label"> User Name:</label>
-            <input type="text" class="form-control" value="" name="name" >
+            <label for="user_name" class="form-label"> Customer Name:</label>
+            <input type="text" class="form-control" value="" placeholder="Enter Customer Name" name="name" >
         </div>
 
         <div class="mb-3 mt-3">
-            <label for="phone" class="form-label"> User Phone:</label>
-            <input type="text" class="form-control" value="" name="phone" required>
+            <label for="phone" class="form-label"> Customer Phone:</label>
+            <input type="text" class="form-control" value="" placeholder="Enter Phone" name="phone" required>
         </div>
 
         <div class="mb-3 mt-3">
-            <label for="user_email" class="form-label"> User email:</label>
-            <input type="text" class="form-control" value="" name="email">
+            <label for="user_email" class="form-label"> Customer Email:</label>
+            <input type="text" class="form-control" value="" placeholder="Enter Email" name="email">
         </div>
     </div>
     <div class="modal-footer">

@@ -28,9 +28,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('admin.dashboard');
 
     // Customer show 
-    Route::get('/customers', [AdminController::class, 'Customer'])->name('customers.all');
-    Route::get('/customers/edit/{id}', [AdminController::class, 'CustomerEdit'])->name('customer.edit');
-    Route::post('/customers/update', [AdminController::class, 'CustomerUpdate'])->name('customers.update');
+    Route::get('/client', [AdminController::class, 'Client'])->name('client.all');
+    Route::get('/client/edit/{id}', [AdminController::class, 'ClientEdit'])->name('client.edit');
+    Route::post('/client/update', [AdminController::class, 'ClientUpdate'])->name('client.update');
 
     // admin login route start here 
     Route::post('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
@@ -40,17 +40,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
 /*---------------- Customer route start here ------------------*/
 Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     //    users route 
-    Route::get('/users', [UserController::class, 'Index'])->name('users.index');
-    Route::get('/user/create', [UserController::class, 'Create'])->name('user.create');
-    Route::post('/user/store', [UserController::class, 'Store'])->name('user.store');
-    Route::post('/user/store/model', [UserController::class, 'StoreUser'])->name('StoreUser');
-    Route::get('/user/edit/{user_id}', [UserController::class, 'Edit']);
-    Route::post('/user/update', [UserController::class, 'Update'])->name('user.update');
-    Route::get('/user/delete/{user_id}', [UserController::class, 'Destroy'])->name('user.delete');
+    Route::get('/customers', [UserController::class, 'Index'])->name('customers.index');
+    Route::get('/customers/create', [UserController::class, 'Create'])->name('customers.create');
+    Route::post('/customers/store', [UserController::class, 'Store'])->name('customers.store');
+    Route::post('/customers/store/model', [UserController::class, 'StoreCustomer'])->name('Storecustomer');
+    Route::get('/customers/edit/{user_id}', [UserController::class, 'Edit']);
+    Route::post('/customers/update', [UserController::class, 'Update'])->name('customers.update');
+    Route::get('/customers/delete/{user_id}', [UserController::class, 'Destroy'])->name('customers.delete');
 
     //    Sales route 
     Route::get('/collections', [CollectionController::class, 'Index'])->name('collections.index');
-    Route::get('/get-user/{id}', [CollectionController::class, 'GetUser']);
+    Route::get('/get-customers/{id}', [CollectionController::class, 'GetCustomer']);
     Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
     Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 

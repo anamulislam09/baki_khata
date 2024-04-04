@@ -41,11 +41,11 @@ class UserController extends Controller
         $data['password'] = $request->phone;
 
         User::create($data);
-        return redirect()->route('users.index')->with('message', 'User creted successfully');
+        return redirect()->route('customers.index')->with('message', 'User creted successfully');
     }
 
 //  create user form model 
-    public function StoreUser(Request $request)
+    public function StoreCustomer(Request $request)
     {
         $v_id = 1;
         $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
@@ -106,7 +106,7 @@ class UserController extends Controller
         // $data['status'] = $request->status;
         $data->save();
 
-        return redirect()->route('users.index')->with('message', 'User Updated Successfully');
+        return redirect()->route('customers.index')->with('message', 'User Updated Successfully');
     }
 
     public function Destroy($user_id)

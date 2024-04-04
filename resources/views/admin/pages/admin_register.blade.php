@@ -51,7 +51,7 @@
         <form action="{{ route('admin.store') }}" method="post">
           @csrf
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="name" placeholder="Enter FullName" required>
+            <input type="text" class="form-control" name="name" placeholder="Enter Full Name" required>
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Full Name">
               <div class="input-group-text">
                 <span class="fas fa-user" ></span>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="phone" placeholder="Enter a Valid Phone Number " required>
+            <input type="text" class="form-control" name="phone" placeholder="Enter a Valid Phone Number ">
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Phone Number">
               <div class="input-group-text">
                 <span class="fas fa-phone" ></span>
@@ -75,7 +75,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <textarea name="address" id="" cols="" class="form-control" rows="" placeholder="Enter Address" required></textarea>
+            <textarea name="address" id="" cols="" class="form-control" rows="" placeholder="Enter Address"></textarea>
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter your Address">
               <div class="input-group-text">
                 <span class="fas fa-house-user"></span>
@@ -83,7 +83,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="nid_no" placeholder="Enter NID / NOC Number" required>
+            <input type="text" class="form-control" name="nid_no" placeholder="Enter NID / NOC Number">
             <div class="input-group-append" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Enter yor NID / NOC Number">
               <div class="input-group-text">
                 <i class="fa fa-id-card" ></i>
@@ -91,7 +91,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="email" class="form-control" name="email" placeholder="Enter Valid Email" required>
+            <input type="email" class="form-control" name="email" placeholder="Enter Valid Email">
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Your Valid Email">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -100,7 +100,7 @@
           </div>
 
           <div class="input-group mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Enter a Password" required>
+            <input type="password" class="form-control" name="password" placeholder="Enter a Password">
             <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter a Password">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>

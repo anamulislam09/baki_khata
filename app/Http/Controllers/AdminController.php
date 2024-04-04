@@ -93,7 +93,7 @@ class AdminController extends Controller
     // Logout method ends here
 
     /*-------------------Customers related method start here--------------*/
-    public function Customer(Request $request)
+    public function Client(Request $request)
     {
         if (Auth::guard('admin')->user()->role == 0) {
             $data = Customer::where('role', 1)->get();
@@ -106,7 +106,7 @@ class AdminController extends Controller
     }
 
     // CustomerEdit edit 
-    public function CustomerEdit($id)
+    public function ClientEdit($id)
     {
         if (Auth::guard('admin')->user()->role == 0) {
             $data = Customer::findOrFail($id);
@@ -119,7 +119,7 @@ class AdminController extends Controller
     }
 
     // Customer update 
-    public function CustomerUpdate(Request $request)
+    public function ClientUpdate(Request $request)
     {
         if (Auth::guard('admin')->user()->role == 0) {
             $data = array();
@@ -128,7 +128,7 @@ class AdminController extends Controller
             DB::table('customers')->where('id', $request->id)->update($data);
 
             $notification = array('message' => 'Customer status update successfully.', 'alert_type' => 'warning');
-            return redirect()->route('customers.all')->with($notification);
+            return redirect()->route('client.all')->with($notification);
         } else {
             $notification = array('message' => 'You have no permission.', 'alert_type' => 'warning');
             return redirect()->back()->with($notification);

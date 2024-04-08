@@ -29,66 +29,72 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body" >
-                        <div class="table-responsive">
-                            <table id="dataTable" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr style="border-top: 1px solid #ddd">
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <th>Balance</th>
-                                        <th>Status</th>
-                                        <th> Action</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $key => $item)
-                                        @php
-                                            $balance = App\Models\Ledger::where(
-                                                'customer_id',
-                                                Auth::guard('admin')->user()->id,
-                                            )
-                                                ->where('user_id', $item->user_id)
-                                                ->sum('due');
-                                            $Total_balance = App\Models\Ledger::where(
-                                                'customer_id',
-                                                Auth::guard('admin')->user()->id,
-                                            )->sum('due');
-                                        @endphp
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="dataTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr style="border-top: 1px solid #ddd">
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Balance</th>
+                                            <th>Status</th>
+                                            <th> Action</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $key => $item)
+                                            @php
+                                                $balance = App\Models\Ledger::where(
+                                                    'customer_id',
+                                                    Auth::guard('admin')->user()->id,
+                                                )
+                                                    ->where('user_id', $item->user_id)
+                                                    ->sum('due');
+                                                $Total_balance = App\Models\Ledger::where(
+                                                    'customer_id',
+                                                    Auth::guard('admin')->user()->id,
+                                                )->sum('due');
+                                            @endphp
+                                            <tr>
+                                                <td>{{ $item->user_id }}</td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->phone }}</td>
+                                                <td>{{ $item->email }}</td>
+                                                <td>{{ $balance }}</td>
+                                                <td>
+                                                    @if ($item->status == 0)
+                                                        <span class="badge badge-danger">Deactive</span>
+                                                    @else
+                                                        <span class="badge badge-primary">Active</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="" class="btn btn-sm btn-info edit"
+                                                        data-id="{{ $item->user_id }}" data-toggle="modal"
+                                                        data-target="#editUser"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ route('customers.delete', $item->user_id) }}"
+                                                        class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
                                         <tr>
-                                            <td>{{ $item->user_id }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->phone }}</td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $balance }}</td>
+                                            <td colspan="3"></td>
+                                            <td>Total =</td>
                                             <td>
-                                                @if ($item->status == 0)
-                                                    <span class="badge badge-danger">Deactive</span>
+                                                @if (isset($Total_balance) && !empty($Total_balance))
+                                                    {{ $Total_balance }}
                                                 @else
-                                                    <span class="badge badge-primary">Active</span>
+                                                    0
                                                 @endif
                                             </td>
-                                            <td>
-                                                <a href="" class="btn btn-sm btn-info edit"
-                                                    data-id="{{ $item->user_id }}" data-toggle="modal"
-                                                    data-target="#editUser"><i class="fas fa-edit"></i></a>
-                                                <a href="{{ route('customers.delete', $item->user_id) }}"
-                                                    class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                            </td>
+                                            <td colspan="2"></td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3"></td>
-                                        <td>Total =</td>
-                                        <td> {{ $Total_balance }}</td>
-                                        <td colspan="2"></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

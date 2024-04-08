@@ -2,14 +2,7 @@
 
 @section('admin_content')
     <style>
-        /* .report_table{
-                    overflow-x: scroll;
-                } */
-        .navbar-light {
-            background-color: #f8f9fa;
-            margin: 0px;
-            padding: 0px;
-        }
+       
     </style>
     {{-- <div class="content-wrapper"> --}}
     <!-- Content Header (Page header) -->
@@ -402,8 +395,7 @@
                     url = '{{ url('admin/generate-invoice') }}/' + element.invoice_id;
                     tbody += '<tr>'
                     tbody += '<td>' + (index + 1) + '</td>'
-                    tbody += '<td>' + element.date + '/' + element.month + '/' + element.year +
-                        '</td>'
+                    tbody += '<td>' + element.date +'</td>'
                     tbody += '<td>' + element.amount + '</td>'
                     tbody += '<td>' + element.collection + '</td>'
                     tbody += '<td>' + element.due + '</td>'

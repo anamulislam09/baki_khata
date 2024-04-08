@@ -53,16 +53,10 @@
     } */
 
     li.nav-item{
-        background: #292d31;
+        background: #616970;
         margin-right: 5px;
         padding: 5px 10px;
     }
-
-    /* li.nav-item :hover{
-        background: #000;
-        margin-right: 5px;
-        padding: 5px 10px;
-    } */
   
     nav.navbar.navbar-expand.navbar-light.bg-dark {
         padding: 0px;
@@ -74,7 +68,7 @@
         }
 </style>
 
-<nav class=" navbar navbar-expand navbar-light" style="background: #464141">
+<nav class=" navbar navbar-expand navbar-light" style="background: #6C757D">
     {{-- <!-- Left navbar links --> --}}
     <ul class="navbar-nav" style="width: 40%">
         <li class="nav-item">

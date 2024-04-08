@@ -51,6 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     //    Sales route 
     Route::get('/collections', [CollectionController::class, 'Index'])->name('collections.index');
     Route::get('/get-customers/{id}', [CollectionController::class, 'GetCustomer']);
+    Route::get('/get-transaction/{date}', [CollectionController::class, 'GetTransaction']);
     Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
     Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 

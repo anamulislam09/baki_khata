@@ -100,11 +100,12 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp; Ledger Account</strong>
-                                        <table id="" class="table table-bordered table-striped">
+                                    <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp; Ledger Account</strong>
+                                    <hr>
+                                    <div class="card-body table-responsive">
+                                        <table id="dataTable" class="table table-bordered table-striped">
                                             <thead>
-                                                <tr>
+                                                <tr style="border-top: 1px solid #ddd">
                                                     <th width="10%">SL</th>
                                                     <th width="15%">Date</th>
                                                     <th width="20%">Sales Amount</th>
@@ -251,8 +252,7 @@
                         url = '{{ url('admin/generate-invoice') }}/' + element.invoice_id;
                         tbody += '<tr>'
                         tbody += '<td>' + (index + 1) + '</td>'
-                        tbody += '<td>' + element.date + '/' + element.month + '/' + element.year +
-                            '</td>'
+                        tbody += '<td>' + element.date + '</td>'
                         tbody += '<td>' + element.amount + '</td>'
                         tbody += '<td>' + element.collection + '</td>'
                         tbody += '<td>' + element.due + '</td>'

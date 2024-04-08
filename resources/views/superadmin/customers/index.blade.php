@@ -9,27 +9,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-lg-10 col-sm-12">
-                                    <h3 class="card-title">All Clients</h3>
-                                </div>
+                            <h3 class="m-0 d-flex justify-content-center"> All Clients</h3>
                             </div>
-                        </div>
-                        {{-- <div class="row ml-3">
-                                <div class="col-3 form-group">
-                                    <label for="">Status</label>
-                                    <select name="status" class="form-control submitable" id="status">
-                                        <option value="">All</option>
-                                        <option value="0">Inactive</option>
-                                        <option value="1">Active</option>
-                                    </select>
-                                </div>
-                            </div> --}}
-                        <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body table-responsive">
                             <table id="dataTable" class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr style="border-top: 1px solid #ddd">
                                         <th>Client Id</th>
                                         <th>Name</th>
                                         <th>Email</th>

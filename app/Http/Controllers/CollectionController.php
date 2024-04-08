@@ -23,13 +23,20 @@ class CollectionController extends Controller
     public function GetCustomer($id)
     {
         $data['users'] = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->first();
-        $data['ledger'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->get();
+        $data['ledger'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->orderBy('id', 'DESC')->get();
         $data['total_amount'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->sum('amount');
         $data['total_collection'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->sum('collection');
         $data['total_due'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $id)->sum('due');
         return response()->json($data);
-        // $data = [$users, $invoice];
-        // return Response::json($data,200);
+    }
+
+    public function GetTransaction($date)
+    {
+        // dd($date);
+        $data['dateAmount'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('amount');
+        $data['dateCollection'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('collection');
+        $data['dateDue'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('due');
+        return response()->json($data);
     }
     public function storeInvoice(Request $request)
     {
@@ -50,7 +57,7 @@ class CollectionController extends Controller
         $data['amount'] = $request->amount;
         if($request->collection != null){$data['collection'] = $request->collection;}
         $data['due'] = $request->collection - $request->amount;
-        $data['date'] = date('d');
+        $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');
 
@@ -65,7 +72,7 @@ class CollectionController extends Controller
             $data['amount'] = $ledgers->amount;
             $data['collection'] = $ledgers->collection;
             $data['due'] = $ledgers->due;
-            $data['date'] = date('d');
+            $data['date'] = date('Y-m-d');
             $data['month'] = date('m');
             $data['year'] = date('Y');
             Invoice::create($data);
@@ -96,7 +103,7 @@ class CollectionController extends Controller
         $data['user_id'] = $request->user_id;
         $data['collection'] = $request->collection;
         $data['due'] = $request->collection;
-        $data['date'] = date('d');
+        $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');
         $ledger = Ledger::create($data);
@@ -110,7 +117,7 @@ class CollectionController extends Controller
             $data['amount'] = $ledgers->amount;
             $data['collection'] = $ledgers->collection;
             $data['due'] = $ledgers->due;
-            $data['date'] = date('d');
+            $data['date'] = date('Y-m-d');
             $data['month'] = date('m');
             $data['year'] = date('Y');
             Invoice::create($data);

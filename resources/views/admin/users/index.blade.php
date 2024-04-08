@@ -9,30 +9,31 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
     {{-- <div class="content-wrapper"> --}}
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
                         <div class="card">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <div class="row">
-                                        <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
-                                          <h3 class="card-title">All Customers</h3>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4">
-                                          <a href="{{ route('customers.create') }}" class="btn btn-info text-light">Add New
-                                          </a>
-                                        </div>
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
+                                        <h3 class="card-title">All Customers</h3>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-4">
+                                        <a href="{{ route('customers.create') }}" class="btn btn-info text-light">Add New
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <!-- /.card-header -->
-                        <div class="card-body table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
+                        <div class="card-body" >
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr style="border-top: 1px solid #ddd">
                                         <th>Id</th>
                                         <th>Name</th>
                                         <th>Phone</th>
@@ -43,15 +44,24 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $key => $item)
-                                    @php
-                                        $total_due = App\Models\Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $item->user_id)->sum('due');
-                                    @endphp
+                                        @php
+                                            $balance = App\Models\Ledger::where(
+                                                'customer_id',
+                                                Auth::guard('admin')->user()->id,
+                                            )
+                                                ->where('user_id', $item->user_id)
+                                                ->sum('due');
+                                            $Total_balance = App\Models\Ledger::where(
+                                                'customer_id',
+                                                Auth::guard('admin')->user()->id,
+                                            )->sum('due');
+                                        @endphp
                                         <tr>
                                             <td>{{ $item->user_id }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->phone }}</td>
                                             <td>{{ $item->email }}</td>
-                                            <td>{{ $total_due }}</td>
+                                            <td>{{ $balance }}</td>
                                             <td>
                                                 @if ($item->status == 0)
                                                     <span class="badge badge-danger">Deactive</span>
@@ -69,14 +79,21 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td>Total =</td>
+                                        <td> {{ $Total_balance }}</td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </tfoot>
                             </table>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
-    {{-- </div> --}}
     </section>
-    {{-- </div> --}}
 
     {{-- category edit model --}}
     <!-- Modal -->

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Str;
+
 
 class AdminController extends Controller
 {
@@ -20,7 +22,8 @@ class AdminController extends Controller
     public function Dashboard()
     {
         return view('admin.index');
-    } //end method
+
+    }
 
     public function Login(Request $request)
     {
@@ -47,12 +50,6 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // $email = Customer::where('email', $request->email)->exists();
-        // if ($email) {
-        //     return redirect()->back()->with('message', 'This Email already used!');
-        // } 
-        // else {
-        // $id = UniqueIdGenerator::generate(['table' => 'customers', 'length' => 4]);
         $start_at = 1001;
 
         if ($start_at) {
@@ -76,9 +73,35 @@ class AdminController extends Controller
             $data['phone'] = $request->phone;
             $data['nid_no'] = $request->nid_no;
             $data['image'] = $request->image;
-            CustomerDetail::create($data);
+           $data = CustomerDetail::create($data);
         }
-        return redirect()->route('login_form')->with('message', 'Admin register Successfully');
+        if($data){
+            $customerdetails = CustomerDetail::latest()->first();
+            // dd($customerdetails);
+            $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+            $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+            $post_values['senderid'] = "8801969908462";
+            $post_values['message'] = "We Send You a Code By Your Mobile Number " . Str::random(4);
+            $post_values['contact_number'] = $customerdetails->phone;
+            
+            $post_string = "";
+            foreach ($post_values as $key => $value) {
+                $post_string .= "$key=" . urlencode($value) . "&";
+            }
+            $post_string = rtrim($post_string, "& ");
+    
+    
+            $request = curl_init($post_url);
+            curl_setopt($request, CURLOPT_HEADER, 0);
+            curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+            curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+            $post_response = curl_exec($request);
+            curl_close($request);
+            $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+    
+            return redirect()->route('login_form')->with('message', 'Admin register Successfully');
+        }
     }
 
     // register method ends here

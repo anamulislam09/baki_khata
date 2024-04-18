@@ -1,49 +1,49 @@
 <style>
     @media only screen and (max-width: 600px) {
         .nav-item a {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .nav-link {
             margin-right: 0px;
-            padding-left: 2px !important;
-            padding-right: 2px !important;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
         }
     }
 
     @media only screen and (min-width: 600px) {
         .nav-item a {
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .nav-link {
             margin-right: 0px;
-            padding-left: 3px !important;
-            padding-right: 3px !important;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
         }
     }
 
     @media only screen and (min-width: 768px) {
         .nav-item a {
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .nav-link{
             margin-right: 0px;
-            padding-left: 3px !important;
-            padding-right: 3px !important;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
         }
     }
 
     @media only screen and (min-width: 992px) {
         .nav-item a {
-            font-size: 20px;
+            font-size: 19px;
         }
     }
 
     @media only screen and (min-width: 1200px) {
         .nav-item a {
-            font-size: 22px;
+            font-size: 21px;
         }
     }
 
@@ -54,8 +54,8 @@
 
     li.nav-item{
         background: #616970;
-        margin-right: 5px;
-        padding: 5px 10px;
+        margin-right: 4px;
+        padding: 5px 8px;
     }
   
     nav.navbar.navbar-expand.navbar-light.bg-dark {
@@ -104,6 +104,12 @@
                 <a href="{{ route('collections.index') }}"
                     class="nav-link text-light {{ Request::routeIs('collections.index') ? 'active' : '' }}">
                     <p style=" margin-bottom:-0px">Collections</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('report.index') }}"
+                    class="nav-link text-light {{ Request::routeIs('report.index') ? 'active' : '' }}">
+                    <p style=" margin-bottom:-0px">Report</p>
                 </a>
             </li>
         @endif

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,9 @@ Route::post('/admin/login/owner', [AdminController::class, 'Login'])->name('admi
 // admin register route start here 
 Route::get('/admin/register', [AdminController::class, 'AdminRegister'])->name('register_form');
 Route::post('/admin/register/store', [AdminController::class, 'Store'])->name('admin.store');
+Route::get('/admin/register-verify', [AdminController::class, 'Verify'])->name('admin.verfy');
+Route::post('/admin/register-verify/store', [AdminController::class, 'VerifyStore'])->name('admin.verfy.store');
+Route::get('/admin/register-verified', [AdminController::class, 'Verified'])->name('admin.verfied');
 // admin register route ends here 
 
 // Customer Forgate password route start here 
@@ -56,6 +60,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 
     Route::get('/generate-invoice/{invoice_id}', [CollectionController::class, 'GenerateInv'])->name('invoice.create'); //generate voucher 
+
+    //    Sales route 
+    Route::get('/report', [ReportController::class, 'Index'])->name('report.index');
+    // Route::get('/get-customers/{id}', [CollectionController::class, 'GetCustomer']);
+    // Route::get('/get-transaction/{date}', [CollectionController::class, 'GetTransaction']);
+    // Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
+    // Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 });
 
 Route::get('/', function () {

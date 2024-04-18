@@ -12,15 +12,20 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header ">
-                            <div class="row ">
-                                <div class="col-lg-10 col-md-10 col-sm-8 pt-2 text-center">
-                                    <h3 class="card-title">All Due Collections</h3>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-4">
+                        <div class="content-header">
+                            <div class="container-fluid">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row mb-2">
+                                            <div class="col-12">
+                                                <h3 class="m-0 d-flex justify-content-center">All Due Collections</h3>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row pt-2 pl-4">
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="card">
@@ -57,12 +62,12 @@
                                                         <input type="text" class="form-control" name="amount"
                                                             value="" placeholder="Enter Amount">
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+                                                    <div class="col-lg-5 col-md-6 col-sm-12 form-group">
                                                         <label>Collection</label>
                                                         <input type="text" name="collection" class="form-control"
-                                                            value="" placeholder="Enter collection">
+                                                            value="" placeholder="Enter Collection">
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6 col-sm-12 form-group clearfix"
+                                                    <div class="col-lg-2 col-md-6 col-sm-12 form-group clearfix"
                                                         style="margin-top: 30px">
                                                         <button type="submit" class="btn btn-primary"
                                                             id="submitbtn">Submit</button>
@@ -82,12 +87,12 @@
                                                 @csrf
                                                 <input type="hidden" name="user_id" id="users_id">
                                                 <div class="row">
-                                                    <div class="col-lg-8 col-md-8 col-sm-6 form-group">
+                                                    <div class="col-lg-9 col-md-9 col-sm-6 form-group">
                                                         <label>Collection</label>
                                                         <input type="text" name="collection" class="form-control"
-                                                            value="" placeholder="Enter collection">
+                                                            value="" placeholder="Enter Collection">
                                                     </div>
-                                                    <div class="col-lg-4 col-md-4 col-sm-6 form-group clearfix"
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 form-group clearfix"
                                                         style="margin-top: 30px">
                                                         <button type="submit" id="dueSubmitBtn"
                                                             class="btn btn-primary">Collect</button>

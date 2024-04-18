@@ -44,7 +44,7 @@ class UserController extends Controller
         return redirect()->route('customers.index')->with('message', 'User creted successfully');
     }
 
-//  create user form model 
+    //  create user form model 
     public function StoreCustomer(Request $request)
     {
         $v_id = 1;
@@ -105,7 +105,6 @@ class UserController extends Controller
         $data['password'] = $request->phone;
         // $data['status'] = $request->status;
         $data->save();
-
         return redirect()->route('customers.index')->with('message', 'User Updated Successfully');
     }
 

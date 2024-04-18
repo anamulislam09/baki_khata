@@ -14,5 +14,7 @@ class CustomerDetail extends Model
         'address',
         'nid_no',
         'image',
+        'otp',
+        'isVerified'
     ];
 }

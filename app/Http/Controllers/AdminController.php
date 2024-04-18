@@ -22,7 +22,6 @@ class AdminController extends Controller
     public function Dashboard()
     {
         return view('admin.index');
-
     }
 
     public function Login(Request $request)
@@ -51,7 +50,6 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $start_at = 1001;
-
         if ($start_at) {
             $customer = Customer::find($start_at);
             if (!$customer) {
@@ -67,30 +65,31 @@ class AdminController extends Controller
 
         if ($customer) {
             $customer = Customer::where('id', $customer->id)->first();
+            $otp = Str::random(4);
 
             $data['customer_id'] = $customer->id;
             $data['address'] = $request->address;
             $data['phone'] = $request->phone;
             $data['nid_no'] = $request->nid_no;
             $data['image'] = $request->image;
-           $data = CustomerDetail::create($data);
+            $data['otp'] = $otp;
+            $data = CustomerDetail::create($data);
         }
-        if($data){
+        if ($data) {
             $customerdetails = CustomerDetail::latest()->first();
-            // dd($customerdetails);
+
             $post_url = "http://api.smsinbd.com/sms-api/sendsms";
             $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
             $post_values['senderid'] = "8801969908462";
-            $post_values['message'] = "We Send You a Code By Your Mobile Number " . Str::random(4);
+            $post_values['message'] = "We Send You a Code By Your Mobile Number " . $customerdetails->otp;
             $post_values['contact_number'] = $customerdetails->phone;
-            
+
             $post_string = "";
             foreach ($post_values as $key => $value) {
                 $post_string .= "$key=" . urlencode($value) . "&";
             }
             $post_string = rtrim($post_string, "& ");
-    
-    
+
             $request = curl_init($post_url);
             curl_setopt($request, CURLOPT_HEADER, 0);
             curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
@@ -99,12 +98,42 @@ class AdminController extends Controller
             $post_response = curl_exec($request);
             curl_close($request);
             $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
-    
-            return redirect()->route('login_form')->with('message', 'Admin register Successfully');
+
+            return redirect()->route('admin.verfy')->with('message', 'Registration Successfully');
         }
     }
-
     // register method ends here
+
+    // Verify method ends here
+    public function Verify()
+    {
+        $customer = Customer::latest()->first();
+        return view('admin.pages.admin_register_verify', compact('customer'));
+    }
+    // Verify method ends here
+
+    // Verify store method ends here
+    public function VerifyStore(Request $request)
+    {
+        $customerdetails = CustomerDetail::where('customer_id', $request->customer_id)->first();
+        if ($customerdetails->otp == $request->otp) {
+            $customerdetails = CustomerDetail::where('customer_id', $request->customer_id)->first();
+            $customerdetails['isVerified'] = 1;
+            $customerdetails->save();
+            return redirect()->route('admin.verfied');
+        } else {
+            return redirect()->back()->with('message', 'OTP is Invalied! please, Submit Valied OTP.');
+        }
+    }
+    // Verify store method ends here
+
+    // Verified method ends here
+    public function Verified(Request $request)
+    {
+        $customer = Customer::latest()->first();
+        return view('admin.pages.admin_register_verified', compact('customer'));
+    }
+    // Verified method ends here
 
     // Logout method ends here
     public function AdminLogout()
@@ -148,10 +177,39 @@ class AdminController extends Controller
             $data = array();
             $data['status'] = $request->status;
             // dd($data);
-            DB::table('customers')->where('id', $request->id)->update($data);
+            $client = DB::table('customers')->where('id', $request->id)->update($data);
 
-            $notification = array('message' => 'Customer status update successfully.', 'alert_type' => 'warning');
-            return redirect()->route('client.all')->with($notification);
+            if ($client) {
+                $custname = Customer::where('id', $request->id)->first();
+                $cust_phone = CustomerDetail::where('customer_id', $custname->id)->first();
+                // dd($cust_id);
+                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                $post_values['senderid'] = "8801969908462";
+                $post_values['message'] = "Welcome, " . $custname->name . "We have approved you as our client, So you can now record regular balance account transactions through \"Baki-Khata\" software.Thanks for stay with us.";
+                $post_values['contact_number'] = $cust_phone->phone;
+
+                $post_string = "";
+                foreach ($post_values as $key => $value) {
+                    $post_string .= "$key=" . urlencode($value) . "&";
+                }
+                $post_string = rtrim($post_string, "& ");
+
+                $request = curl_init($post_url);
+                curl_setopt($request, CURLOPT_HEADER, 0);
+                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                $post_response = curl_exec($request);
+                curl_close($request);
+                $done = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+                if ($done) {
+                    $notification = array('message' => 'Customer status update successfully.', 'alert_type' => 'warning');
+                    return redirect()->route('client.all')->with($notification);
+                } else {
+                    return redirect()->back()->with('message', 'Something Went Wrong.');
+                }
+            }
         } else {
             $notification = array('message' => 'You have no permission.', 'alert_type' => 'warning');
             return redirect()->back()->with($notification);

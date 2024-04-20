@@ -27,6 +27,8 @@ class Customer extends Authenticatable
         'remember_token',
         'status',
         'role',
+        'isVerified',
+        'otp',
     ];
 
     /**

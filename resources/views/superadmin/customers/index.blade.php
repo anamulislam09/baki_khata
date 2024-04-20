@@ -21,6 +21,7 @@
                                         <th>Phone</th>
                                         <th>Address</th>
                                         <th>Total Due / Advanced</th>
+                                        <th>Verification Status</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -43,12 +44,20 @@
                                             @foreach ($details as $detail)
                                                 <td>{{ $detail->phone }}</td>
                                                 <td>{{ $detail->address }}</td>
+                                                
                                             @endforeach
                                             <td>
                                                 @if ($total_due > 0)
                                                     <span class="badge badge-success">{{ $total_due }}</span>
                                                 @else
                                                     <span class="badge badge-danger">{{ $total_due }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->isVerified == 1)
+                                                    <span class="badge badge-primary">Verified</span>
+                                                @else
+                                                    <span class="badge badge-danger">Not Verified</span>
                                                 @endif
                                             </td>
                                             <td>

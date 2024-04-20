@@ -6,7 +6,7 @@
     </style>
     {{-- <div class="content-wrapper"> --}}
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header ">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
@@ -74,8 +74,8 @@
                     <!-- /.col -->
                 </div>
             @else
-                <div class="card">
-                    <div class="card-header row">
+                <div class="card " style="margin-top: -20px !important">
+                    <div class="card-header row ">
                         <h4><input value="{{ date('Y-m-d') }}" type="date" name="date"
                                 class="form-control" id="date"></h4>
                     </div>

@@ -63,8 +63,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
 
     //    Sales route 
     Route::get('/report', [ReportController::class, 'Index'])->name('report.index');
-    // Route::get('/get-customers/{id}', [CollectionController::class, 'GetCustomer']);
-    // Route::get('/get-transaction/{date}', [CollectionController::class, 'GetTransaction']);
+    Route::post('/report-show', [ReportController::class, 'AllReport'])->name('report.show');
+    // Route::get('/get-transaction/{date}', [CollectionController::class, 'GetTransaction']);`
     // Route::post('/sales-collections/store', [CollectionController::class, 'storeInvoice'])->name('sales.collection.store');
     // Route::post('/due-collections', [CollectionController::class, 'dueCollection'])->name('due.collection');
 });

@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('nid_no')->nullable();
             $table->string('image')->nullable();
-            $table->string('otp');
-            $table->string('isVerified')->default(0);
             $table->timestamps();
         });
     }

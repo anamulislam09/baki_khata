@@ -16,9 +16,9 @@
                             <div class="container-fluid">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="row mb-2">
+                                        <div class="row">
                                             <div class="col-12">
-                                                <h3 class="m-0 d-flex justify-content-center">All Reports</h3>
+                                                <h3 class="m-0 d-flex justify-content-center">Sales Report</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -26,83 +26,43 @@
                             </div>
                         </div>
 
-                        <div class="card">
-                            {{-- <hr> --}}
-                            <div class="card-body table-responsive row">
-                                <div class="col-lg-3 col-md-4 col-sm-7">
-                                    <h4><input value="{{ date('Y-m-d') }}" type="date" name="date"
-                                            class="form-control" id="date"></h4>
+                        <div class="card" style="margin-top: -20px !important">
+                            <div class="content-header" style="margin: -10px 5px !important">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 col-sm-5">
+                                            <label for="">From</label>
+                                            <input value="{{ date('Y-m-d') }}" type="date" name="start_date"
+                                                id="start_date" class="form-control date">
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-5">
+                                            <label for="">To</label>
+                                            <input value="{{ date('Y-m-d') }}" type="date" name="end_date" id="end_date"
+                                                class="form-control date">
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="card-body table-responsive">
                                 <table id="dataTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr style="border-top: 1px solid #ddd">
                                             <th width="10%">SL</th>
                                             <th width="15%">Date</th>
                                             <th width="20%">Name</th>
-                                            <th width="20%">Sales </th>
-                                            <th width="15%">Collection</th>
-                                            <th width="15%">Due</th>
+                                            <th width="20%">Sales Amount</th>
+                                            <th width="15%">Receive Amount</th>
+                                            <th width="15%">Due Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="today_table">
-                                        @foreach ($ledger as $key => $item)
-                                            @php
-                                                $users = App\Models\User::where(
-                                                    'customer_id',
-                                                    Auth::guard('admin')->user()->id,
-                                                )
-                                                    ->where('user_id', $item->user_id)
-                                                    ->first();
-
-                                                $amount = App\Models\Ledger::where(
-                                                    'customer_id',
-                                                    Auth::guard('admin')->user()->id,
-                                                )
-                                                    ->where('user_id', $item->user_id)
-                                                    ->where('date', date('Y-m-d'))
-                                                    ->sum('amount');
-                                                $collection = App\Models\Ledger::where(
-                                                    'customer_id',
-                                                    Auth::guard('admin')->user()->id,
-                                                )
-                                                    ->where('user_id', $item->user_id)
-                                                    ->where('date', date('Y-m-d'))
-                                                    ->sum('collection');
-                                                $due = App\Models\Ledger::where(
-                                                    'customer_id',
-                                                    Auth::guard('admin')->user()->id,
-                                                )
-                                                    ->where('user_id', $item->user_id)
-                                                    ->where('date', date('Y-m-d'))
-                                                    ->sum('due');
-                                            @endphp
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $item->date }}</td>
-                                                <td>{{ $users->name }}</td>
-                                                <td>{{ $amount }}</td>
-                                                <td>{{ $collection }}</td>
-                                                <td>{{ $due }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
                                     <tbody id="item-table"></tbody>
 
                                     <tfoot class="today_footer">
                                         <tr>
                                             <td colspan="3" class="text-center"><strong>Total =</strong></td>
-                                            <td id="amount">{{ $total_amount }}</td>
-                                            <td id="total_collection">{{ $total_collection }}</td>
-                                            <td id="total_due">{{ $total_due }}</td>
-                                        </tr>
-                                    </tfoot>
-
-                                    <tfoot class="date_footer">
-                                        <tr>
-                                            <td colspan="3" class="text-center"><strong>Total =</strong></td>
-                                            <td id="amount"></td>
-                                            <td id="total_collection"></td>
-                                            <td id="total_due"></td>
+                                            <td id="amount">0</td>
+                                            <td id="total_collection">0</td>
+                                            <td id="total_due">0</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -118,82 +78,42 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         var searchRequest = null;
-        // $(function() {
-        //     $("#item-table").hide();
-        //     $(".date_footer").hide();
-        //     var minlength = 4;
-        //     $("#customer_id").change(function() {
-        //         $("#item-table").show();
-        //         customerLeader($(this).val());
-        //     });
-        // });
 
-        //     function customerLeader(custID) {
-        //         $.ajax({
-        //             type: "GET",
-        //             url: "{{ url('admin/get-customers') }}/" + custID,
-        //             dataType: "json",
-        //             success: function(res) {
-        //                 $('#user').text(res.users.name + '`s');
-    //             $('#amount').text(res.total_amount);
-    //             $('#total_collection').text(res.total_collection);
-    //             $('#total_due').text(res.total_due);
+        function reports() {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('report.show') }}",
+                data: {
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    _token: "{{ csrf_token() }}"
+                },
+                dataType: 'JSON',
+                success: function(res) {
+                    console.log(res);
+                    var tbody = '';
+                    res.ledger.forEach((element, index) => {
+                        tbody += '<tr>'
+                        tbody += '<td>' + (index + 1) + '</td>'
+                        tbody += '<td>' + element.date + '</td>'
+                        tbody += '<td>' + element.name + '</td>'
+                        tbody += '<td>' + element.amount + '</td>'
+                        tbody += '<td>' + element.collection + '</td>'
+                        tbody += '<td>' + element.due + '</td>'
+                        tbody += '</tr>'
+                    });
+                    $('#item-table').html(tbody);
+                    $('#amount').text(res.total_amount);
+                    $('#total_collection').text(res.total_collection);
+                    $('#total_due').text(res.total_due);
+                }
+            });
+        }
 
-    //             var tbody = '';
-    //             res.ledger.forEach((element, index) => {
-    //                 url = '{{ url('admin/generate-invoice') }}/' + element.invoice_id;
-    //                 tbody += '<tr>'
-    //                 tbody += '<td>' + (index + 1) + '</td>'
-    //                 tbody += '<td>' + element.date +'</td>'
-    //                 tbody += '<td>' + element.amount + '</td>'
-    //                 tbody += '<td>' + element.collection + '</td>'
-    //                 tbody += '<td>' + element.due + '</td>'
-    //                 tbody += '<td class="text-center"><a href="' + url +
-    //                     '" target ="_blank"><span class="fa fa-book"></span></a></td>'
-    //                 tbody += '</tr>'
-    //             });
-    //             $('#item-table').html(tbody);
-    //         }
-    //     });
-    // }
-
-    $(document).ready(function() {
-        $("#item-table").hide();
-        $(".date_footer").hide();
-        $("#date").on('change', function() {
-            $("#item-table").show();
-            $("#date_footer").show();
-            $("#today_table").hide();
-            $(".today_footer").hide();
-            var date = $(this).val();
-            // alert(date);
-            // $.ajax({
-            //     type: "GET",
-            //     url: "{{ url('admin/get-transaction') }}/" + date,
-            //     dataType: "json",
-            //     success: function(res) {
-            //         $('#user').text(res.users.name + '`s');
-            //             $('#amount').text(res.total_amount);
-            //             $('#total_collection').text(res.total_collection);
-            //             $('#total_due').text(res.total_due);
-
-            //             var tbody = '';
-            //             res.ledger.forEach((element, index) => {
-            //                 url = '{{ url('admin/generate-invoice') }}/' + element
-            //                     .invoice_id;
-            //                 tbody += '<tr>'
-            //                 tbody += '<td>' + (index + 1) + '</td>'
-            //                 tbody += '<td>' + element.date + '</td>'
-            //                 tbody += '<td>' + element.amount + '</td>'
-            //                 tbody += '<td>' + element.collection + '</td>'
-            //                 tbody += '<td>' + element.due + '</td>'
-            //                 tbody += '<td class="text-center"><a href="' + url +
-            //                     '" target ="_blank"><span class="fa fa-book"></span></a></td>'
-            //                 tbody += '</tr>'
-            //             });
-            //             $('#item-table').html(tbody);
-            //         }
-            //     });
+        $(document).ready(function() {
+            reports();
+            $('.date').on('change', function() {
+                reports();
             });
         });
     </script>

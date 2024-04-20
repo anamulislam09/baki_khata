@@ -15,19 +15,25 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card">
-                            <div class="card-header ">
-                                <div class="row">
-                                    <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
-                                        <h3 class="card-title">All Customers</h3>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-4">
-                                        <a href="{{ route('customers.create') }}" class="btn btn-info text-light">Add New
-                                        </a>
+                        <div class="content-header" style="margin-bottom: -40px !important">
+                            <div class="container-fluid">
+                                <div class="card">
+                                    <div class="card-header ">
+                                        <div class="row">
+                                            <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
+                                                <h3 class="card-title">All Customers</h3>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-4">
+                                                <a href="{{ route('customers.create') }}"
+                                                    class="btn btn-info text-light">Add New
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">

@@ -6,9 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | Login</title>
     <style>
-        .login-box {
-            width: 500px !important;
-            background: #999 !important
+@media only screen and (max-width: 600px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .login-box {
+                width: 50% !important;
+                background: #999 !important
+            }
         }
 
         .login-page {

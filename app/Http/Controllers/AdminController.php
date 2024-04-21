@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgotPasswordMail;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Str;
 
 
@@ -226,53 +228,53 @@ class AdminController extends Controller
     /*-------------------Customers related method start here--------------*/
 
     /*-------------------Customers password method start here--------------*/
-    // public function Forgot()
-    // {
-    //     return view('admin.pages.forgot_password');
-    // }
-    // // receive the email 
-    // public function ForgotPassword(Request $request)
-    // {
-    //     $customer = Customer::where('email', '=', $request->email)->first();
-    //     if (!empty($customer)) {
-    //         $customer->remember_token = Str::random(40);
-    //         $customer->save();
-    //         Mail::to($customer->email)->send(new ForgotPasswordMail($customer));
-    //         $notification = array('message' => 'Please check your email and forgot your password.', 'alert_type' => 'warning');
-    //         return redirect()->back()->with($notification);
-    //     } else {
-    //         $notification = array('message' => 'Email not found in this system.', 'alert_type' => 'warning');
-    //         return redirect()->back()->with($notification);
-    //     }
-    // }
+    public function Forgot()
+    {
+        return view('admin.pages.forgot_password');
+    }
+    // receive the email 
+    public function ForgotPassword(Request $request)
+    {
+        $customer = Customer::where('email', '=', $request->email)->first();
+        if (!empty($customer)) {
+            $customer->remember_token = Str::random(40);
+            $customer->save();
+            Mail::to($customer->email)->send(new ForgotPasswordMail($customer));
+            $notification = array('message' => 'Please check your email and forgot your password.', 'alert_type' => 'warning');
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array('message' => 'Email not found in this system.', 'alert_type' => 'warning');
+            return redirect()->back()->with($notification);
+        }
+    }
 
-    // public function reset($token)
-    // {
-    //     $customer = Customer::where('remember_token', '=', $token)->first();
-    //     if (!empty($customer)) {
-    //         $data['customer'] = $customer;
-    //         return view('admin.pages.reset');
-    //     } else {
-    //         abort(404);
-    //     }
-    // }
+    public function reset($token)
+    {
+        $customer = Customer::where('remember_token', '=', $token)->first();
+        if (!empty($customer)) {
+            $data['customer'] = $customer;
+            return view('admin.pages.reset');
+        } else {
+            abort(404);
+        }
+    }
 
-    // public function PostReset($token, Request $request)
-    // {
-    //     $customer = Customer::where('remember_token', '=', $token)->first();
-    //     if ($request->password == $request->confirm_password) {
-    //         $customer->password = Hash::make($request->password);
-    //         if (empty($customer->email_verified_at)) {
-    //             $customer->email_verified_at = date('Y-m-d H:i:s');
-    //         }
-    //         $customer->remember_token = Str::random(40);
-    //         $customer->save();
-    //         $notification = array('message' => 'Password reset successfully.', 'alert_type' => 'warning');
-    //         return redirect()->route('login_form')->with($notification);
-    //     } else {
-    //         $notification = array('message' => 'Password & Confirm Password does not match.', 'alert_type' => 'warning');
-    //         return redirect()->back()->with($notification);
-    //     }
-    // }
+    public function PostReset($token, Request $request)
+    {
+        $customer = Customer::where('remember_token', '=', $token)->first();
+        if ($request->password == $request->confirm_password) {
+            $customer->password = Hash::make($request->password);
+            if (empty($customer->email_verified_at)) {
+                $customer->email_verified_at = date('Y-m-d H:i:s');
+            }
+            $customer->remember_token = Str::random(40);
+            $customer->save();
+            $notification = array('message' => 'Password reset successfully.', 'alert_type' => 'warning');
+            return redirect()->route('login_form')->with($notification);
+        } else {
+            $notification = array('message' => 'Password & Confirm Password does not match.', 'alert_type' => 'warning');
+            return redirect()->back()->with($notification);
+        }
+    }
     /*-------------------Customers password method ends here--------------*/
 }

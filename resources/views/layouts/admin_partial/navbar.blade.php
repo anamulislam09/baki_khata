@@ -89,6 +89,18 @@
                     <p style=" margin-bottom:-0px">Client</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('client.all') }}"
+                    class="nav-link text-light {{ Request::routeIs('client.all') || Request::routeIs('client.create') || Request::routeIs('client.edit') ? 'active' : '' }}">
+                    <p style=" margin-bottom:-0px">Payment</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('packages.all') }}"
+                    class="nav-link text-light {{ Request::routeIs('packages.all') || Request::routeIs('package.create') || Request::routeIs('package.edit') ? 'active' : '' }}">
+                    <p style=" margin-bottom:-0px">Packages</p>
+                </a>
+            </li>
         @endif
         @if (Auth::guard('admin')->user()->role == 1)
             <li

@@ -7,9 +7,39 @@
     <title>Forgot-Password</title>
 
     <style>
-        .login-box {
-            width: 500px !important;
-            background: #999 !important
+        @media only screen and (max-width: 600px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .login-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .login-box {
+                width: 50% !important;
+                background: #999 !important
+            }
         }
 
         .login-page {
@@ -56,51 +86,21 @@
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email" :value="old('email')" required
                             autofocus placeholder="Enter Email">
-                        <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Your Email">
+                        <div class="input-group-append" data-toggle="tooltip" data-placement="top"
+                            title="Enter Your Email">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" required
-                            autocomplete="current-password"placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div> --}}
+
                     <div class="row">
-                        {{-- <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div> --}}
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Forgot</button>
+                        <div class="col-4 ">
+                            <button type="submit" class="btn btn-primary" >Forgot</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-<div class="row">
-    {{-- <div class="col-6 mt-4"><p>
-        @if (Route::has('password.request'))
-            <a class="underline text-sm text-gray-600 hover:text-gray-900"
-                href="{{ route('password.request') }}">
-                {{ __('Forgot your password?') }}
-            </a>
-        @endif
-    </p></div> --}}
-    {{-- <div class="col-6 mt-4">
-        <a href="{{route('register_form')}}" class="float-right">Create account?</a>
-    </div> --}}
-</div>
-        
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->

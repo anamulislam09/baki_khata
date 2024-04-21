@@ -6,10 +6,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin | Register</title>
 <style>
-  .register-box {
-      width: 500px !important;
-      background: #999 !important
-  }
+   @media only screen and (max-width: 600px) {
+            .register-box {
+                width: 99% !important;
+                background: #999 !important
+            }
+
+
+        }
+
+        @media only screen and (min-width: 600px) {
+            .register-box {
+                width: 99% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .register-box {
+                width: 99% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .register-box {
+                width: 95% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .register-box {
+                width: 50% !important;
+                background: #999 !important
+            }
+        }
 
   .register-page {
       background-image: url(../login.png);
@@ -132,7 +164,6 @@
             <!-- /.col -->
           </div>
         </form>
-
         <a href="{{ route('login_form') }}" class="text-center">I have already a membership</a>
       </div>
       <!-- /.form-box -->

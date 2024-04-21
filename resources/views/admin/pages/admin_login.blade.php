@@ -6,9 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | Login</title>
     <style>
-        .login-box {
-            width: 500px !important;
-            background: #999 !important
+        @media only screen and (max-width: 600px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+
+
+        }
+
+        @media only screen and (min-width: 600px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .login-box {
+                width: 80% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .login-box {
+                width: 50% !important;
+                background: #999 !important
+            }
         }
 
         .login-page {
@@ -36,6 +68,9 @@
 </head>
 
 <body class="hold-transition login-page">
+    {{--    
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"> --}}
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -56,18 +91,20 @@
                     <div class="input-group mb-4">
                         <input type="email" class="form-control" name="email" :value="old('email')" required
                             autofocus placeholder="Email">
-                        <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Your Email">
+                        <div class="input-group-append" data-toggle="tooltip" data-placement="top"
+                            title="Enter Your Email">
                             <div class="input-group-text">
-                                <span class="fas fa-envelope" ></span>
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" name="password" required
                             autocomplete="current-password"placeholder="Password">
-                        <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="Enter Your Password">
+                        <div class="input-group-append" data-toggle="tooltip" data-placement="top"
+                            title="Enter Your Password">
                             <div class="input-group-text">
-                                <span class="fas fa-lock" ></span>
+                                <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
@@ -81,38 +118,39 @@
                             </div>
                         </div>
                         <!-- /.col -->
-                        <div class="col-4 ">
+                        <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
                 <div class="row py-4">
-                    <div class="col-6 mt-4">
-                        <p>
+                    <div class="col-6">
                             @if (Route::has('password.request'))
                                 <a class="underline text-sm text-gray-600 hover:text-gray-900"
                                     href="{{ route('admin.forgot-password') }}">
-                                    {{ __('Forgot your password?') }}
+                                    {{ __('Forgot password?') }}
                                 </a>
                             @endif
-                        </p>
                     </div>
-                    <div class="col-6 mt-4">
-                        <a href="{{ route('register_form') }}" class="float-right">Create account?</a>
+                    <div class="col-6">
+                        <a href="{{ route('register_form') }} " style="float: right">Create account?</a>
                     </div>
                 </div>
 
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            {{-- </div>
+            </div> --}}
         </div>
-        <!-- jQuery -->
-        <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
-        <!-- Bootstrap 4 -->
-        <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <!-- AdminLTE App -->
-        <script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
+    </div>
+    <!-- jQuery -->
+    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
 </body>
 
 </html>

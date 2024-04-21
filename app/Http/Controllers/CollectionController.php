@@ -55,7 +55,9 @@ class CollectionController extends Controller
         $data['auth_id'] = Auth::guard('admin')->user()->id;
         $data['user_id'] = $request->user_id;
         $data['amount'] = $request->amount;
-        if($request->collection != null){$data['collection'] = $request->collection;}
+        if ($request->collection != null) {
+            $data['collection'] = $request->collection;
+        }
         $data['due'] = $request->collection - $request->amount;
         $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
@@ -75,9 +77,39 @@ class CollectionController extends Controller
             $data['date'] = date('Y-m-d');
             $data['month'] = date('m');
             $data['year'] = date('Y');
-            Invoice::create($data);
+            $inv = Invoice::create($data);
+        }
+        if ($inv) {
+            $phones = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
+            $message = "Total seles amount is 1-2-3," . " Received amount is 1-2-3 and due amount is 1-2-3.";
+            $userNumber = $phones->phone;
+            $this->sendMessage($userNumber,$message);
         }
         return Response::json(true, 200);
+    }
+
+    public function sendMessage($userNumber,$message)
+    {
+        $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+        $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+        $post_values['senderid'] = "8801969908462";
+        $post_values['message'] = $message;
+        $post_values['contact_number'] = $userNumber;
+
+        $post_string = "";
+        foreach ($post_values as $key => $value) {
+            $post_string .= "$key=" . urlencode($value) . "&";
+        }
+        $post_string = rtrim($post_string, "& ");
+
+        $request = curl_init($post_url);
+        curl_setopt($request, CURLOPT_HEADER, 0);
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+        $post_response = curl_exec($request);
+        curl_close($request);
+        $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
     }
 
     public function dueCollection(Request $request)
@@ -93,10 +125,6 @@ class CollectionController extends Controller
         } else {
             $data['invoice_id'] = 'INV-' . $this->formatSrl($v_id);
         }
-
-
-            // $total_due = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->sum('due');
-        // $due =$total_due - $request->collection;
 
         $data['customer_id'] = Auth::guard('admin')->user()->id;
         $data['auth_id'] = Auth::guard('admin')->user()->id;
@@ -148,21 +176,21 @@ class CollectionController extends Controller
         return $zeros . $srl;
     }
 
-     // Income Management generate income voucher 
-     public function GenerateInv($invoice_id)
-     {
-         $inv = Invoice::where('customer_id', Auth::guard('admin')->user()->id)->where('invoice_id', $invoice_id)->first();
-         $user = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $inv->user_id)->first();
-         $customer = Customer::where('id', Auth::guard('admin')->user()->id)->first();
-         $custDetails = CustomerDetail::where('customer_id', $customer->id)->first();
- 
-         $data = [
-             'inv' => $inv,
-             'user' => $user,
-             'customer' => $customer,
-             'custDetails' => $custDetails,
-         ];
-         $pdf = PDF::loadView('admin.due_collection.collection_voucher', $data);
-         return $pdf->stream('Due_Collection.pdf');
-     }
+    // Income Management generate income voucher 
+    public function GenerateInv($invoice_id)
+    {
+        $inv = Invoice::where('customer_id', Auth::guard('admin')->user()->id)->where('invoice_id', $invoice_id)->first();
+        $user = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $inv->user_id)->first();
+        $customer = Customer::where('id', Auth::guard('admin')->user()->id)->first();
+        $custDetails = CustomerDetail::where('customer_id', $customer->id)->first();
+
+        $data = [
+            'inv' => $inv,
+            'user' => $user,
+            'customer' => $customer,
+            'custDetails' => $custDetails,
+        ];
+        $pdf = PDF::loadView('admin.due_collection.collection_voucher', $data);
+        return $pdf->stream('Due_Collection.pdf');
+    }
 }

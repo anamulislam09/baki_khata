@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/client', [AdminController::class, 'Client'])->name('client.all');
     Route::get('/client/edit/{id}', [AdminController::class, 'ClientEdit'])->name('client.edit');
     Route::post('/client/update', [AdminController::class, 'ClientUpdate'])->name('client.update');
+
+    // Packages route  
+    Route::get('/packages', [PackageController::class, 'Index'])->name('packages.all');
+    Route::get('/package/create', [PackageController::class, 'Create'])->name('package.create');
+    Route::post('/package/store', [PackageController::class, 'Store'])->name('package.store');
+    Route::get('/package/edit/{id}', [PackageController::class, 'Edit'])->name('package.edit');
+    Route::post('/package/update', [PackageController::class, 'Update'])->name('package.update');
+    Route::get('/package/delete/{id}', [PackageController::class, 'Delete'])->name('package.delete');
 
     // admin login route start here 
     Route::post('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');

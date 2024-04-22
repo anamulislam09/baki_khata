@@ -23,6 +23,8 @@ return new class extends Migration
             $table->tinyInteger('role')->default(1);
             $table->string('isVerified')->default(0);
             $table->string('otp');
+            $table->tinyInteger('package_id')->nullable();
+            $table->string('package_start_date')->nullable();
             $table->timestamps();
         });
     }

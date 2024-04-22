@@ -17,8 +17,8 @@
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Address</th>
-                                        {{-- <th>Total Due / Advanced</th> --}}
                                         <th>Verification Status</th>
+                                        <th>Package</th>
                                         <th>Payment Status</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -31,11 +31,11 @@
                                                 'customer_id',
                                                 $item->id,
                                             )->get();
-                                            // $total_due = App\Models\Ledger::where('customer_id', $item->id)->sum('due');
-                                            // dd($details);
+                                            $package = App\Models\Package::where('id', $item->package_id)->first();
+                                            // dd($package->package_name)
                                         @endphp
                                         <tr>
-                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
                                             @foreach ($details as $detail)
@@ -56,28 +56,33 @@
                                                     <span class="badge badge-danger">Not Verified</span>
                                                 @endif
                                             </td>
-                                            
-                                            <td></td>
+
                                             <td>
-                                                @if ($item->status == 1)
-                                                    <span class="badge badge-primary">Active</span>
-                                                @else
-                                                    <span class="badge badge-danger">Deactive</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('client.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-info edit"><i class="fas fa-edit"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                                @if (!empty($package->package_name))
+                                                    {{ $package->package_name }}
+                                                @endempty
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @if ($item->status == 1)
+                                                <span class="badge badge-primary">Active</span>
+                                            @else
+                                                <span class="badge badge-danger">Deactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('client.edit', $item->id) }}"
+                                                class="btn btn-sm btn-info edit"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    {{-- </div> --}}
+    </div>
+</section>
+{{-- </div> --}}
 @endsection

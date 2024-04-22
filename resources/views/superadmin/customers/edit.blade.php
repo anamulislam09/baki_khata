@@ -9,21 +9,23 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-lg-10 col-sm-12">
-                                        <h3 class="card-title">Edit Client </h3>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-12">
-                                        <a href="{{ route('client.all') }}" class="btn btn-outline-primary">Cancel Edit
-                                        </a>
+                            <div class="card">
+                                <div class="card-header ">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h3 class="card-title mt-2">Edit Client </h3>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="{{ route('client.all') }}" style="float: right" class="btn btn-sm btn-outline-primary">Cancel Edit
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="row m-auto">
-                                    <div class="col-8 m-auto" style="border: 1px solid #ddd">
+                                    <div class="col-lg-8 col-md-10 col-sm-12 m-auto" style="border: 1px solid #ddd">
                                         <form action="{{ route('client.update') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $data->id }}">
@@ -36,6 +38,7 @@
 
                                                 @php
                                                     $details = App\Models\CustomerDetail::where('customer_id', $data->id)->first();
+                                                    $packages = App\Models\Package::get();
                                                     // dd($details);
                                                 @endphp
 
@@ -51,6 +54,15 @@
                                                         name="email">
                                                 </div>
 
+                                                <div class="mb-3 mt-3">
+                                                    <label for="exampleInputEmail1">Assign Package </label>
+                                                    <select name="package" id="" class="form-control">
+                                                            <option value="" selected disabled>Select Once</option>
+                                                            @foreach ($packages as $package)
+                                                                <option value="{{$package->id}}" @if ($data->package_id == $package->id) selected @endif>{{$package->package_name}}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="mb-3 mt-3">
                                                     <label for="exampleInputEmail1"> Status </label>
                                                     <select name="status" id="" class="form-control">

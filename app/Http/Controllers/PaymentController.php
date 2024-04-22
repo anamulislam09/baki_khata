@@ -2,9 +2,122 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    //
+    public function Index()
+    {
+        $payments = Payment::get();
+        return view('superadmin.payments.index', compact('payments'));
+    }
+
+    public function Create()
+    {
+        $client = Customer::where('role', 1)->get();
+        return view('superadmin.payments.create', compact('client'));
+    }
+
+    // insert sub category category using ajax request
+    public function getPackage(Request $request)
+    {
+        $clientid = $request->post('client_id');
+        $client = Customer::where('id', $clientid)->first();
+
+        $data['package'] = DB::table('packages')->where('id', $client->package_id)->first();
+
+        return response()->json($data);
+    }
+
+    public function Store(Request $request)
+    {
+        $dueAmount = $request->package_bill - $request->collection_amount;
+
+        $v_id = 1;
+        $isExist = Payment::exists();
+
+        if ($isExist) {
+            $invoice_id = Payment::max('invoice_id');
+            $invoice_id = explode('-', $invoice_id)[1];
+            $data['invoice_id'] = 'INV-' . $this->formatSrl(++$invoice_id);
+        } else {
+            $data['invoice_id'] = 'INV-' . $this->formatSrl($v_id);
+        }
+        $data['customer_id'] = $request->client_id;
+        $data['payment_amount'] = $request->package_bill;
+        $data['paid'] = $request->collection_amount;
+        $data['due'] = $dueAmount;
+        $data['date'] = date('Y-m-d');
+        $data['month'] = date('m');
+        $data['year'] = date('Y');
+        Payment::create($data);
+        return redirect()->route('collections.all')->with('message', 'Payment Inserted Successfully');
+    }
+
+    public function Edit($id)
+    {
+        $data = Payment::FindOrFail($id);
+        $client = Customer::where('id', $data->customer_id)->first();
+        $package = DB::table('packages')->where('id', $client->package_id)->first();
+        return view('superadmin.payments.edit', compact('data', 'package'));
+    }
+
+    public function Update(Request $request)
+    {
+        $due = $request->due_amount - $request->collection_amount;
+        $v_id = 1;
+        $isExist = Payment::exists();
+
+        if ($isExist) {
+            $invoice_id = Payment::max('invoice_id');
+            $invoice_id = explode('-', $invoice_id)[1];
+            $data['invoice_id'] = 'INV-' . $this->formatSrl(++$invoice_id);
+        } else {
+            $data['invoice_id'] = 'INV-' . $this->formatSrl($v_id);
+        }
+        $data['customer_id'] = $request->client_id;
+        $data['payment_amount'] = $request->amount;
+        $data['paid'] = $request->collection_amount;
+        $data['due'] = $due;
+        $data['date'] = date('Y-m-d');
+        $data['month'] = date('m');
+        $data['year'] = date('Y');
+        Payment::create($data);
+
+        return redirect()->back()->with('message', 'Payment Updated Successfully');
+    }
+
+    public function Delete($id)
+    {
+        $data = Payment::where('id', $id)->first();
+        $data->delete();
+        return redirect()->back()->with('message', 'Package Deleted successfully.');
+    }
+
+
+    // unique id serial function
+    public function formatSrl($srl)
+    {
+        switch (strlen($srl)) {
+            case 1:
+                $zeros = '00000';
+                break;
+            case 2:
+                $zeros = '0000';
+                break;
+            case 3:
+                $zeros = '000';
+                break;
+            case 4:
+                $zeros = '00';
+                break;
+            default:
+                $zeros = '0';
+                break;
+        }
+        return $zeros . $srl;
+    }
 }

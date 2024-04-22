@@ -1,10 +1,5 @@
 @extends('layouts.admin')
-
 @section('admin_content')
-    <style>
-       
-    </style>
-    {{-- <div class="content-wrapper"> --}}
     <!-- Content Header (Page header) -->
     <div class="content-header ">
         <div class="container-fluid">
@@ -32,6 +27,7 @@
         $user = App\Models\User::where('customer_id', Auth::guard('admin')->user()->id)->count();
         $users = App\Models\User::where('customer_id', Auth::guard('admin')->user()->id)->get();
         $Customers = App\Models\Customer::where('role', 1)->count();
+        $packages = App\Models\Package::count();
         $superAdmin = Auth::guard('admin')->user()->id;
         $total_sales = App\Models\Ledger::where('customer_id', Auth::guard('admin')->user()->id)->sum('amount');
         $total_collection = App\Models\Ledger::where('customer_id', Auth::guard('admin')->user()->id)->sum(
@@ -60,9 +56,8 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <p>Total Client</p>
+                                <p>Total Clients</p>
                                 <h3>{{ $Customers }}</h3>
-
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -71,7 +66,34 @@
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- /.col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <p>Total Payments</p>
+                                <h3>{{ $Customers }}</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="{{ route('client.all') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <p>Total Packages</p>
+                                <h3>{{ $packages }}</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="{{ route('packages.all') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             @else
                 <div class="card " style="margin-top: -20px !important">

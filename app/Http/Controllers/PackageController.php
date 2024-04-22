@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Package;
 use Illuminate\Http\Request;
+use Auth;
 
 class PackageController extends Controller
 {
@@ -32,7 +33,7 @@ class PackageController extends Controller
         $data = Package::FindOrFail($id);
         return view('superadmin.packages.edit', compact('data'));
     }
-    
+
     public function Update(Request $request)
     {
         $data = Package::where('id', $request->id)->first();
@@ -40,5 +41,12 @@ class PackageController extends Controller
         $data['duration'] = $request->duration;
         $data->save();
         return redirect()->back()->with('message', 'Package Updated Successfully');
+    }
+
+    public function Delete($id)
+    {
+        $data = Package::where('id', $id)->first();
+        $data->delete();
+        return redirect()->back()->with('message', 'Package Deleted successfully.');
     }
 }

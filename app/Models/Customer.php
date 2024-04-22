@@ -29,6 +29,8 @@ class Customer extends Authenticatable
         'role',
         'isVerified',
         'otp',
+        'package_id',
+        'package_start_date',
     ];
 
     /**

@@ -38,6 +38,7 @@ class CollectionController extends Controller
         $data['dateDue'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('due');
         return response()->json($data);
     }
+
     public function storeInvoice(Request $request)
     {
         // $data = $request->all();
@@ -66,6 +67,7 @@ class CollectionController extends Controller
         $ledger = Ledger::create($data);
         if ($ledger) {
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
+            $amountTK = $ledgers->amount;
 
             $data['customer_id'] = $ledgers->customer_id;
             $data['auth_id'] = $ledgers->auth_id;
@@ -81,15 +83,21 @@ class CollectionController extends Controller
         }
         if ($inv) {
             $phones = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
-            $message = "Total seles amount is 1-2-3," . " Received amount is 1-2-3 and due amount is 1-2-3.";
+
+            $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
+            $amountTK = $ledgers->amount;
+            $word = $this->numberToWord($amountTK);
+            
+            $message = "Total seles amount is $word";
             $userNumber = $phones->phone;
-            $this->sendMessage($userNumber,$message);
+            $this->sendMessage($userNumber, $message);
         }
         return Response::json(true, 200);
     }
 
-    public function sendMessage($userNumber,$message)
+    public function sendMessage($userNumber, $message)
     {
+
         $post_url = "http://api.smsinbd.com/sms-api/sendsms";
         $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
         $post_values['senderid'] = "8801969908462";
@@ -110,7 +118,11 @@ class CollectionController extends Controller
         $post_response = curl_exec($request);
         curl_close($request);
         $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+        dd($array);
     }
+
+
+
 
     public function dueCollection(Request $request)
     {
@@ -192,5 +204,121 @@ class CollectionController extends Controller
         ];
         $pdf = PDF::loadView('admin.due_collection.collection_voucher', $data);
         return $pdf->stream('Due_Collection.pdf');
+    }
+
+
+    // Function which returns number to words
+    function numberToWord($num = '')
+    {
+        $num = (string) ((int) $num);
+
+        if ((int) $num && ctype_digit($num)) {
+            $words = [];
+
+            $num = str_replace([',', ' '], '', trim($num));
+
+            $list1 = [
+                '',
+                'one',
+                'two',
+                'three',
+                'four',
+                'five',
+                'six',
+                'seven',
+                'eight',
+                'nine',
+                'ten',
+                'eleven',
+                'twelve',
+                'thirteen',
+                'fourteen',
+                'fifteen',
+                'sixteen',
+                'seventeen',
+                'eighteen',
+                'nineteen',
+            ];
+
+            $list2 = [
+                '',
+                'ten',
+                'twenty',
+                'thirty',
+                'forty',
+                'fifty',
+                'sixty',
+                'seventy',
+                'eighty',
+                'ninety',
+                'hundred',
+            ];
+
+            $list3 = [
+                '',
+                'thousand',
+                'million',
+                'billion',
+                'trillion',
+                'quadrillion',
+                'quintillion',
+                'sextillion',
+                'septillion',
+                'octillion',
+                'nonillion',
+                'decillion',
+                'undecillion',
+                'duodecillion',
+                'tredecillion',
+                'quattuordecillion',
+                'quindecillion',
+                'sexdecillion',
+                'septendecillion',
+                'octodecillion',
+                'novemdecillion',
+                'vigintillion',
+            ];
+
+            $num_length = strlen($num);
+            $levels = (int) (($num_length + 2) / 3);
+            $max_length = $levels * 3;
+            $num = substr('00' . $num, -$max_length);
+            $num_levels = str_split($num, 3);
+
+            foreach ($num_levels as $num_part) {
+                $levels--;
+                $hundreds = (int) ($num_part / 100);
+                $hundreds = $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ($hundreds == 1 ? '' : 's') . ' ' : '';
+                $tens = (int) ($num_part % 100);
+                $singles = '';
+
+                if ($tens < 20) {
+                    $tens = $tens ? ' ' . $list1[$tens] . ' ' : '';
+                } else {
+                    $tens = (int) ($tens / 10);
+                    $tens = ' ' . $list2[$tens] . ' ';
+                    $singles = (int) ($num_part % 10);
+                    $singles = ' ' . $list1[$singles] . ' ';
+                }
+                $words[] =
+                    $hundreds . $tens . $singles . ($levels && (int) $num_part ? ' ' . $list3[$levels] . ' ' : '');
+            }
+            $commas = count($words);
+            if ($commas > 1) {
+                $commas = $commas - 1;
+            }
+
+            $words = implode(', ', $words);
+
+            $words = trim(str_replace(' ,', ',', ucwords($words)), ', ');
+            if ($commas) {
+                $words = str_replace(',', ' and', $words);
+            }
+
+            return $words;
+        } elseif (!((int) $num)) {
+            return 'Zero';
+        }
+        return '';
     }
 }

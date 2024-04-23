@@ -28,9 +28,6 @@ class AdminController extends Controller
 
     public function Login(Request $request)
     {
-
-
-
         $check = $request->all();
         $datas = Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password'], 'status' => 1, 'isVerified' => 1]);
         if (!$datas) {
@@ -186,6 +183,31 @@ class AdminController extends Controller
                 $data['package_start_date'] = date('Y-m-d');
                 $client = DB::table('customers')->where('id', $request->id)->update($data);
                 if ($client) {
+                    $name = Customer::where('id', $request->id)->first()->name;
+                    $phone = CustomerDetail::where('customer_id', $request->id)->first()->phone;
+
+                    $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                    $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                    $post_values['senderid'] = "8801969908462";
+                    $post_values['message'] = "Welcome Mr/Ms " . $name . "." . " We have approved you as our client, So you can now record 
+                    regular balance account transactions through \"Baki-Batta\" software. Thanks for Stay with us.";
+                    $post_values['contact_number'] = $phone;
+
+                    $post_string = "";
+                    foreach ($post_values as $key => $value) {
+                        $post_string .= "$key=" . urlencode($value) . "&";
+                    }
+                    $post_string = rtrim($post_string, "& ");
+
+                    $request = curl_init($post_url);
+                    curl_setopt($request, CURLOPT_HEADER, 0);
+                    curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                    $post_response = curl_exec($request);
+                    curl_close($request);
+                    json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+
                     $notification = array('message' => 'Customer status update successfully.', 'alert_type' => 'warning');
                     return redirect()->route('client.all')->with($notification);
                 } else {

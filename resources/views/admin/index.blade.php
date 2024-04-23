@@ -70,13 +70,13 @@
                         <!-- small box -->
                         <div class="small-box bg-primary">
                             <div class="inner">
-                                <p>Total Payments</p>
-                                <h3>{{ $Customers }}</h3>
+                                <p>Total Collections</p>
+                                <h3>TK</h3>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="{{ route('client.all') }}" class="small-box-footer">More info <i
+                            <a href="#" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>

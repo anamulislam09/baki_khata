@@ -1,12 +1,12 @@
 @php
-    $client = App\Models\Customer::get();
+    $client = App\Models\Customer::where('role', 1)->get();
 @endphp
 <form action="{{ route('collection.update') }}" method="POST">
     @csrf
-    <input type="hidden" name="id" value="{{ $data->id }}">
-    <input type="hidden" name="client_id" value="{{ $data->customer_id }}">
-    <input type="hidden" name="amount" value="{{ $data->payment_amount }}">
-    <input type="hidden" name="due_amount" value="{{ $data->due }}">
+    <input type="text" name="id" value="{{ $data->id }}">
+    <input type="text" name="client_id" value="{{ $data->customer_id }}">
+    <input type="text" name="amount" value="{{ $data->payment_amount }}">
+    <input type="text" name="due_amount" value="{{ $data->due }}">
     <div class="modal-body">
         <div class="mb-3 mt-3">
             <label for="exampleInputEmail1">Select Client </label>

@@ -24,7 +24,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <a href="{{ route('collection.create') }}"
-                                                    class="btn btn-info btn-sm text-light"  style="float: right">Add New
+                                                    class="btn btn-info btn-sm text-light" style="float: right">Add New
                                                 </a>
                                             </div>
                                         </div>
@@ -34,36 +34,51 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                        
                             <div class="table-responsive">
-                                <table id="dataTable" class="table table-bordered table-striped">
+                                <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr style="border-top: 1px solid #ddd">
                                             <th>SL</th>
                                             <th>Client Name</th>
-                                            <th>Amount</th>
+                                            <th>Package Amount</th>
                                             <th>Collection Amount</th>
                                             <th>Due</th>
-                                            <th> Action</th>
+                                            {{-- <th> Action</th> --}}
                                     </thead>
                                     <tbody>
                                         @foreach ($payments as $key => $item)
-                                        @php
-                                            $customer = App\Models\Customer::where('id', $item->customer_id)->first();
-                                            // dd($costomer);
-                                        @endphp
+                                            @php
+                                                $customer = App\Models\Customer::where(
+                                                    'id',
+                                                    $item->customer_id,
+                                                )->first();
+                                                $paidAmount = App\Models\Payment::where(
+                                                    'customer_id',
+                                                    $item->customer_id,
+                                                )->sum('paid');
+                                                // dd($costomer);
+                                                $due = $item->payment_amount - $paidAmount;
+                                            @endphp
                                             <tr>
-                                                <td>{{ $key+1 }}</td>
-                                                <td>{{ $customer->name}}</td>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $customer->name }}</td>
                                                 <td>{{ $item->payment_amount }}</td>
-                                                <td>{{ $item->paid }}</td>
-                                                <td>{{ $item->due }}</td>
+                                                <td>{{ $paidAmount }}</td>
                                                 <td>
+                                                    @if ($due > 0)
+                                                        <span class="badge badge-danger">{{ $due }}</span>
+                                                    @else
+                                                        <span class="badge badge-primary">{{ $due }}</span>
+                                                    @endif
+                                                </td>
+                                                {{-- <td>
                                                     <a href="" class="btn btn-sm btn-info edit"
                                                         data-id="{{ $item->id }}" data-toggle="modal"
                                                         data-target="#editUser"><i class="fas fa-edit"></i></a>
                                                     <a href="{{ route('collection.delete', $item->id) }}"
                                                         class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -104,5 +119,15 @@
 
             })
         })
+
+        $(document).ready(function() {
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
     </script>
 @endsection

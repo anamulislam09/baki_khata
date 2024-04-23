@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function Index()
     {
-        $payments = Payment::get();
+        $payments = Payment::groupBy('customer_id')->get();
         return view('superadmin.payments.index', compact('payments'));
     }
 
@@ -26,9 +26,7 @@ class PaymentController extends Controller
     {
         $clientid = $request->post('client_id');
         $client = Customer::where('id', $clientid)->first();
-
         $data['package'] = DB::table('packages')->where('id', $client->package_id)->first();
-
         return response()->json($data);
     }
 
@@ -38,6 +36,7 @@ class PaymentController extends Controller
 
         $v_id = 1;
         $isExist = Payment::exists();
+        $Exist = Payment::where('customer_id', $request->client_id)->exists();
 
         if ($isExist) {
             $invoice_id = Payment::max('invoice_id');
@@ -49,7 +48,13 @@ class PaymentController extends Controller
         $data['customer_id'] = $request->client_id;
         $data['payment_amount'] = $request->package_bill;
         $data['paid'] = $request->collection_amount;
-        $data['due'] = $dueAmount;
+        if($Exist){
+            $due_amount = Payment::where('customer_id', $request->client_id)->latest()->first();
+            $due = $due_amount->due-$request->collection_amount;
+            $data['due'] = $due;
+        }else{
+            $data['due'] = $dueAmount;
+        }
         $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');
@@ -57,45 +62,44 @@ class PaymentController extends Controller
         return redirect()->route('collections.all')->with('message', 'Payment Inserted Successfully');
     }
 
-    public function Edit($id)
-    {
-        $data = Payment::FindOrFail($id);
-        $client = Customer::where('id', $data->customer_id)->first();
-        $package = DB::table('packages')->where('id', $client->package_id)->first();
-        return view('superadmin.payments.edit', compact('data', 'package'));
-    }
+    // public function Edit($id)
+    // {
+    //     $data = Payment::FindOrFail($id);
+    //     $client = Customer::where('id', $data->customer_id)->first();
+    //     $package = DB::table('packages')->where('id', $client->package_id)->first();
+    //     return view('superadmin.payments.edit', compact('data', 'package'));
+    // }
 
-    public function Update(Request $request)
-    {
-        $due = $request->due_amount - $request->collection_amount;
-        $v_id = 1;
-        $isExist = Payment::exists();
+    // public function Update(Request $request)
+    // {
+    //     $due = $request->due_amount - $request->collection_amount;
+    //     $v_id = 1;
+    //     $isExist = Payment::exists();
+    //     if ($isExist) {
+    //         $invoice_id = Payment::max('invoice_id');
+    //         $invoice_id = explode('-', $invoice_id)[1];
+    //         $data['invoice_id'] = 'INV-' . $this->formatSrl(++$invoice_id);
+    //     } else {
+    //         $data['invoice_id'] = 'INV-' . $this->formatSrl($v_id);
+    //     }
+    //     $data['customer_id'] = $request->client_id;
+    //     $data['payment_amount'] = $request->amount;
+    //     $data['paid'] = $request->collection_amount;
+    //     $data['due'] = $due;
+    //     $data['date'] = date('Y-m-d');
+    //     $data['month'] = date('m');
+    //     $data['year'] = date('Y');
+    //     Payment::create($data);
 
-        if ($isExist) {
-            $invoice_id = Payment::max('invoice_id');
-            $invoice_id = explode('-', $invoice_id)[1];
-            $data['invoice_id'] = 'INV-' . $this->formatSrl(++$invoice_id);
-        } else {
-            $data['invoice_id'] = 'INV-' . $this->formatSrl($v_id);
-        }
-        $data['customer_id'] = $request->client_id;
-        $data['payment_amount'] = $request->amount;
-        $data['paid'] = $request->collection_amount;
-        $data['due'] = $due;
-        $data['date'] = date('Y-m-d');
-        $data['month'] = date('m');
-        $data['year'] = date('Y');
-        Payment::create($data);
+    //     return redirect()->back()->with('message', 'Payment Updated Successfully');
+    // }
 
-        return redirect()->back()->with('message', 'Payment Updated Successfully');
-    }
-
-    public function Delete($id)
-    {
-        $data = Payment::where('id', $id)->first();
-        $data->delete();
-        return redirect()->back()->with('message', 'Package Deleted successfully.');
-    }
+    // public function Delete($id)
+    // {
+    //     $data = Payment::where('id', $id)->first();
+    //     $data->delete();
+    //     return redirect()->back()->with('message', 'Package Deleted successfully.');
+    // }
 
 
     // unique id serial function

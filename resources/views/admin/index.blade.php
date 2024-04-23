@@ -46,6 +46,10 @@
             ->where('date', date('Y-m-d'))
             ->sum('due');
 
+        $payment_amount = App\Models\Payment::groupBy('customer_id')->sum('payment_amount');
+        // dd($payment_amount);
+        $total_client_collection = App\Models\Payment::sum('paid');
+
     @endphp
     <!-- Main content -->
     <section class="content">
@@ -68,20 +72,6 @@
                     </div>
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <p>Total Collections</p>
-                                <h3>TK</h3>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <p>Total Packages</p>
@@ -94,16 +84,43 @@
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <p>Total Collections</p>
+                                <h3>{{ $total_client_collection }}TK</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <p>Total Due</p>
+                                <h3>{{$payment_amount - $total_client_collection }}TK</h3>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             @else
                 <div class="card " style="margin-top: -20px !important">
                     <div class="card-header row ">
-                        <h4><input value="{{ date('Y-m-d') }}" type="date" name="date"
-                                class="form-control" id="date"></h4>
+                        <h4><input value="{{ date('Y-m-d') }}" type="date" name="date" class="form-control"
+                                id="date"></h4>
                     </div>
                 </div>
 
-              
+
                 <div class="row" id="today">
                     <div class="col-lg-3 col-6">
 
@@ -417,7 +434,7 @@
                     url = '{{ url('admin/generate-invoice') }}/' + element.invoice_id;
                     tbody += '<tr>'
                     tbody += '<td>' + (index + 1) + '</td>'
-                    tbody += '<td>' + element.date +'</td>'
+                    tbody += '<td>' + element.date + '</td>'
                     tbody += '<td>' + element.amount + '</td>'
                     tbody += '<td>' + element.collection + '</td>'
                     tbody += '<td>' + element.due + '</td>'

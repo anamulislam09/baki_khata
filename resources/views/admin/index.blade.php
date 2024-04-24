@@ -92,13 +92,13 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
+                            <a href="{{route('collections.all')}}" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-6">
-                        <div class="small-box bg-primary">
+                        <div class="small-box bg-warning">
                             <div class="inner">
                                 <p>Total Due</p>
                                 <h3>{{ $due_amount}}TK</h3>

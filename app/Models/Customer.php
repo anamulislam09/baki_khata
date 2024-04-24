@@ -31,6 +31,7 @@ class Customer extends Authenticatable
         'otp',
         'package_id',
         'package_start_date',
+        'customer_balance',
     ];
 
     /**

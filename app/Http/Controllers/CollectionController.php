@@ -83,18 +83,19 @@ class CollectionController extends Controller
         if ($inv) {
             $phones = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
+            $total_due = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->sum('due');
 
             $amountTK = $ledgers->amount;
-            $dueTK = $ledgers->due;
 
             $word = $this->numberToWords($amountTK);
-            $dueword = $this->numberToWords(abs($dueTK));
+            $dueword = $this->numberToWords(abs($total_due));
             $message = "Total seles amount is " . $word . " And Total due amount is " . $dueword . ".";
 
             $userNumber = $phones->phone;
             $this->sendMessage($userNumber, $message);
         }
-        return Response::json(true, 200);
+        $message = 'Successfully Inserted.';
+        return Response::json($message, 200);
     }
 
     public function sendMessage($userNumber, $message)
@@ -175,7 +176,8 @@ class CollectionController extends Controller
             $userNumber = $phones->phone;
             $this->sendMessage($userNumber, $message);
         }
-        return Response::json(true, 200);
+        $message = 'Successfully Inserted.';
+        return Response::json($message, 200);
     }
 
     // unique id serial function

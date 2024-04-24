@@ -34,21 +34,6 @@ class ReportController extends Controller
 
         foreach ($data['ledger'] as $key => $ledger)
             $data['ledger'][$key]->name = User::where('user_id',$ledger->user_id)->first()->name;
-
-        // $data['ledger'] = Ledger::join('users', 'users.user_id', '=', 'ledgers.user_id')
-        //     ->where('ledgers.customer_id', Auth::guard('admin')->user()->id)
-        //     ->whereBetween('date', [$request->start_date, $request->end_date])
-        //     ->select(
-        //         'ledgers.*',
-        //         'users.name',
-        //         DB::raw('SUM(amount) as amount'),
-        //         DB::raw('SUM(collection) as collection'),
-        //         DB::raw('SUM(due) as due')
-        //     )
-        //     ->groupBy('ledgers.user_id')
-        //     ->get();
-
-        
         $data['total_amount'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->whereBetween('date', [$request->start_date, $request->end_date])->sum('amount');
         $data['total_collection'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->whereBetween('date', [$request->start_date, $request->end_date])->sum('collection');
         $data['total_due'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->whereBetween('date', [$request->start_date, $request->end_date])->sum('due');

@@ -46,10 +46,9 @@
             ->where('date', date('Y-m-d'))
             ->sum('due');
 
-        $payment_amount = App\Models\Payment::groupBy('customer_id')->sum('payment_amount');
-        // dd($payment_amount);
+        $due_amount = App\Models\Customer::sum('customer_balance');
         $total_client_collection = App\Models\Payment::sum('paid');
-
+        
     @endphp
     <!-- Main content -->
     <section class="content">
@@ -102,7 +101,7 @@
                         <div class="small-box bg-primary">
                             <div class="inner">
                                 <p>Total Due</p>
-                                <h3>{{$payment_amount - $total_client_collection }}TK</h3>
+                                <h3>{{ $due_amount}}TK</h3>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>

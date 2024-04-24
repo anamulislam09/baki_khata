@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('otp');
             $table->tinyInteger('package_id')->nullable();
             $table->string('package_start_date')->nullable();
+            $table->double('customer_balance', 20, 2)->default(0);
             $table->timestamps();
         });
     }

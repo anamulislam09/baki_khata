@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ForgotPasswordMail;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
+use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,13 +32,13 @@ class AdminController extends Controller
         $check = $request->all();
         $datas = Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password'], 'status' => 1, 'isVerified' => 1]);
         if (!$datas) {
-            return back()->with('message', 'Something Went Wrong! ');
+            return back()->with('message', 'Invalid Email or Password!');
         } else {
             $check = $request->all();
             if (Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password']])) {
                 return redirect()->route('admin.dashboard')->with('message', 'Login Successfully');
             } else {
-                return back()->with('message', 'Invalid Email or Password! ');
+                return back()->with('message', ' Something Went Wrong! ');
             }
         }
     }
@@ -51,58 +52,63 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        $start_at = 1001;
-        if ($start_at) {
-            $customer = Customer::find($start_at);
-            if (!$customer) {
-                $data['id'] = $start_at;
-            }
-        }
-
-        $data['name'] = $request->name;
-        $data['shop_name'] = $request->shop_name;
-        $data['email'] = $request->email;
-        $data['password'] = Hash::make($request->password);
-        $otp = Str::random(4);
-        $data['otp'] = $otp;
-        $customer = Customer::create($data);
-
+        $customer = CustomerDetail::where('phone', '=', $request->phone)->first();
         if ($customer) {
-            $customer = Customer::where('id', $customer->id)->first();
-
-            $data['customer_id'] = $customer->id;
-            $data['address'] = $request->address;
-            $data['phone'] = $request->phone;
-            $data['nid_no'] = $request->nid_no;
-            $data['image'] = $request->image;
-            $data = CustomerDetail::create($data);
-        }
-        if ($data) {
-            $phone = CustomerDetail::latest()->first()->phone;
-            $otp = Customer::latest()->first()->otp;
-
-            $post_url = "http://api.smsinbd.com/sms-api/sendsms";
-            $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
-            $post_values['senderid'] = "8801969908462";
-            $post_values['message'] = "Your OPT Code is: " . $otp;
-            $post_values['contact_number'] = $phone;
-
-            $post_string = "";
-            foreach ($post_values as $key => $value) {
-                $post_string .= "$key=" . urlencode($value) . "&";
+            return redirect()->back()->with('message', 'This phone Number Already Used. Please Try Another Phone Number');
+        } else {
+            $start_at = 1001;
+            if ($start_at) {
+                $customer = Customer::find($start_at);
+                if (!$customer) {
+                    $data['id'] = $start_at;
+                }
             }
-            $post_string = rtrim($post_string, "& ");
 
-            $request = curl_init($post_url);
-            curl_setopt($request, CURLOPT_HEADER, 0);
-            curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
-            curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
-            $post_response = curl_exec($request);
-            curl_close($request);
-            $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+            $data['name'] = $request->name;
+            $data['shop_name'] = $request->shop_name;
+            $data['email'] = $request->email;
+            $data['password'] = Hash::make($request->password);
+            $otp = Str::random(4);
+            $data['otp'] = $otp;
+            $customer = Customer::create($data);
 
-            return redirect()->route('admin.verfy')->with('message', 'Registration Successfully');
+            if ($customer) {
+                $customer = Customer::where('id', $customer->id)->first();
+
+                $data['customer_id'] = $customer->id;
+                $data['address'] = $request->address;
+                $data['phone'] = $request->phone;
+                $data['nid_no'] = $request->nid_no;
+                $data['image'] = $request->image;
+                $data = CustomerDetail::create($data);
+            }
+            if ($data) {
+                $phone = CustomerDetail::latest()->first()->phone;
+                $otp = Customer::latest()->first()->otp;
+
+                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                $post_values['senderid'] = "8801969908462";
+                $post_values['message'] = "Your OPT Code is: " . $otp;
+                $post_values['contact_number'] = $phone;
+
+                $post_string = "";
+                foreach ($post_values as $key => $value) {
+                    $post_string .= "$key=" . urlencode($value) . "&";
+                }
+                $post_string = rtrim($post_string, "& ");
+
+                $request = curl_init($post_url);
+                curl_setopt($request, CURLOPT_HEADER, 0);
+                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                $post_response = curl_exec($request);
+                curl_close($request);
+                $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+
+                return redirect()->route('admin.verfy')->with('message', 'Registration Successfully');
+            }
         }
     }
     // register method ends here
@@ -175,12 +181,14 @@ class AdminController extends Controller
     public function ClientUpdate(Request $request)
     {
         $isverify = DB::table('customers')->where('id', $request->id)->first();
+        $package_amount = Package::where('id', $request->package)->first();
         if (Auth::guard('admin')->user()->role == 0) {
             if ($isverify->isVerified == 1) {
                 $data = array();
                 $data['status'] = $request->status;
                 $data['package_id'] = $request->package;
                 $data['package_start_date'] = date('Y-m-d');
+                $data['customer_balance'] = $package_amount->amount;
                 $client = DB::table('customers')->where('id', $request->id)->update($data);
                 if ($client) {
                     $name = Customer::where('id', $request->id)->first()->name;

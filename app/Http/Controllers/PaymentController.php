@@ -58,7 +58,15 @@ class PaymentController extends Controller
         $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');
-        Payment::create($data);
+       $payments = Payment::create($data);
+       if($payments){
+        $balance = DB::table('customers')->where('id', $request->client_id)->first();
+        $balance = $balance->customer_balance - $request->collection_amount;
+        $client['customer_balance'] = $balance;
+        DB::table('customers')->where('id', $request->client_id)->update($client);
+        // $client->save();
+       }
+
         return redirect()->route('collections.all')->with('message', 'Payment Inserted Successfully');
     }
 

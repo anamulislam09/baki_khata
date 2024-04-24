@@ -32,7 +32,6 @@ class CollectionController extends Controller
 
     public function GetTransaction($date)
     {
-        // dd($date);
         $data['dateAmount'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('amount');
         $data['dateCollection'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('collection');
         $data['dateDue'] = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $date)->sum('due');
@@ -67,7 +66,7 @@ class CollectionController extends Controller
         $ledger = Ledger::create($data);
         if ($ledger) {
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
-            $amountTK = $ledgers->amount;
+            // $amountTK = $ledgers->amount;
 
             $data['customer_id'] = $ledgers->customer_id;
             $data['auth_id'] = $ledgers->auth_id;
@@ -83,15 +82,17 @@ class CollectionController extends Controller
         }
         if ($inv) {
             $phones = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
-
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
 
             $amountTK = $ledgers->amount;
-            $word = $this->numberToWord($amountTK);
-            $message = "Total seles amount is $word";
+            $dueTK = $ledgers->due;
+
+            $word = $this->numberToWords($amountTK);
+            $dueword = $this->numberToWords(abs($dueTK));
+            $message = "Total seles amount is " . $word . " And Total due amount is " . $dueword . ".";
 
             $userNumber = $phones->phone;
-           $this->sendMessage($userNumber, $message);
+            $this->sendMessage($userNumber, $message);
         }
         return Response::json(true, 200);
     }
@@ -119,11 +120,8 @@ class CollectionController extends Controller
         $post_response = curl_exec($request);
         curl_close($request);
         $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
-        dd($array);
+        // dd($array);
     }
-
-
-
 
     public function dueCollection(Request $request)
     {
@@ -161,7 +159,21 @@ class CollectionController extends Controller
             $data['date'] = date('Y-m-d');
             $data['month'] = date('m');
             $data['year'] = date('Y');
-            Invoice::create($data);
+            $dueInv = Invoice::create($data);
+        }
+        if ($dueInv) {
+            $phones = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
+            $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
+            $total_due = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->sum('due');
+
+            $collectionTK = $ledgers->collection;
+
+            $word = $this->numberToWords($collectionTK);
+            $dueword = $this->numberToWords(abs($total_due));
+            $message = "Total Collection amount is " . $word . " And Total due amount is " . $dueword . ".";
+
+            $userNumber = $phones->phone;
+            $this->sendMessage($userNumber, $message);
         }
         return Response::json(true, 200);
     }
@@ -210,153 +222,20 @@ class CollectionController extends Controller
 
     // Function which returns number to words
 
-    // function numberToWord($num = '') {
-    //     switch ($num) {
-    //       case "0":
-    //         return "Zerro";
-    //       case "1":
-    //         return "One";
-    //       case "2":
-    //         return "Two";
-    //       case "3":
-    //         return "Three";
-    //       case "4":
-    //         return "Four";
-    //       case "5":
-    //         return "Five";
-    //       case "6":
-    //         return "Six";
-    //       case "7":
-    //         return "Seven";
-    //       case "8":
-    //         return "Eight";
-    //         default:
-    //         return "Seven";
-    //     }
-    //   }
-
-    function numberToWord($number)
+    function numberToWords($number)
     {
-        foreach (str_split($number) as $char) {
-            if ($char >= 0 && $char < 10 && (is_int($char) || ctype_digit($char))) {
-                $numbers = array("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
-                return $numbers[$char];
-            } else return $char;
+        $words = array("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
+        // Convert the number to string
+        $number_str = strval($number);
+
+        // Iterate through each digit and convert it to word
+        $result = '';
+        for ($i = 0; $i < strlen($number_str); $i++) {
+            $digit = intval($number_str[$i]);
+            if ($digit >= 0 && $digit <= 9) {
+                $result .= $words[$digit] . ' ';
+            }
         }
+        return trim($result);
     }
-
-
-    // function numberToWord($num = '')
-    // {
-    //     $num = (string) ((int) $num);
-
-    //     if ((int) $num && ctype_digit($num)) {
-    //         $words = [];
-
-    //         $num = str_replace([',', ' '], '', trim($num));
-
-    //         $list1 = [
-    //             '',
-    //             'one',
-    //             'two',
-    //             'three',
-    //             'four',
-    //             'five',
-    //             'six',
-    //             'seven',
-    //             'eight',
-    //             'nine',
-    //             'ten',
-    //             'eleven',
-    //             'twelve',
-    //             'thirteen',
-    //             'fourteen',
-    //             'fifteen',
-    //             'sixteen',
-    //             'seventeen',
-    //             'eighteen',
-    //             'nineteen',
-    //         ];
-
-    //         $list2 = [
-    //             '',
-    //             'ten',
-    //             'twenty',
-    //             'thirty',
-    //             'forty',
-    //             'fifty',
-    //             'sixty',
-    //             'seventy',
-    //             'eighty',
-    //             'ninety',
-    //             'hundred',
-    //         ];
-
-    //         $list3 = [
-    //             '',
-    //             'thousand',
-    //             'million',
-    //             'billion',
-    //             'trillion',
-    //             'quadrillion',
-    //             'quintillion',
-    //             'sextillion',
-    //             'septillion',
-    //             'octillion',
-    //             'nonillion',
-    //             'decillion',
-    //             'undecillion',
-    //             'duodecillion',
-    //             'tredecillion',
-    //             'quattuordecillion',
-    //             'quindecillion',
-    //             'sexdecillion',
-    //             'septendecillion',
-    //             'octodecillion',
-    //             'novemdecillion',
-    //             'vigintillion',
-    //         ];
-
-    //         $num_length = strlen($num);
-    //         $levels = (int) (($num_length + 2) / 3);
-    //         $max_length = $levels * 3;
-    //         $num = substr('00' . $num, -$max_length);
-    //         $num_levels = str_split($num, 3);
-
-    //         foreach ($num_levels as $num_part) {
-    //             $levels--;
-    //             $hundreds = (int) ($num_part / 100);
-    //             $hundreds = $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ($hundreds == 1 ? '' : 's') . ' ' : '';
-    //             $tens = (int) ($num_part % 100);
-    //             $singles = '';
-
-    //             if ($tens < 20) {
-    //                 $tens = $tens ? ' ' . $list1[$tens] . ' ' : '';
-    //             } else {
-    //                 $tens = (int) ($tens / 10);
-    //                 $tens = ' ' . $list2[$tens] . ' ';
-    //                 $singles = (int) ($num_part % 10);
-    //                 $singles = ' ' . $list1[$singles] . ' ';
-    //             }
-    //             $words[] =
-    //                 $hundreds . $tens . $singles . ($levels && (int) $num_part ? ' ' . $list3[$levels] . ' ' : '');
-    //         }
-    //         $commas = count($words);
-    //         if ($commas > 1) {
-    //             $commas = $commas - 1;
-    //         }
-
-    //         $words = implode(', ', $words);
-
-    //         $words = trim(str_replace(' ,', ',', ucwords($words)), ', ');
-    //         if ($commas) {
-    //             $words = str_replace(',', ' and', $words);
-    //         }
-
-    //         return $words;
-    //     } elseif (!((int) $num)) {
-    //         return 'Zero';
-    //     }
-    //     return '';
-    // }
 }

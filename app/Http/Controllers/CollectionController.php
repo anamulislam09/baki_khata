@@ -87,7 +87,7 @@ class CollectionController extends Controller
 
             $amountTK = $ledgers->amount;
 
-            $word = $this->numberToWords($amountTK);
+            $word = $this->numberToWords(abs($amountTK));
             $dueword = $this->numberToWords(abs($total_due));
             $message = "Total seles amount is " . $word . " And Total due amount is " . $dueword . ".";
 
@@ -169,7 +169,7 @@ class CollectionController extends Controller
 
             $collectionTK = $ledgers->collection;
 
-            $word = $this->numberToWords($collectionTK);
+            $word = $this->numberToWords(abs($collectionTK));
             $dueword = $this->numberToWords(abs($total_due));
             $message = "Total Collection amount is " . $word . " And Total due amount is " . $dueword . ".";
 
@@ -226,7 +226,7 @@ class CollectionController extends Controller
 
     function numberToWords($number)
     {
-        $words = array("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
+        $words = array("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", 'point');
         // Convert the number to string
         $number_str = strval($number);
 

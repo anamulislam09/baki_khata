@@ -426,7 +426,7 @@
                     $('#user').text(res.users.name + '`s');
                 $('#amount').text(res.total_amount);
                 $('#total_collection').text(res.total_collection);
-                $('#total_due').text(res.total_due);
+                $('#total_due').text(res.total_due.toFixed(2));
 
                 var tbody = '';
                 res.ledger.forEach((element, index) => {
@@ -461,7 +461,7 @@
                     // $('#user').text(res.users.name + '`s');
                         $('#dateAmount').text(res.dateAmount);
                         $('#dateCollection').text(res.dateCollection);
-                        $('#dateDue').text(res.dateDue);
+                        $('#dateDue').text(res.dateDue.toFixed(2));
                         // console.log(res.dateAmount);
                     }
                 });

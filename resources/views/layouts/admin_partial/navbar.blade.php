@@ -9,6 +9,10 @@
             padding-left: 0px !important;
             padding-right: 0px !important;
         }
+        /* .breadCumb{
+                margin-top: 15px !important;
+                font-size: 9px !important;
+            } */
     }
 
     @media only screen and (min-width: 600px) {
@@ -21,6 +25,9 @@
             padding-left: 0px !important;
             padding-right: 0px !important;
         }
+        /* .breadCumb{
+                margin-top: 15px !important;
+            } */
     }
 
     @media only screen and (min-width: 768px) {
@@ -33,18 +40,27 @@
             padding-left: 0px !important;
             padding-right: 0px !important;
         }
+        /* .breadCumb{
+                margin-top: 12px !important;
+            } */
     }
 
     @media only screen and (min-width: 992px) {
         .nav-item a {
             font-size: 19px;
         }
+        /* .breadCumb{
+                margin-top: 15px;
+            } */
     }
 
     @media only screen and (min-width: 1200px) {
         .nav-item a {
             font-size: 21px;
         }
+        /* .breadCumb{
+                margin-top: 15px;
+            } */
     }
 
     /* li.nav-item a:hover {
@@ -53,7 +69,7 @@
     } */
 
     li.nav-item{
-        background: #616970;
+        background: #0485f7;
         margin-right: 4px;
         padding: 5px 8px;
     }
@@ -68,7 +84,7 @@
         }
 </style>
 
-<nav class=" navbar navbar-expand navbar-light" style="background: #6C757D">
+<nav class=" navbar navbar-expand navbar-light" style="background: #0289ff">
     {{-- <!-- Left navbar links --> --}}
     <ul class="navbar-nav" style="width: 40%">
         <li class="nav-item">
@@ -89,11 +105,10 @@
                     <p style=" margin-bottom:-0px">Client</p>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" aria-label="breadcrumb">
                 <a href="{{ route('collections.all') }}"
                     class="nav-link text-light {{ Request::routeIs('collections.all') || Request::routeIs('collection.create') || Request::routeIs('collection.edit') ? 'active' : '' }}">
-                    <p style=" margin-bottom:-0px">Collection</p>
-                </a>
+                    <p class="" style=" margin-bottom:-0px">Collection</p></a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('packages.all') }}"
@@ -115,7 +130,11 @@
             <li class="nav-item">
                 <a href="{{ route('collections.index') }}"
                     class="nav-link text-light {{ Request::routeIs('collections.index') ? 'active' : '' }}">
-                    <p style=" margin-bottom:-0px">Collections</p>
+                    <p style=" margin-bottom:-20px">Collections</p>
+                    {{-- <div class="breadCumb" style="margin-top: -10px">
+                        <span style="padding-top:-10px; font-size:10px">Sales <i class="fa fa-slash"></i></span> 
+                        <span style="padding-top:-10px; font-size:10px">Due</span>
+                    </div> --}}
                 </a>
             </li>
             <li class="nav-item">
@@ -133,8 +152,7 @@
             <form method="POST" id="logout" action="{{ route('admin.logout') }}">
                 @csrf
                 <a id="logout" href="" style="" class="nav-link text-light"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    onclick="event.preventDefault(); this.closest('form').submit();">
                     Logout</a>
             </form>
         </li>

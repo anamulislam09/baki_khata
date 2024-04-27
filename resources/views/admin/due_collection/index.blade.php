@@ -37,8 +37,8 @@
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label>Select Customer</label>
-                                                        <select class="form-control form-control-sm select2" name="customer_id"
-                                                            id="customer_id" style="width: 100%;">
+                                                        <select class="form-control form-control-sm select2"
+                                                            name="customer_id" id="customer_id" style="width: 100%;">
                                                             <option value="" selected disabled>018XXXXX</option>
                                                             @foreach ($users as $row)
                                                                 <option class="pb-3" value="{{ $row->user_id }}">
@@ -69,7 +69,7 @@
                                                     </div>
                                                     <div class="col-lg-2 col-md-6 col-sm-12 form-group clearfix"
                                                         style="margin-top: 30px">
-                                                        <button type="submit" class="btn btn-primary"
+                                                        <button type="submit" id="submitBtn" class="btn btn-primary"
                                                             id="submitbtn">Submit</button>
                                                     </div>
                                                 </div>
@@ -105,7 +105,8 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="card">
-                                    <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp; Ledger Account</strong>
+                                    <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp;
+                                        Ledger Account</strong>
                                     <hr>
                                     <div class="card-body table-responsive">
                                         <table id="dataTable" class="table table-bordered table-striped">
@@ -156,17 +157,20 @@
                         <div class="modal-body">
                             <div class="mb-3 mt-3">
                                 <label for="user_name" class="form-label"> Customer Name:</label>
-                                <input type="text" class="form-control" value="" name="name" placeholder="Enter Full Name">
+                                <input type="text" class="form-control" value="" name="name"
+                                    placeholder="Enter Full Name">
                             </div>
 
                             <div class="mb-3 mt-3">
                                 <label for="phone" class="form-label"> Customer Phone:</label>
-                                <input type="text" class="form-control" value="" name="phone" placeholder="Enter Valid Phone" required>
+                                <input type="text" class="form-control" value="" name="phone"
+                                    placeholder="Enter Valid Phone" required>
                             </div>
 
                             <div class="mb-3 mt-3">
                                 <label for="user_email" class="form-label"> Customer Email:</label>
-                                <input type="text" class="form-control" value="" name="email" placeholder="Enter Valid Email">
+                                <input type="text" class="form-control" value="" name="email"
+                                    placeholder="Enter Valid Email">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -196,6 +200,12 @@
         $("#salesForm").submit(function(e) {
             e.preventDefault();
             let custID = $("#customer_id").val();
+                    // disable and ensble button afer 3 second 
+            $('#submitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#submitBtn').prop('disabled', false);
+            }, 3000);
+
             var form = $(this);
             $.ajax({
                 type: "POST",
@@ -205,6 +215,8 @@
                 success: function(data) {
                     customerLeader(custID);
                     $("#salesForm")[0].reset();
+                    // $('#submitBtn').hide()
+
                 }
             });
         });
@@ -227,6 +239,12 @@
             e.preventDefault();
             let custID = $("#customer_id").val();
             var form = $(this);
+
+            $('#dueSubmitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#dueSubmitBtn').prop('disabled', false);
+            }, 3000);
+
             $.ajax({
                 type: "POST",
                 url: form.attr('action'),
@@ -250,7 +268,7 @@
                     $('#users_id').val(res.users.user_id);
                     $('#amount').text(res.total_amount);
                     $('#total_collection').text(res.total_collection);
-                    $('#total_due').text(res.total_due);
+                    $('#total_due').text(res.total_due.toFixed(2));
 
                     var tbody = '';
                     res.ledger.forEach((element, index) => {
@@ -261,7 +279,8 @@
                         tbody += '<td>' + element.amount + '</td>'
                         tbody += '<td>' + element.collection + '</td>'
                         tbody += '<td>' + element.due + '</td>'
-                        tbody += '<td class="text-center"><a href="' + url + '" target ="_blank"><span class="fa fa-book"></span></a></td>'
+                        tbody += '<td class="text-center"><a href="' + url +
+                            '" target ="_blank"><span class="fa fa-book"></span></a></td>'
                         tbody += '</tr>'
                     });
                     $('#item-table').html(tbody);

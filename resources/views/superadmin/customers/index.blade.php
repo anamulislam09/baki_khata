@@ -76,9 +76,9 @@
                                                 @if ($difference->days > $package->duration)
                                                     <span class="badge badge-danger">Expired</span>
                                                 @elseif ($package->duration - $difference->days <= 30)
-                                                    <span class="badge badge-warning">djfhbjds</span>
+                                                    <span class="badge badge-warning">Expeired Soon</span>
                                                 @else
-                                                    <span class="badge badge-primary">done</span>
+                                                    <span class="badge badge-primary">Done</span>
                                                 @endif
                                             @endif
 

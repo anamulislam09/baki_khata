@@ -30,7 +30,6 @@
             margin-bottom: -6Px;
         }
 
-
         .header-text p {
             margin: 0px 10px;
         }
@@ -166,127 +165,109 @@
             </div>
         </div>
         @php
-            // Function which returns number to words
-            function numberToWord($num = '')
+
+            $amountWord = numtowords($inv->amount);
+            $collectionWord = numtowords($inv->collection);
+            $dueWord = numtowords(abs($inv->due));
+
+            function numtowords(float $number)
             {
-                $num = (string) ((int) $num);
+                $decimal = round($number - ($no = floor($number)), 2) * 100;
+                $decimal_part = $decimal;
+                $hundred = null;
+                $hundreds = null;
+                $digits_length = strlen($no);
+                $decimal_length = strlen($decimal);
+                $i = 0;
+                $str = [];
+                $str2 = [];
+                $words = [
+                    0 => '',
+                    1 => 'one',
+                    2 => 'two',
+                    3 => 'three',
+                    4 => 'four',
+                    5 => 'five',
+                    6 => 'six',
+                    7 => 'seven',
+                    8 => 'eight',
+                    9 => 'nine',
+                    10 => 'ten',
+                    11 => 'eleven',
+                    12 => 'twelve',
+                    13 => 'thirteen',
+                    14 => 'fourteen',
+                    15 => 'fifteen',
+                    16 => 'sixteen',
+                    17 => 'seventeen',
+                    18 => 'eighteen',
+                    19 => 'nineteen',
+                    20 => 'twenty',
+                    30 => 'thirty',
+                    40 => 'forty',
+                    50 => 'fifty',
+                    60 => 'sixty',
+                    70 => 'seventy',
+                    80 => 'eighty',
+                    90 => 'ninety',
+                ];
+                $digits = ['', 'hundred', 'thousand', 'lakh', 'crore'];
 
-                if ((int) $num && ctype_digit($num)) {
-                    $words = [];
-
-                    $num = str_replace([',', ' '], '', trim($num));
-
-                    $list1 = [
-                        '',
-                        'one',
-                        'two',
-                        'three',
-                        'four',
-                        'five',
-                        'six',
-                        'seven',
-                        'eight',
-                        'nine',
-                        'ten',
-                        'eleven',
-                        'twelve',
-                        'thirteen',
-                        'fourteen',
-                        'fifteen',
-                        'sixteen',
-                        'seventeen',
-                        'eighteen',
-                        'nineteen',
-                    ];
-
-                    $list2 = [
-                        '',
-                        'ten',
-                        'twenty',
-                        'thirty',
-                        'forty',
-                        'fifty',
-                        'sixty',
-                        'seventy',
-                        'eighty',
-                        'ninety',
-                        'hundred',
-                    ];
-
-                    $list3 = [
-                        '',
-                        'thousand',
-                        'million',
-                        'billion',
-                        'trillion',
-                        'quadrillion',
-                        'quintillion',
-                        'sextillion',
-                        'septillion',
-                        'octillion',
-                        'nonillion',
-                        'decillion',
-                        'undecillion',
-                        'duodecillion',
-                        'tredecillion',
-                        'quattuordecillion',
-                        'quindecillion',
-                        'sexdecillion',
-                        'septendecillion',
-                        'octodecillion',
-                        'novemdecillion',
-                        'vigintillion',
-                    ];
-
-                    $num_length = strlen($num);
-                    $levels = (int) (($num_length + 2) / 3);
-                    $max_length = $levels * 3;
-                    $num = substr('00' . $num, -$max_length);
-                    $num_levels = str_split($num, 3);
-
-                    foreach ($num_levels as $num_part) {
-                        $levels--;
-                        $hundreds = (int) ($num_part / 100);
-                        $hundreds = $hundreds
-                            ? ' ' . $list1[$hundreds] . ' Hundred' . ($hundreds == 1 ? '' : 's') . ' '
-                            : '';
-                        $tens = (int) ($num_part % 100);
-                        $singles = '';
-
-                        if ($tens < 20) {
-                            $tens = $tens ? ' ' . $list1[$tens] . ' ' : '';
-                        } else {
-                            $tens = (int) ($tens / 10);
-                            $tens = ' ' . $list2[$tens] . ' ';
-                            $singles = (int) ($num_part % 10);
-                            $singles = ' ' . $list1[$singles] . ' ';
-                        }
-                        $words[] =
-                            $hundreds .
-                            $tens .
-                            $singles .
-                            ($levels && (int) $num_part ? ' ' . $list3[$levels] . ' ' : '');
+                while ($i < $digits_length) {
+                    $divider = $i == 2 ? 10 : 100;
+                    $number = floor($no % $divider);
+                    $no = floor($no / $divider);
+                    $i += $divider == 10 ? 1 : 2;
+                    if ($number) {
+                        $plural = ($counter = count($str)) && $number > 9 ? 's' : null;
+                        $hundred = $counter == 1 && $str[0] ? ' and ' : null;
+                        $str[] =
+                            $number < 21
+                                ? $words[$number] . ' ' . $digits[$counter] . $plural . ' ' . $hundred
+                                : $words[floor($number / 10) * 10] .
+                                    ' ' .
+                                    $words[$number % 10] .
+                                    ' ' .
+                                    $digits[$counter] .
+                                    $plural .
+                                    ' ' .
+                                    $hundred;
+                    } else {
+                        $str[] = null;
                     }
-                    $commas = count($words);
-                    if ($commas > 1) {
-                        $commas = $commas - 1;
-                    }
-
-                    $words = implode(', ', $words);
-
-                    $words = trim(str_replace(' ,', ',', ucwords($words)), ', ');
-                    if ($commas) {
-                        $words = str_replace(',', ' and', $words);
-                    }
-
-                    return $words;
-                } elseif (!((int) $num)) {
-                    return 'Zero';
                 }
-                return '';
+
+                $d = 0;
+                while ($d < $decimal_length) {
+                    $divider = $d == 2 ? 10 : 100;
+                    $decimal_number = floor($decimal % $divider);
+                    $decimal = floor($decimal / $divider);
+                    $d += $divider == 10 ? 1 : 2;
+                    if ($decimal_number) {
+                        $plurals = ($counter = count($str2)) && $decimal_number > 9 ? 's' : null;
+                        $hundreds = $counter == 1 && $str2[0] ? ' and ' : null;
+                        @$str2[] =
+                            $decimal_number < 21
+                                ? $words[$decimal_number] . ' ' . $digits[$decimal_number] . $plural . ' ' . $hundred
+                                : $words[floor($decimal_number / 10) * 10] .
+                                    ' ' .
+                                    $words[$decimal_number % 10] .
+                                    ' ' .
+                                    $digits[$counter] .
+                                    $plural .
+                                    ' ' .
+                                    $hundred;
+                    } else {
+                        $str2[] = null;
+                    }
+                }
+
+                $takas = implode('', array_reverse($str));
+                $paise = implode('', array_reverse($str2));
+                $paise = $decimal_part > 0 ? $paise . ' Paise' : '';
+                return ($takas ? $takas . 'Takas ' : '') . $paise;
             }
 
-            $word = numberToWord($inv->collection);
         @endphp
 
         <div class="body">
@@ -295,9 +276,18 @@
                             {{ $user->name }}
                         @endif
                     </span></strong> The
-                sum of tk. (in words)
+                sum of sales amount tk. (in words)
                 <strong><span
-                        style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $word }}</span></strong>
+                        style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $amountWord ? $amountWord : 0 }}</span></strong>
+                , Collection amount of tk. (in words)
+                <strong><span
+                        style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $collectionWord ? $collectionWord : 0 }}</span></strong>
+                and @if ($inv->due > 0)
+                    advanced
+                @else
+                    due
+                @endif amount of tk. (in words) <strong><span
+                        style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $dueWord ? $dueWord : 0 }}</span></strong>
                 Month of <strong><span style="border-bottom: 2px dotted #000; padding:0px 70px">
                         @if ($inv->month == 1)
                             January
@@ -324,8 +314,9 @@
                         @elseif ($inv->month == 12)
                             December
                         @endif {{ $inv->year }}
-                    </span> </strong>. In Cash <strong><span style="border-bottom: 2px dotted #000; padding:0px 30px">
-                        {{ $inv->collection }}</span></strong>.
+                    </span> </strong>.
+                     {{-- In Cash <strong><span style="border-bottom: 2px dotted #000; padding:0px 30px">
+                        {{ $inv->collection }}</span></strong>. --}}
         </div>
         <div class="footer">
             <div class="Prepared">

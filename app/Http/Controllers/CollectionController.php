@@ -85,9 +85,7 @@ class CollectionController extends Controller
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
             $total_due = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->sum('due');
 
-            $amountTK = $ledgers->amount;
-
-            $word = $this->numberToWords($amountTK);
+            $word = $this->numberToWords(abs($ledgers->amount));
             $dueword = $this->numberToWords(abs($total_due));
             $message = "Total seles amount is " . $word . " And Total due amount is " . $dueword . ".";
 
@@ -167,9 +165,7 @@ class CollectionController extends Controller
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
             $total_due = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->sum('due');
 
-            $collectionTK = $ledgers->collection;
-
-            $word = $this->numberToWords($collectionTK);
+            $word = $this->numberToWords(abs($ledgers->collection));
             $dueword = $this->numberToWords(abs($total_due));
             $message = "Total Collection amount is " . $word . " And Total due amount is " . $dueword . ".";
 
@@ -227,16 +223,12 @@ class CollectionController extends Controller
     function numberToWords($number)
     {
         $words = array("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
-        // Convert the number to string
         $number_str = strval($number);
-
-        // Iterate through each digit and convert it to word
         $result = '';
         for ($i = 0; $i < strlen($number_str); $i++) {
-            $digit = intval($number_str[$i]);
-            if ($digit >= 0 && $digit <= 9) {
-                $result .= $words[$digit] . ' ';
-            }
+            $digit = $number_str[$i];
+            if ($digit >= 0 && $digit <= 9) $result .= $words[$digit] . ' ';
+            if ($digit == '.') $result .= 'Point ';
         }
         return trim($result);
     }

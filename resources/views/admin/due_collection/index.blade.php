@@ -5,6 +5,226 @@
         #dataTable {
             font-size: 15px;
         }
+
+        @media only screen and (max-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 12px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .editmodel {
+                font-size: 15px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+
+            .formlabel label {
+                font-size: 13px !important;
+            }
+
+            .formlabel input {
+                font-size: 13px !important;
+            }
+
+            .formlabel button {
+                font-size: 13px !important;
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 12px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .editmodel {
+                font-size: 16px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+
+            .formlabel label {
+                font-size: 13px !important;
+            }
+
+            .formlabel input {
+                font-size: 13px !important;
+            }
+
+            .formlabel button {
+                font-size: 13px !important;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 13px !important;
+            }
+
+            table tr td {
+                font-size: 14px !important;
+            }
+
+            table tr th {
+                font-size: 14px !important;
+            }
+
+            .editmodel {
+                font-size: 17px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+
+            .formlabel label {
+                font-size: 14px !important;
+            }
+
+            .formlabel input {
+                font-size: 14px !important;
+            }
+
+            .formlabel button {
+                font-size: 14px !important;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 14px !important;
+            }
+
+            table tr td {
+                font-size: 15px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .editmodel {
+                font-size: 18px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+
+            .formlabel label {
+                font-size: 15px !important;
+            }
+
+            .formlabel input {
+                font-size: 15px !important;
+            }
+
+            .formlabel button {
+                font-size: 15px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 15px !important;
+            }
+
+            table tr td {
+                font-size: 16px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .editmodel {
+                font-size: 19px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 14px !important;
+                padding: 4px !important;
+            }
+
+            .formlabel label {
+                font-size: 16px !important;
+            }
+
+            .formlabel input {
+                font-size: 16px !important;
+            }
+
+            .formlabel button {
+                font-size: 16px !important;
+            }
+        }
     </style>
     <!-- Main content -->
     <section class="  content">
@@ -146,34 +366,34 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Customer </h5>
+                    <h5 class="modal-title editmodel" id="exampleModalLabel">Add New Customer </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="modal_body">
+                <div id="modal_body" class="modl-body">
                     <form action="{{ route('Storecustomer') }}" method="POST" id="userForm">
                         @csrf
                         <div class="modal-body">
-                            <div class="mb-3 mt-3">
+                            <div class="mb-3 mt-3 formlabel">
                                 <label for="user_name" class="form-label"> Customer Name:</label>
                                 <input type="text" class="form-control" value="" name="name"
                                     placeholder="Enter Full Name">
                             </div>
 
-                            <div class="mb-3 mt-3">
+                            <div class="mb-3 mt-3 formlabel">
                                 <label for="phone" class="form-label"> Customer Phone:</label>
                                 <input type="text" class="form-control" value="" name="phone"
                                     placeholder="Enter Valid Phone" required>
                             </div>
 
-                            <div class="mb-3 mt-3">
+                            <div class="mb-3 mt-3 formlabel">
                                 <label for="user_email" class="form-label"> Customer Email:</label>
                                 <input type="text" class="form-control" value="" name="email"
                                     placeholder="Enter Valid Email">
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer formlabel mb-4">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -200,7 +420,7 @@
         $("#salesForm").submit(function(e) {
             e.preventDefault();
             let custID = $("#customer_id").val();
-                    // disable and ensble button afer 3 second 
+            // disable and ensble button afer 3 second 
             $('#submitBtn').prop('disabled', true);
             setTimeout(function() {
                 $('#submitBtn').prop('disabled', false);
@@ -268,7 +488,7 @@
                     $('#users_id').val(res.users.user_id);
                     $('#amount').text(res.total_amount);
                     $('#total_collection').text(res.total_collection);
-                    $('#total_due').text(res.total_due.toFixed(2));
+                    $('#total_due').text(parseFloat(res.total_due).toFixed(2));
 
                     var tbody = '';
                     res.ledger.forEach((element, index) => {

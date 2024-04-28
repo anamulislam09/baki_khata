@@ -6,6 +6,162 @@
             pointer-events: none;
             cursor: default;
         }
+
+        @media only screen and (max-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 12px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .editmodel {
+                font-size: 15px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 12px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .editmodel {
+                font-size: 16px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 13px !important;
+            }
+
+            table tr td {
+                font-size: 14px !important;
+            }
+
+            table tr th {
+                font-size: 14px !important;
+            }
+
+            .editmodel {
+                font-size: 17px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 14px !important;
+            }
+
+            table tr td {
+                font-size: 15px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .editmodel {
+                font-size: 18px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name a {
+                font-size: 15px !important;
+            }
+
+            table tr td {
+                font-size: 16px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .editmodel {
+                font-size: 19px !important;
+            }
+
+            .modl-body {
+                margin: -35px 0px !important;
+            }
+            .edit {
+                font-size: 14px !important;
+                padding: 4px !important;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
     {{-- <div class="content-wrapper"> --}}
@@ -19,11 +175,11 @@
                             <div class="container-fluid">
                                 <div class="card">
                                     <div class="card-header ">
-                                        <div class="row">
-                                            <div class="col-lg-10 col-md-10 col-sm-6 pt-2">
+                                        <div class="menubar">
+                                            <div class="shop_name pt-2">
                                                 <h3 class="card-title">All Customers</h3>
                                             </div>
-                                            <div class="col-lg-2 col-md-2 col-sm-4">
+                                            <div class="shop_name">
                                                 <a href="{{ route('customers.create') }}"
                                                     class="btn btn-info text-light">Add New
                                                 </a>
@@ -80,7 +236,7 @@
                                                         data-id="{{ $item->user_id }}" data-toggle="modal"
                                                         data-target="#editUser"><i class="fas fa-edit"></i></a>
                                                     <a href="{{ route('customers.delete', $item->user_id) }}"
-                                                        class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                                        class="btn btn-sm btn-danger edit"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -114,13 +270,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Customer </h5>
+                    <h5 class="modal-title editmodel">Edit Customer </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <div id="modal_body">
+                <div id="modal_body" class="modl-body">
 
                 </div>
 
@@ -136,7 +292,6 @@
             let user_id = $(this).data('id');
             $.get("/admin/customers/edit/" + user_id, function(data) {
                 $('#modal_body').html(data);
-
             })
         })
     </script>

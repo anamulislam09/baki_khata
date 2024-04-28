@@ -1,17 +1,159 @@
 @extends('layouts.admin')
 @section('admin_content')
+    <style>
+        @media only screen and (max-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name h3 {
+                font-size: 18px !important;
+            }
+
+            .menu_bar {
+                font-size: 13px !important;
+            }
+
+            .inner h3,
+            sup {
+                font-size: 14px !important;
+            }
+
+            .small-box-footer {
+                font-size: 12px !important;
+            }
+
+            .title {
+                font-size: 17px !important;
+            }
+
+        }
+
+        @media only screen and (min-width: 600px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name h3 {
+                font-size: 18px !important;
+            }
+
+            .menu_bar {
+                font-size: 13px !important;
+            }
+
+            .inner h3,
+            sup {
+                font-size: 15px !important;
+            }
+
+            .small-box-footer {
+                font-size: 12px !important;
+            }
+
+            .title {
+                font-size: 17px !important;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name h3 {
+                font-size: 20px !important;
+            }
+
+            .menu_bar {
+                font-size: 15px !important;
+            }
+
+            .inner h3,
+            sup {
+                font-size: 17px !important;
+            }
+
+            .small-box-footer {
+                font-size: 14px !important;
+            }
+
+            .title {
+                font-size: 19px !important;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name h3 {
+                font-size: 20px !important;
+            }
+
+            .menu_bar {
+                font-size: 15px !important;
+            }
+
+            .inner h3,
+            sup {
+                font-size: 19px !important;
+            }
+
+            .small-box-footer {
+                font-size: 14px !important;
+            }
+
+            .title {
+                font-size: 20px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .menubar {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .shop_name h3 {
+                font-size: 22px !important;
+            }
+
+            .menu_bar {
+                font-size: 16px !important;
+            }
+
+            .inner h3,
+            sup {
+                font-size: 20px !important;
+            }
+
+            .small-box-footer {
+                font-size: 15px !important;
+            }
+
+            .title {
+                font-size: 21px !important;
+            }
+        }
+    </style>
     <!-- Content Header (Page header) -->
     <div class="content-header ">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <div class="row mb-2">
-                        <div class="col-lg-2 col-md-2 col-sm-0">
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-12">
+                    <div class="menubar">
+                        {{-- <div class="col-lg-2 col-md-2 col-sm-0">
+                        </div> --}}
+                        <div class="shop_name">
                             <h3 class="m-0 d-flex justify-content-end"> {{ Auth::guard('admin')->user()->shop_name }}</h3>
                         </div><!-- /.col -->
-                        <div class="col-lg-5 col-md-5 col-sm-12">
+                        <div class="menu_bar">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Dashboard </li>
@@ -48,7 +190,7 @@
 
         $due_amount = App\Models\Customer::sum('customer_balance');
         $total_client_collection = App\Models\Payment::sum('paid');
-        
+
     @endphp
     <!-- Main content -->
     <section class="content">
@@ -87,12 +229,12 @@
                         <div class="small-box bg-primary">
                             <div class="inner">
                                 <p>Total Collections</p>
-                                <h3>{{ $total_client_collection }}TK</h3>
+                                <h3>{{ $total_client_collection }} TK</h3>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="{{route('collections.all')}}" class="small-box-footer">More info <i
+                            <a href="{{ route('collections.all') }}" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -101,7 +243,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <p>Total Due</p>
-                                <h3>{{ $due_amount}}TK</h3>
+                                <h3>{{ $due_amount }} TK</h3>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -126,7 +268,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <p>Total Customer sdfrgd</p>
+                                <p>Total Customer</p>
                                 <h3>{{ $user }}</h3>
                             </div>
                             <div class="icon">
@@ -143,7 +285,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner text-white">
                                 <p>Today Total Sales</p>
-                                <h3>{{ $today_sales }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $today_sales }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -162,7 +304,7 @@
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <p>Today Total Collection</p>
-                                <h3>{{ $today_collection }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $today_collection }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -180,7 +322,7 @@
                         <div class="small-box bg-secondary">
                             <div class="inner">
                                 <p>Today Total Due</p>
-                                <h3>{{ $today_due }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $today_due }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -221,7 +363,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner text-white">
                                 <p>Today Total Sales</p>
-                                <h3 id="dateAmount"><sup style="font-size: 20px">TK</sup></h3>
+                                <h3 id="dateAmount"> TK</h3>
 
                             </div>
                             <div class="icon">
@@ -240,7 +382,7 @@
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <p>Today Total Collection</p>
-                                <h3 id="dateCollection"><sup style="font-size: 20px">TK</sup></h3>
+                                <h3 id="dateCollection"> TK</h3>
 
                             </div>
                             <div class="icon">
@@ -258,7 +400,7 @@
                         <div class="small-box bg-secondary">
                             <div class="inner">
                                 <p>Today Total Due</p>
-                                <h3 id="dateDue"><sup style="font-size: 20px">TK</sup></h3>
+                                <h3 id="dateDue"> TK</h3>
 
                             </div>
                             <div class="icon">
@@ -276,7 +418,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4>Total Transactions</h4>
+                        <h4 class="title">Total Transactions</h4>
                     </div>
                 </div>
 
@@ -292,11 +434,11 @@
                                     </div>
                                     <div class="col-9">
                                         <div class="form-group">
-                                            <select class="form-control form-control-sm select2" name="customer_id"
+                                            <select class="form-control form-control-sm select2 " name="customer_id"
                                                 id="customer_id" style="width: 100%;">
                                                 <option value="" selected disabled>018XXXXX</option>
                                                 @foreach ($users as $row)
-                                                    <option class="pb-3" value="{{ $row->user_id }}">
+                                                    <option class="pb-3 user" value="{{ $row->user_id }}">
                                                         {{ $row->name }} {{ $row->phone }}</option>
                                                 @endforeach
                                             </select>
@@ -319,7 +461,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner text-white">
                                 <p>Total Sales</p>
-                                <h3>{{ $total_sales }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $total_sales }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -338,7 +480,7 @@
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <p>Total Collection</p>
-                                <h3>{{ $total_collection }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $total_collection }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -356,7 +498,7 @@
                         <div class="small-box bg-secondary">
                             <div class="inner">
                                 <p>Total Due</p>
-                                <h3>{{ $total_due }}<sup style="font-size: 20px">TK</sup></h3>
+                                <h3>{{ $total_due }} TK</h3>
 
                             </div>
                             <div class="icon">
@@ -426,7 +568,7 @@
                     $('#user').text(res.users.name + '`s');
                 $('#amount').text(res.total_amount);
                 $('#total_collection').text(res.total_collection);
-                $('#total_due').text(res.total_due.toFixed(2));
+                $('#total_due').text(parseFloat(res.total_due).toFixed(2));
 
                 var tbody = '';
                 res.ledger.forEach((element, index) => {
@@ -461,7 +603,7 @@
                     // $('#user').text(res.users.name + '`s');
                         $('#dateAmount').text(res.dateAmount);
                         $('#dateCollection').text(res.dateCollection);
-                        $('#dateDue').text(res.dateDue.toFixed(2));
+                        $('#dateDue').text(parseFloat(res.dateDue).toFixed(2));
                         // console.log(res.dateAmount);
                     }
                 });

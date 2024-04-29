@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Mail\ForgotPasswordMail;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
+use App\Models\Invoice;
+use App\Models\Ledger;
 use App\Models\Package;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -281,6 +285,18 @@ class AdminController extends Controller
             $notification = array('message' => 'Password & Confirm Password does not match.', 'alert_type' => 'warning');
             return redirect()->back()->with($notification);
         }
+    }
+
+    public function ClientDelete($id)
+    {
+        Customer::where('id', $id)->delete();
+        CustomerDetail::where('customer_id', $id)->delete();
+        Invoice::where('customer_id', $id)->delete();
+        Ledger::where('customer_id', $id)->delete();
+        Payment::where('customer_id', $id)->delete();
+        User::where('customer_id', $id)->delete();
+
+        return redirect()->back()->with('message', 'Customer deleted successfully.');
     }
     /*-------------------Customers password method ends here--------------*/
 }

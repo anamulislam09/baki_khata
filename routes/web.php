@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/client', [AdminController::class, 'Client'])->name('client.all');
     Route::get('/client/edit/{id}', [AdminController::class, 'ClientEdit'])->name('client.edit');
     Route::post('/client/update', [AdminController::class, 'ClientUpdate'])->name('client.update');
+    Route::get('/client/delete/{id}', [AdminController::class, 'ClientDelete'])->name('client.delete');
 
     // Packages route  
     Route::get('/packages', [PackageController::class, 'Index'])->name('packages.all');

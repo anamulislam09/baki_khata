@@ -69,7 +69,12 @@
     } */
 
     li.nav-item{
-        background: #0485f7;
+        background: #0480ec;
+        margin-right: 4px;
+        padding: 5px 8px;
+    }
+    li.nav-item:hover{
+        background: #1b6db4;
         margin-right: 4px;
         padding: 5px 8px;
     }

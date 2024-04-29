@@ -7,13 +7,8 @@
         }
 
         @media only screen and (max-width: 600px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .shop_name a {
-                font-size: 12px !important;
+            .menubar ol li {
+                font-size: 17px !important;
             }
 
             table tr td {
@@ -32,9 +27,9 @@
                 margin: -35px 0px !important;
             }
 
-            .edit {
-                font-size: 12px !important;
-                padding: 4px !important;
+            .sales h5{
+                font-size: 17px !important;
+                /* padding: 4px !important; */
             }
 
             .formlabel label {
@@ -47,17 +42,18 @@
 
             .formlabel button {
                 font-size: 13px !important;
+                margin-top:-35px !important; 
+            }
+
+            .formlabel a {
+                font-size: 13px !important;
+                margin-top:0px !important; 
             }
         }
 
         @media only screen and (min-width: 600px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .shop_name a {
-                font-size: 12px !important;
+            .menubar ol li {
+                font-size: 18px !important;
             }
 
             table tr td {
@@ -76,9 +72,9 @@
                 margin: -35px 0px !important;
             }
 
-            .edit {
-                font-size: 12px !important;
-                padding: 4px !important;
+            .sales h5{
+                font-size: 18px !important;
+                /* padding: 4px !important; */
             }
 
             .formlabel label {
@@ -91,17 +87,16 @@
 
             .formlabel button {
                 font-size: 13px !important;
+                /* margin-top:-35px !important;  */
+            }
+            .formlabel a {
+                font-size: 14px !important;
             }
         }
 
         @media only screen and (min-width: 768px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .shop_name a {
-                font-size: 13px !important;
+            .menubar ol li {
+                font-size: 19px !important;
             }
 
             table tr td {
@@ -120,9 +115,9 @@
                 margin: -35px 0px !important;
             }
 
-            .edit {
-                font-size: 13px !important;
-                padding: 4px !important;
+            .sales h5{
+                font-size: 19px !important;
+                /* padding: 4px !important; */
             }
 
             .formlabel label {
@@ -134,18 +129,17 @@
             }
 
             .formlabel button {
+                font-size: 13px !important;
+                /* margin-top:-35px !important;  */
+            }
+            .formlabel a {
                 font-size: 14px !important;
             }
         }
 
         @media only screen and (min-width: 992px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .shop_name a {
-                font-size: 14px !important;
+            .menubar ol li {
+                font-size: 20px !important;
             }
 
             table tr td {
@@ -164,9 +158,9 @@
                 margin: -35px 0px !important;
             }
 
-            .edit {
-                font-size: 13px !important;
-                padding: 4px !important;
+            .sales h5{
+                font-size: 20px !important;
+                /* padding: 4px !important; */
             }
 
             .formlabel label {
@@ -180,16 +174,14 @@
             .formlabel button {
                 font-size: 15px !important;
             }
+            .formlabel a {
+                font-size: 14px !important;
+            }
         }
 
         @media only screen and (min-width: 1200px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .shop_name a {
-                font-size: 15px !important;
+            .menubar ol li {
+                font-size: 22px !important;
             }
 
             table tr td {
@@ -208,9 +200,9 @@
                 margin: -35px 0px !important;
             }
 
-            .edit {
-                font-size: 14px !important;
-                padding: 4px !important;
+            .sales h5{
+                font-size: 22px !important;
+                /* padding: 4px !important; */
             }
 
             .formlabel label {
@@ -224,6 +216,9 @@
             .formlabel button {
                 font-size: 16px !important;
             }
+            .formlabel a {
+                font-size: 14px !important;
+            }
         }
     </style>
     <!-- Main content -->
@@ -236,9 +231,12 @@
                             <div class="container-fluid">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h3 class="m-0 d-flex justify-content-center">All Due Collections</h3>
+                                        <div class="row ">
+                                            <div class="col-12 menubar">
+                                                <ol class="breadcrumb m-0 d-flex justify-content-center">
+                                                    <li class="breadcrumb-item active"> All Collections Sales</li>
+                                                    <li class="breadcrumb-item active">Due</li>
+                                                </ol>
                                             </div>
                                         </div>
                                     </div>
@@ -249,70 +247,68 @@
                         <div class="row pt-2 pl-4">
                             <div class="col-lg-4 col-md-4 col-sm-12">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <h5 for="">Sales</h5>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label>Select Customer</label>
-                                                        <select class="form-control form-control-sm select2"
-                                                            name="customer_id" id="customer_id" style="width: 100%;">
-                                                            <option value="" selected disabled>018XXXXX</option>
-                                                            @foreach ($users as $row)
-                                                                <option class="pb-3" value="{{ $row->user_id }}">
-                                                                    {{ $row->name }} {{ $row->phone }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                                    <a href="#" class="btn btn-info add" data-toggle="modal"
-                                                        data-target="#addUser" style="margin-top: 30px">Add New</a>
+                                    <div class="card-body sales">
+                                        <h5>Sales</h5>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-group formlabel">
+                                                    <label>Select Customer</label>
+                                                    <select class="form-control form-control-sm select2" name="customer_id"
+                                                        id="customer_id" style="width: 100%;">
+                                                        <option value="" selected disabled>018XXXXX</option>
+                                                        @foreach ($users as $row)
+                                                            <option class="pb-3" value="{{ $row->user_id }}">
+                                                                {{ $row->name }} {{ $row->phone }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <form action="{{ route('sales.collection.store') }}" method="post"
-                                                id="salesForm" class="form">
-                                                @csrf
-                                                <input type="hidden" id="user_id" name="user_id">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-6 col-sm-12 form-group">
-                                                        <label>Sales Amount</label>
-                                                        <input type="text" class="form-control" name="amount"
-                                                            value="" placeholder="Enter Amount">
-                                                    </div>
-                                                    <div class="col-lg-5 col-md-6 col-sm-12 form-group">
-                                                        <label>Collection</label>
-                                                        <input type="text" name="collection" class="form-control"
-                                                            value="" placeholder="Enter Collection">
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-6 col-sm-12 form-group clearfix"
-                                                        style="margin-top: 30px">
-                                                        <button type="submit" id="submitBtn" class="btn btn-primary"
-                                                            id="submitbtn">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 formlabel">
+                                                <a href="#" class="btn btn-info add" data-toggle="modal"
+                                                    data-target="#addUser" style="margin-top: 30px">Add New</a>
+                                            </div>
                                         </div>
+                                        <form action="{{ route('sales.collection.store') }}" method="post" id="salesForm"
+                                            class="form">
+                                            @csrf
+                                            <input type="hidden" id="user_id" name="user_id">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-sm-12 form-group formlabel">
+                                                    <label>Sales Amount</label>
+                                                    <input type="text" class="form-control" name="amount" value=""
+                                                        placeholder="Enter Amount">
+                                                </div>
+                                                <div class="col-lg-5 col-md-6 col-sm-12 form-group formlabel">
+                                                    <label>Collection</label>
+                                                    <input type="text" name="collection" class="form-control"
+                                                        value="" placeholder="Enter Collection">
+                                                </div>
+                                                <div class="col-lg-2 col-md-6 col-sm-12 form-group clearfix formlabel"
+                                                    style="margin-top: 30px">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        id="submitBtn">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-body mt-2 form">
-                                        <div class="form-group ">
-                                            <h5 for="">Due Collection</h5>
+                                        <div class="form-group sales">
+                                            <h5>Due Collection</h5>
                                             <hr>
                                             <form action="{{ route('due.collection') }}" method="post"
                                                 id="dueCollectionForm">
                                                 @csrf
                                                 <input type="hidden" name="user_id" id="users_id">
                                                 <div class="row">
-                                                    <div class="col-lg-9 col-md-9 col-sm-6 form-group">
+                                                    <div class="col-lg-9 col-md-8 col-sm-6 form-group formlabel">
                                                         <label>Collection</label>
                                                         <input type="text" name="collection" class="form-control"
                                                             value="" placeholder="Enter Collection">
                                                     </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-6 form-group clearfix"
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 form-group clearfix formlabel"
                                                         style="margin-top: 30px">
                                                         <button type="submit" id="dueSubmitBtn"
                                                             class="btn btn-primary">Collect</button>
@@ -486,7 +482,7 @@
                     $('#user').text(res.users.name + '`s');
                     $('#user_id').val(res.users.user_id);
                     $('#users_id').val(res.users.user_id);
-                    $('#amount').text(res.total_amount);
+                    $('#amount').text(parseFloat(res.total_amount).toFixed(2));
                     $('#total_collection').text(res.total_collection);
                     $('#total_due').text(parseFloat(res.total_due).toFixed(2));
 

@@ -6,6 +6,160 @@
             pointer-events: none;
             cursor: default;
         }
+
+        @media only screen and (max-width: 600px) {
+            .shop_name h3 {
+                font-size: 17px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .form label {
+                font-size: 13px !important;
+            }
+
+            .form input {
+                font-size: 13px !important;
+            }
+
+            .form button {
+                font-size: 13px !important;
+            }
+
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .shop_name h3 {
+                font-size: 18px !important;
+            }
+
+            table tr td {
+                font-size: 13px !important;
+            }
+
+            table tr th {
+                font-size: 13px !important;
+            }
+
+            .form label {
+                font-size: 14px !important;
+            }
+
+            .form input {
+                font-size: 14px !important;
+            }
+
+            .form button {
+                font-size: 14px !important;
+            }
+
+            .edit {
+                font-size: 12px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .shop_name h3 {
+                font-size: 19px !important;
+            }
+
+            table tr td {
+                font-size: 14px !important;
+            }
+
+            table tr th {
+                font-size: 14px !important;
+            }
+            .form label {
+                font-size: 15px !important;
+            }
+
+            .form input {
+                font-size: 15px !important;
+            }
+
+            .form button {
+                font-size: 15px !important;
+            }
+
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .shop_name h3 {
+                font-size: 21px !important;
+            }
+
+            table tr td {
+                font-size: 15px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .form label {
+                font-size: 17px !important;
+            }
+
+            .form input {
+                font-size: 17px !important;
+            }
+
+            .form button {
+                font-size: 17px !important;
+            }
+
+            .edit {
+                font-size: 13px !important;
+                padding: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .shop_name h3 {
+                font-size: 22px !important;
+            }
+
+            table tr td {
+                font-size: 16px !important;
+            }
+
+            table tr th {
+                font-size: 16px !important;
+            }
+
+            .form label {
+                font-size: 17px !important;
+            }
+
+            .form input {
+                font-size: 17px !important;
+            }
+
+            .form button {
+                font-size: 17px !important;
+            }
+
+            .edit {
+                font-size: 14px !important;
+                padding: 4px !important;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
     <!-- Main content -->
@@ -19,10 +173,10 @@
                                 <div class="card">
                                     <div class="card-header ">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-6 shop_name">
                                                 <h3 class="card-title">All Collections</h3>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 shop_name">
                                                 <a href="{{ route('collection.create') }}"
                                                     class="btn btn-info btn-sm text-light" style="float: right">Add New
                                                 </a>
@@ -34,7 +188,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                        
+
                             <div class="table-responsive">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
@@ -128,6 +282,5 @@
                 });
             });
         });
-
     </script>
 @endsection

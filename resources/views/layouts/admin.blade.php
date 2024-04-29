@@ -15,6 +15,7 @@
     {{-- <link rel="stylesheet" href="{{asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}"> --}}
     <!-- sweetalert -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/sweetalert2/sweetalert2.css') }}">
+
     <!-- toaste -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/toastr/toastr.css') }}">
     <!-- Theme style -->
@@ -112,7 +113,7 @@
     <script src="{{ asset('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
     <!-- Select2 -->
-    <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(function() {
             // Summernote
@@ -154,26 +155,46 @@
     </script>
 
     {{-- sweetalert for delete --}}
-    {{-- <script>
-  $(document).on("click", "#delete", function(e){
-    e.preventDefault();
-    var link = $(this).attr('href');
-    swal({
-      title: "Are you want to delete?",
-      text: "Once Delete,this will be permanently delete!",
-      icon:"warning",
-      button:true,
-      dangerMode:true,
-    })
-    .then((willDelete) => {
-      if(willDelete){
-        window.location.href = link
-      }else{
-        swal("Safe Data");
-      }
-    });
-  });
-</script> --}}
+    <script>
+        $(document).on("click", "#delete", function(e) {
+            e.preventDefault();
+            var link = $(this).attr('href');
+            swal({
+                    title: "Are you sure you want to delete this record?",
+                    text: "Once Delete,this will be permanently delete!",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location.href = link
+                    } else {
+                        swal("Safe Data");
+                    }
+                });
+        });
+    </script>
+
+    {{-- <script type="text/javascript">
+        $('.show_confirm').click(function(event) {
+            var form = $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                    title: `Are you sure you want to delete this record?`,
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+        });
+    </script> --}}
 
     <script>
         function confirmAlert(element, message = "You won't be able to revert this!", buttonText = 'Yes, delete it!',

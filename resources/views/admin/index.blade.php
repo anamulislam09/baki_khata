@@ -2,10 +2,6 @@
 @section('admin_content')
     <style>
         @media only screen and (max-width: 600px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
 
             .shop_name h3 {
                 font-size: 18px !important;
@@ -31,10 +27,6 @@
         }
 
         @media only screen and (min-width: 600px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
 
             .shop_name h3 {
                 font-size: 18px !important;
@@ -59,10 +51,6 @@
         }
 
         @media only screen and (min-width: 768px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
 
             .shop_name h3 {
                 font-size: 20px !important;
@@ -87,10 +75,6 @@
         }
 
         @media only screen and (min-width: 992px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
 
             .shop_name h3 {
                 font-size: 20px !important;
@@ -115,10 +99,6 @@
         }
 
         @media only screen and (min-width: 1200px) {
-            .menubar {
-                display: flex;
-                justify-content: space-between;
-            }
 
             .shop_name h3 {
                 font-size: 22px !important;
@@ -147,19 +127,19 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <div class="menubar">
+                    {{-- <div class="menubar"> --}}
                         {{-- <div class="col-lg-2 col-md-2 col-sm-0">
                         </div> --}}
-                        <div class="shop_name">
-                            <h3 class="m-0 d-flex justify-content-end"> {{ Auth::guard('admin')->user()->shop_name }}</h3>
+                        <div class="shop_name text-center">
+                            <h3 class="m-0 " > {{ Auth::guard('admin')->user()->shop_name }}</h3>
                         </div><!-- /.col -->
-                        <div class="menu_bar">
+                        {{-- <div class="menu_bar">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Dashboard </li>
                             </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
+                        </div><!-- /.col --> --}}
+                    {{-- </div><!-- /.row --> --}}
                 </div>
             </div>
         </div><!-- /.container-fluid -->

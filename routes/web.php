@@ -39,6 +39,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::post('/client/update', [AdminController::class, 'ClientUpdate'])->name('client.update');
     Route::get('/client/delete/{id}', [AdminController::class, 'ClientDelete'])->name('client.delete');
 
+    // customer status activation route 
+    Route::get('/client/active/{id}', [AdminController::class, 'ClientActive'])->name('client.active');
+    Route::get('/client/not-active/{id}', [AdminController::class, 'ClientNotActive'])->name('client.notactive');
+
     // Packages route  
     Route::get('/packages', [PackageController::class, 'Index'])->name('packages.all');
     Route::get('/package/create', [PackageController::class, 'Create'])->name('package.create');

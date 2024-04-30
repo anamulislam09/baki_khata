@@ -189,42 +189,14 @@ class AdminController extends Controller
         if (Auth::guard('admin')->user()->role == 0) {
             if ($isverify->isVerified == 1) {
                 $data = array();
-                $data['status'] = $request->status;
+                // $data['status'] = $request->status;
                 $data['package_id'] = $request->package;
                 $data['package_start_date'] = date('Y-m-d');
                 $data['customer_balance'] = $package_amount->amount;
-                $client = DB::table('customers')->where('id', $request->id)->update($data);
-                if ($client) {
-                    $name = Customer::where('id', $request->id)->first()->name;
-                    $phone = CustomerDetail::where('customer_id', $request->id)->first()->phone;
+                DB::table('customers')->where('id', $request->id)->update($data);
 
-                    $post_url = "http://api.smsinbd.com/sms-api/sendsms";
-                    $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
-                    $post_values['senderid'] = "8801969908462";
-                    $post_values['message'] = "Welcome Mr/Ms " . $name . "." . " We have approved you as our client, So you can now record 
-                    regular balance account transactions through \"Baki-Batta\" software. Thanks for Stay with us.";
-                    $post_values['contact_number'] = $phone;
-
-                    $post_string = "";
-                    foreach ($post_values as $key => $value) {
-                        $post_string .= "$key=" . urlencode($value) . "&";
-                    }
-                    $post_string = rtrim($post_string, "& ");
-
-                    $request = curl_init($post_url);
-                    curl_setopt($request, CURLOPT_HEADER, 0);
-                    curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
-                    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
-                    $post_response = curl_exec($request);
-                    curl_close($request);
-                    json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
-
-                    $notification = array('message' => 'Customer status update successfully.', 'alert_type' => 'warning');
-                    return redirect()->route('client.all')->with($notification);
-                } else {
-                    return redirect()->back()->with('message', 'Something Went Wrong.');
-                }
+                $notification = array('message' => 'Customer Update Successfully.', 'alert_type' => 'warning');
+                return redirect()->route('client.all')->with($notification);
             } else {
                 $notification = array('message' => 'OPS! This Client Was Not Verified.', 'alert_type' => 'danger');
                 return redirect()->back()->with($notification);
@@ -234,6 +206,95 @@ class AdminController extends Controller
             return redirect()->back()->with($notification);
         }
     }
+
+
+    // active status method 
+    public function ClientActive($id)
+    {
+
+        if (Auth::guard('admin')->user()->role == 0) {
+            $data = Customer::findOrFail($id);
+            $status = $data->update(['status' => 1]);
+
+            if ($status) {
+                $customer = Customer::where('id', $id)->first();
+                $phone = CustomerDetail::where('customer_id', $customer->id)->first()->phone;
+
+                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                $post_values['senderid'] = "8801969908462";
+                $post_values['message'] = "Welcome Mr/Ms " . $customer->name . "." . " We have approved you as our client, So you can now record regular balance account transactions through \"Baki-Batta\" software. Thanks for Stay with us.";
+                $post_values['contact_number'] = $phone;
+
+                $post_string = "";
+                foreach ($post_values as $key => $value) {
+                    $post_string .= "$key=" . urlencode($value) . "&";
+                }
+                $post_string = rtrim($post_string, "& ");
+
+                $request = curl_init($post_url);
+                curl_setopt($request, CURLOPT_HEADER, 0);
+                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                $post_response = curl_exec($request);
+                curl_close($request);
+                json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+
+                return response()->json('Customer Activated Successfully');
+            } else {
+                return redirect()->back()->with('message', 'Something Went Wrong.');
+            }
+        } else {
+            $notification = array('message' => 'You have no permission.', 'alert_type' => 'warning');
+            return redirect()->back()->with($notification);
+        }
+    }
+
+
+    // not Active Status method 
+    public function ClientNotActive($id)
+    {
+        if (Auth::guard('admin')->user()->role == 0) {
+            $data = Customer::findOrFail($id);
+            $status = $data->update(['status' => 0]);
+
+            if ($status) {
+                $customer = Customer::where('id', $id)->first();
+                $phone = CustomerDetail::where('customer_id', $customer->id)->first()->phone;
+
+                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                $post_values['senderid'] = "8801969908462";
+                $post_values['message'] = "Hi Mr/Ms " . $customer->name . "." . " We have temporarily disabled you as our client,So you can no longer record transactions through the \"Baki-Batta\" software.Please contact our head office for any need, Sorry for the temporary inconvenience.";
+                $post_values['contact_number'] = $phone;
+
+                $post_string = "";
+                foreach ($post_values as $key => $value) {
+                    $post_string .= "$key=" . urlencode($value) . "&";
+                }
+                $post_string = rtrim($post_string, "& ");
+
+                $request = curl_init($post_url);
+                curl_setopt($request, CURLOPT_HEADER, 0);
+                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                $post_response = curl_exec($request);
+                curl_close($request);
+                json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+
+                return response()->json('Customer Not Activated Successfully');
+            } else {
+                return redirect()->back()->with('message', 'Something Went Wrong.');
+            }
+        } else {
+            $notification = array('message' => 'You have no permission.', 'alert_type' => 'warning');
+            return redirect()->back()->with($notification);
+        }
+    }
+    // status method ends here
+
 
     /*-------------------Customers related method start here--------------*/
 

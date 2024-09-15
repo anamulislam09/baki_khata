@@ -8,12 +8,12 @@
         }
 
         @media only screen and (max-width: 600px) {
-            .shop_name h3 {
-                font-size: 15px !important;
+            .shop_name p {
+                font-size: 12px !important;
             }
 
             .shop_name a {
-                font-size: 15px !important;
+                font-size: 12px !important;
             }
 
             table tr td {
@@ -43,12 +43,12 @@
         }
 
         @media only screen and (min-width: 600px) {
-            .shop_name h3 {
-                font-size: 15px !important;
+            .shop_name p {
+                font-size: 12px !important;
             }
 
             .shop_name a {
-                font-size: 15px !important;
+                font-size: 12px !important;
             }
 
             table tr td {
@@ -78,12 +78,12 @@
         }
 
         @media only screen and (min-width: 768px) {
-            .shop_name h3 {
-                font-size: 16px !important;
+            .shop_name p {
+                font-size: 13px !important;
             }
 
             .shop_name a {
-                font-size: 16px !important;
+                font-size: 13px !important;
             }
 
             table tr td {
@@ -113,12 +113,12 @@
         }
 
         @media only screen and (min-width: 992px) {
-            .shop_name h3 {
-                font-size: 21px !important;
+            .shop_name p {
+                font-size: 15px !important;
             }
 
             .shop_name a {
-                font-size: 21px !important;
+                font-size: 15px !important;
             }
 
             table tr td {
@@ -148,12 +148,12 @@
         }
 
         @media only screen and (min-width: 1200px) {
-            .shop_name h3 {
-                font-size: 22px !important;
+            .shop_name p {
+                font-size: 15px !important;
             }
 
             .shop_name a {
-                font-size: 22px !important;
+                font-size: 15px !important;
             }
 
             table tr td {
@@ -192,11 +192,11 @@
                             <div class="card-header ">
                                 <div class="row">
                                     <div class="col-6 shop_name">
-                                        <h3 class="card-title mt-2">Edit Client </h3>
+                                        <p class="card-title mt-2">Edit Client </p>
                                     </div>
                                     <div class="col-6 shop_name">
                                         <a href="{{ route('client.all') }}" style="float: right"
-                                            class="btn btn-sm btn-outline-primary">Cancel Edit
+                                        class="btn btn-info text-light">Cancel Edit
                                         </a>
                                     </div>
                                 </div>
@@ -248,7 +248,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="mb-3 mt-3 form">
+                                            {{-- <div class="mb-3 mt-3 form">
                                                 <label for="exampleInputEmail1"> Status </label>
                                                 <select name="status" id="" class="form-control">
                                                     <option value="1"
@@ -258,7 +258,7 @@
                                                         @if ($data->status == 0) selected @endif>
                                                         Deactive</option>
                                                 </select>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                         <div class="modal-footer form">

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('remember_token')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('role')->default(1);
-            $table->string('isVerified')->default(0);
+            $table->tinyInteger('isVerified')->default(0);
             $table->string('otp');
             $table->tinyInteger('package_id')->nullable();
             $table->string('package_start_date')->nullable();

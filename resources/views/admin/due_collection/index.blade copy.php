@@ -27,7 +27,7 @@
                 margin: -35px 0px !important;
             }
 
-            .sales h5 {
+            .sales h5{
                 font-size: 17px !important;
                 /* padding: 4px !important; */
             }
@@ -42,12 +42,12 @@
 
             .formlabel button {
                 font-size: 13px !important;
-                margin-top: -35px !important;
+                margin-top:-35px !important; 
             }
 
             .formlabel a {
                 font-size: 13px !important;
-                margin-top: 0px !important;
+                margin-top:0px !important; 
             }
         }
 
@@ -72,7 +72,7 @@
                 margin: -35px 0px !important;
             }
 
-            .sales h5 {
+            .sales h5{
                 font-size: 18px !important;
                 /* padding: 4px !important; */
             }
@@ -89,7 +89,6 @@
                 font-size: 13px !important;
                 /* margin-top:-35px !important;  */
             }
-
             .formlabel a {
                 font-size: 14px !important;
             }
@@ -116,7 +115,7 @@
                 margin: -35px 0px !important;
             }
 
-            .sales h5 {
+            .sales h5{
                 font-size: 19px !important;
                 /* padding: 4px !important; */
             }
@@ -133,7 +132,6 @@
                 font-size: 13px !important;
                 /* margin-top:-35px !important;  */
             }
-
             .formlabel a {
                 font-size: 14px !important;
             }
@@ -160,7 +158,7 @@
                 margin: -35px 0px !important;
             }
 
-            .sales h5 {
+            .sales h5{
                 font-size: 20px !important;
                 /* padding: 4px !important; */
             }
@@ -176,7 +174,6 @@
             .formlabel button {
                 font-size: 15px !important;
             }
-
             .formlabel a {
                 font-size: 14px !important;
             }
@@ -203,7 +200,7 @@
                 margin: -35px 0px !important;
             }
 
-            .sales h5 {
+            .sales h5{
                 font-size: 22px !important;
                 /* padding: 4px !important; */
             }
@@ -219,7 +216,6 @@
             .formlabel button {
                 font-size: 16px !important;
             }
-
             .formlabel a {
                 font-size: 14px !important;
             }
@@ -261,7 +257,7 @@
                                                     <select class="form-control form-control-sm select2" name="customer_id"
                                                         id="customer_id" style="width: 100%;">
                                                         <option value="" selected disabled>018XXXXX</option>
-                                                        @foreach ($data['users'] as $row)
+                                                        @foreach ($users as $row)
                                                             <option class="pb-3" value="{{ $row->user_id }}">
                                                                 {{ $row->name }} {{ $row->phone }}</option>
                                                         @endforeach
@@ -325,90 +321,32 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="card">
-
-                                    <div id="sales">
-                                        <strong class="d-flex justify-content-center mb-2"><span
-                                                id="user"></span>&nbsp;
-                                            Today Sales</strong>
-                                        <hr>
-                                        <div class="card-body table-responsive">
-                                            <table id="dataTable" class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr style="border-top: 1px solid #ddd">
-                                                        <th width="10%">SL</th>
-                                                        <th width="10%">Customer</th>
-                                                        <th width="20%">Sales Amount</th>
-                                                        <th width="20%">Receive Amount </th>
-                                                        <th width="15%">Due</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($data['sales'] as $key => $row)
-                                                        @php
-                                                            $customer = App\Models\User::where(
-                                                                'customer_id',
-                                                                Auth::guard('admin')->user()->id,
-                                                            )
-                                                                ->where('user_id', $row->user_id)
-                                                                ->value('name');
-                                                        @endphp
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $customer }}</td>
-                                                            <td>{{ $row->sales_amount < 0 ? '(' . number_format(abs($row->sales_amount), 2) . ')' : number_format($row->sales_amount, 2) }}
-                                                            </td>
-                                                            <td>{{ $row->collection < 0 ? '(' . number_format(abs($row->collection), 2) . ')' : number_format($row->collection, 2) }}
-                                                            </td>
-                                                            <td>{{ $row->due < 0 ? '(' . number_format(abs($row->due), 2) . ')' : number_format($row->due, 2) }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="2" class="text-right"><strong>Total =</strong></td>
-                                                        <td>{{ number_format($data['total_amount'], 2) }}</td>
-                                                        <td>{{ number_format($data['total_collection'], 2) }}</td>
-                                                        <td>{{ $data['total_due'] < 0 ? '(' . number_format(abs($data['total_due']), 2) . ')' : number_format($data['total_due'], 2) }}
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div id="ledger">
-                                        <strong class="d-flex justify-content-center mb-2"><span
-                                                id="user"></span>&nbsp;
-                                            Ledger Account</strong>
-                                        <hr>
-                                        <div class="card-body table-responsive">
-                                            <table id="dataTable" class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr style="border-top: 1px solid #ddd">
-                                                        <th width="10%">SL</th>
-                                                        <th width="15%">Date</th>
-                                                        <th width="20%">Sales Amount</th>
-                                                        <th width="20%">Receive Amount </th>
-                                                        <th width="15%">Balance</th>
-                                                        <th width="15%"> Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="item-table">
-
-                                                </tbody>
-                                                <tfoot class="form">
-                                                    <tr>
-                                                        <td colspan="2" class="text-right"><strong>Total =</strong>
-                                                        </td>
-                                                        <td id="amount"></td>
-                                                        <td id="total_collection"></td>
-                                                        <td id="total_due"></td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                    <strong class="d-flex justify-content-center mb-2"><span id="user"></span>&nbsp;
+                                        Ledger Account</strong>
+                                    <hr>
+                                    <div class="card-body table-responsive">
+                                        <table id="dataTable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr style="border-top: 1px solid #ddd">
+                                                    <th width="10%">SL</th>
+                                                    <th width="15%">Date</th>
+                                                    <th width="20%">Sales Amount</th>
+                                                    <th width="20%">Receive Amount </th>
+                                                    <th width="15%">Balance</th>
+                                                    <th width="15%"> Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="item-table"></tbody>
+                                            <tfoot class="form">
+                                                <tr>
+                                                    <td colspan="2"><strong>Total =</strong></td>
+                                                    <td id="amount"></td>
+                                                    <td id="total_collection"></td>
+                                                    <td id="total_due"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -462,18 +400,15 @@
     </div>
 
     {{-- </div> --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         var searchRequest = null;
         $(function() {
             $(".form").hide();
-            $("#ledger").hide();
             var minlength = 4;
             $("#customer_id").change(function() {
-                $("#ledger").show();
                 $(".form").show();
                 $(".add").hide();
-                $("#sales").hide();
                 customerLeader($(this).val());
             });
         });
@@ -548,10 +483,8 @@
                     $('#user_id').val(res.users.user_id);
                     $('#users_id').val(res.users.user_id);
                     $('#amount').text(parseFloat(res.total_amount).toFixed(2));
-                    $('#total_collection').text(parseFloat(res.total_collection).toFixed(2));
-                    $('#total_due').text(res.total_due < 0 ? '(' + Math.abs(parseFloat(res.total_due)).toFixed(
-                            2) + ')' :
-                        parseFloat(res.total_due).toFixed(2));
+                    $('#total_collection').text(res.total_collection);
+                    $('#total_due').text(parseFloat(res.total_due).toFixed(2));
 
                     var tbody = '';
                     res.ledger.forEach((element, index) => {
@@ -559,10 +492,9 @@
                         tbody += '<tr>'
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
-                        tbody += '<td>' + parseFloat(element.amount).toFixed(2) + '</td>'
-                        tbody += '<td>' + parseFloat(element.collection).toFixed(2) + '</td>'
-                        tbody += '<td>' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
-                            .toFixed(2) + ')' : parseFloat(element.due).toFixed(2)) + '</td>'
+                        tbody += '<td>' + element.amount + '</td>'
+                        tbody += '<td>' + element.collection + '</td>'
+                        tbody += '<td>' + element.due + '</td>'
                         tbody += '<td class="text-center"><a href="' + url +
                             '" target ="_blank"><span class="fa fa-book"></span></a></td>'
                         tbody += '</tr>'

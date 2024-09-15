@@ -64,6 +64,7 @@
             .modl-body {
                 margin: -35px 0px !important;
             }
+
             .edit {
                 font-size: 12px !important;
                 padding: 4px !important;
@@ -95,6 +96,7 @@
             .modl-body {
                 margin: -35px 0px !important;
             }
+
             .edit {
                 font-size: 13px !important;
                 padding: 4px !important;
@@ -126,6 +128,7 @@
             .modl-body {
                 margin: -35px 0px !important;
             }
+
             .edit {
                 font-size: 13px !important;
                 padding: 4px !important;
@@ -157,6 +160,7 @@
             .modl-body {
                 margin: -35px 0px !important;
             }
+
             .edit {
                 font-size: 14px !important;
                 padding: 4px !important;
@@ -201,7 +205,7 @@
                                             <th>Phone</th>
                                             <th>Email</th>
                                             <th>Balance</th>
-                                            <th>Status</th>
+                                            {{-- <th>Status</th> --}}
                                             <th> Action</th>
                                     </thead>
                                     <tbody>
@@ -223,14 +227,14 @@
                                                 <td>{{ $item->name }}</td>
                                                 <td>{{ $item->phone }}</td>
                                                 <td>{{ $item->email }}</td>
-                                                <td>{{ $balance }}</td>
-                                                <td>
+                                                <td>{{ $balance < 0 ? '(' . number_format(abs($balance), 2) .')' : number_format($balance, 2) }} </td>
+                                                {{-- <td>
                                                     @if ($item->status == 0)
                                                         <span class="badge badge-danger">Deactive</span>
                                                     @else
                                                         <span class="badge badge-primary">Active</span>
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <a href="" class="btn btn-sm btn-info edit"
                                                         data-id="{{ $item->user_id }}" data-toggle="modal"
@@ -247,9 +251,9 @@
                                             <td>Total =</td>
                                             <td>
                                                 @if (isset($Total_balance) && !empty($Total_balance))
-                                                    {{ $Total_balance }}
+                                                    {{ $Total_balance < 0 ? '(' . number_format(abs($Total_balance), 2) .')' : number_format($Total_balance, 2) }}
                                                 @else
-                                                    0
+                                                    0.00
                                                 @endif
                                             </td>
                                             <td colspan="2"></td>

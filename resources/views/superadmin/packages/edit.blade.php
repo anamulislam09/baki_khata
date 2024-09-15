@@ -8,7 +8,7 @@
         </div>
         <div class="mb-3 mt-3 formlabel">
             <label for="amount" class="form-label"> Package Amount</label>
-            <input type="text" class="form-control" value="{{ $data->amount }}" name="amount">
+            <input type="text" class="form-control" value="{{ number_format($data->amount, 2) }}" name="amount">
         </div>
         <div class="mb-3 mt-3 formlabel">
             <label for="text" class="form-label"> Package Duration <sub style="color: #ee8049">(days)</sub></label>

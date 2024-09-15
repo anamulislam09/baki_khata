@@ -253,8 +253,8 @@
                     data: 'client_id=' + client_id + '&_token={{ csrf_token() }}',
                     success: function(result) {
                         $('#package').val(result.package.package_name);
-                        $('#package_bill').val(result.package.amount);
-                        // console.log(result);
+                        $('#package_bill').val(parseFloat(result.package.amount).toFixed(2));
+                        // console.log(result);parseFloat
                     }
                 })
             })

@@ -10,6 +10,7 @@ use App\Models\Ledger;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,16 +34,21 @@ class AdminController extends Controller
 
     public function Login(Request $request)
     {
+        // $today = Carbon::today()->toDateString();
+        // $datetime1 = new DateTime($item->package_start_date); 
+        // $datetime2 = new DateTime($today);
+        // $difference = $datetime1->diff($datetime2);
+
         $check = $request->all();
         $datas = Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password'], 'status' => 1, 'isVerified' => 1]);
         if (!$datas) {
-            return back()->with('message', 'Invalid Email or Password!');
+            return back()->with('message', 'Something Went Wrong! Please contact our head office for any need, Sorry for the temporary inconvenience.');
         } else {
             $check = $request->all();
             if (Auth::guard('admin')->attempt(['email' => $check['email'], 'password' => $check['password']])) {
                 return redirect()->route('admin.dashboard')->with('message', 'Login Successfully');
             } else {
-                return back()->with('message', ' Something Went Wrong! ');
+                return back()->with('message', 'Invalid Email or Password!');
             }
         }
     }
@@ -266,7 +272,7 @@ class AdminController extends Controller
                 $post_url = "http://api.smsinbd.com/sms-api/sendsms";
                 $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
                 $post_values['senderid'] = "8801969908462";
-                $post_values['message'] = "Hi Mr/Ms " . $customer->name . "." . " We have temporarily disabled you as our client,So you can no longer record transactions through the \"Baki-Batta\" software.Please contact our head office for any need, Sorry for the temporary inconvenience.";
+                $post_values['message'] = "Hi Mr/Ms " . $customer->name . "." . " We have temporarily disabled you as our client,So you can no longer record transactions through the \"Baki-Batta\" software. Please contact our head office for any need, Sorry for the temporary inconvenience.";
                 $post_values['contact_number'] = $phone;
 
                 $post_string = "";

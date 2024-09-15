@@ -6,7 +6,7 @@ use App\Models\Invoice;
 use App\Models\Ledger;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
@@ -27,16 +27,16 @@ class UserController extends Controller
     {
         $customer = User::where('phone', '=', $request->phone)->first();
         if ($customer) {
-            return redirect()->route('customers.index')->with('message', 'This phone Number Already Used.');
+            return redirect()->back()->with('message', 'This phone Number Already Used.');
         } else {
-            $v_id = 1;
+            $c_id = 1;
             $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
             if ($isExist) {
                 $user_id = User::where('customer_id', Auth::guard('admin')->user()->id)->max('user_id');
                 $user_id = explode('-', $user_id)[1];
-                $data['user_id'] = 'UID-' . $this->formatSrl(++$user_id);
+                $data['user_id'] = 'CID-' . $this->formatSrl(++$user_id);
             } else {
-                $data['user_id'] = 'UID-' . $this->formatSrl($v_id);
+                $data['user_id'] = 'CID-' . $this->formatSrl($c_id);
             }
 
             $data['customer_id'] = Auth::guard('admin')->user()->id;
@@ -47,37 +47,38 @@ class UserController extends Controller
             $data['password'] = $request->phone;
 
             User::create($data);
-            return redirect()->route('customers.index')->with('message', 'User creted successfully');
+            return redirect()->back()->with('message', 'User creted successfully');
         }
     }
 
     //  create user form model 
-    public function StoreCustomer(Request $request)
-    {
-        $customer = User::where('phone', '=', $request->phone)->first();
-        if ($customer) {
-            return redirect()->route('customers.index')->with('message', 'This phone Number Already Used.');
-        } else {
-            $v_id = 1;
-            $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
-            if ($isExist) {
-                $user_id = User::where('customer_id', Auth::guard('admin')->user()->id)->max('user_id');
-                $user_id = explode('-', $user_id)[1];
-                $data['user_id'] = 'UID-' . $this->formatSrl(++$user_id);
-            } else {
-                $data['user_id'] = 'UID-' . $this->formatSrl($v_id);
-            }
+    // public function StoreCustomer(Request $request)
+    // {
+    //     $customer = User::where('phone', '=', $request->phone)->first();
+    //     if ($customer) {
+    //         return redirect()->back()->with('message', 'This phone Number Already Used.');
+    //     } else {
+    //         $c_id = 1;
+    //         $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
+    //         if ($isExist) {
+    //             $user_id = User::where('customer_id', Auth::guard('admin')->user()->id)->max('user_id');
+    //             $user_id = explode('-', $user_id)[1];
+    //             $data['user_id'] = 'CID-' . $this->formatSrl(++$user_id);
+    //         } else {
+    //             $data['user_id'] = 'CID-' . $this->formatSrl($c_id);
+    //         }
 
-            $data['customer_id'] = Auth::guard('admin')->user()->id;
-            $data['auth_id'] = Auth::guard('admin')->user()->id;
-            $data['name'] = $request->name;
-            $data['phone'] = $request->phone;
-            $data['email'] = $request->email;
-            $data['password'] = $request->phone;
-            User::create($data);
-            return Response::json(true, 200);
-        }
-    }
+    //         $data['customer_id'] = Auth::guard('admin')->user()->id;
+    //         $data['auth_id'] = Auth::guard('admin')->user()->id;
+    //         $data['name'] = $request->name;
+    //         $data['phone'] = $request->phone;
+    //         $data['email'] = $request->email;
+    //         $data['password'] = $request->phone;
+    //         User::create($data);
+    //         // return Response::json(true, 200);
+    //         return redirect()->back()->with('message', 'User creted successfully');
+    //     }
+    // }
 
     // unique id serial function
     public function formatSrl($srl)
@@ -110,15 +111,14 @@ class UserController extends Controller
 
     public function Update(Request $request)
     {
-            $data = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
-            $data['name'] = $request->name;
-            // $data['phone'] = $request->phone;
-            $data['email'] = $request->email;
-            $data['password'] = $request->phone;
-            // $data['status'] = $request->status;
-            $data->save();
-            return redirect()->route('customers.index')->with('message', 'User Updated Successfully');
-        
+        $data = User::where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id)->first();
+        $data['name'] = $request->name;
+        // $data['phone'] = $request->phone;
+        $data['email'] = $request->email;
+        $data['password'] = $request->phone;
+        // $data['status'] = $request->status;
+        $data->save();
+        return redirect()->route('customers.index')->with('message', 'User Updated Successfully');
     }
 
     public function Destroy($user_id)

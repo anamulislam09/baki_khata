@@ -6,9 +6,10 @@ use App\Models\Customer;
 use App\Models\CustomerDetail;
 use App\Models\Invoice;
 use App\Models\Ledger;
+use App\Models\Sales;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 use Illuminate\Support\Facades\Response;
 
@@ -16,8 +17,14 @@ class CollectionController extends Controller
 {
     public function Index()
     {
-        $users = User::where('customer_id', Auth::guard('admin')->user()->id)->get();
-        return view('admin.due_collection.index', compact('users'));
+        $data['users'] = User::where('customer_id', Auth::guard('admin')->user()->id)->get();
+        $today = date('Y-m-d');
+        $data['sales'] = Sales::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $today)->orderBy('id', 'DESC')->get();
+
+        $data['total_amount'] = Sales::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $today)->sum('sales_amount');
+        $data['total_collection'] = Sales::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $today)->sum('collection');
+        $data['total_due'] = Sales::where('customer_id', Auth::guard('admin')->user()->id)->where('date', $today)->sum('due');
+        return view('admin.due_collection.index', compact('data'));
     }
 
     public function GetCustomer($id)
@@ -41,6 +48,8 @@ class CollectionController extends Controller
     public function storeInvoice(Request $request)
     {
         // $data = $request->all();
+       $amount = abs($request->amount);
+       $collection = abs($request->collection);
         $v_id = 1;
         $isExist = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->exists();
 
@@ -54,11 +63,11 @@ class CollectionController extends Controller
         $data['customer_id'] = Auth::guard('admin')->user()->id;
         $data['auth_id'] = Auth::guard('admin')->user()->id;
         $data['user_id'] = $request->user_id;
-        $data['amount'] = $request->amount;
-        if ($request->collection != null) {
-            $data['collection'] = $request->collection;
+        $data['amount'] = $amount;
+        if ($collection != null) {
+            $data['collection'] = $collection;
         }
-        $data['due'] = $request->collection - $request->amount;
+        $data['due'] = $collection - $amount;
         $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');
@@ -67,6 +76,18 @@ class CollectionController extends Controller
         if ($ledger) {
             $ledgers = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->latest()->first();
             // $amountTK = $ledgers->amount;
+
+            $sales['customer_id'] = $ledgers->customer_id;
+            $sales['auth_id'] = $ledgers->auth_id;
+            $sales['user_id'] = $ledgers->user_id;
+            $sales['invoice_id'] = $ledgers->invoice_id;
+            $sales['sales_amount'] = $ledgers->amount;
+            $sales['collection'] = $ledgers->collection;
+            $sales['due'] = $ledgers->due;
+            $sales['date'] = date('Y-m-d');
+            $sales['month'] = date('m');
+            $sales['year'] = date('Y');
+            Sales::create($sales);
 
             $data['customer_id'] = $ledgers->customer_id;
             $data['auth_id'] = $ledgers->auth_id;
@@ -125,6 +146,7 @@ class CollectionController extends Controller
     public function dueCollection(Request $request)
     {
         $data = $request->all();
+        $collection = abs($request->collection);
         $v_id = 1;
         $isExist = Ledger::where('customer_id', Auth::guard('admin')->user()->id)->exists();
         if ($isExist) {
@@ -139,8 +161,8 @@ class CollectionController extends Controller
         $data['customer_id'] = Auth::guard('admin')->user()->id;
         $data['auth_id'] = Auth::guard('admin')->user()->id;
         $data['user_id'] = $request->user_id;
-        $data['collection'] = $request->collection;
-        $data['due'] = $request->collection;
+        $data['collection'] = $collection;
+        $data['due'] = $collection;
         $data['date'] = date('Y-m-d');
         $data['month'] = date('m');
         $data['year'] = date('Y');

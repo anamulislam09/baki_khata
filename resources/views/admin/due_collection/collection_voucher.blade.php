@@ -121,11 +121,19 @@
 
 <body>
     <div class="container">
-        <div class="header-section">
-            {{-- <div class="logo"> --}}
-            {{-- <h3>{{ $customer->name }}</h3> --}}
-            {{-- <img src="" alt="$customer->name "> --}}
-            {{-- </div> --}}
+        <div class="header-section row">
+            <div class="col-2">
+                <img src="{{ asset('admin/dist/img/logo.png') }}">
+            </div>
+            <div class="col-8">
+                <div class="header-text">
+                    <h1>{{ $customer->shop_name }}</h1>
+                    <p>{{ $custDetails->address }}</p>
+                    <p>{{ $custDetails->phone }}</p>
+                    <p>{{ $customer->email }}</p>
+                </div>
+            </div>
+            <div class="col-2"></div>
 
             <div class="header-text">
                 <h1>{{ $customer->shop_name }}</h1>
@@ -133,27 +141,11 @@
                 <p>{{ $custDetails->phone }}</p>
                 <p>{{ $customer->email }}</p>
             </div>
-
-            {{-- <div class="status" style="text-align: center"> --}}
-            {{-- <h3>Money Receipt</h3> --}}
-            {{-- <p>{{ $custDetails->address }}</p> --}}
-            {{-- </div> --}}
         </div>
 
         <div class="bodyInfo">
             <div class="left-text">
                 <p>MR No : {{ $inv->invoice_id }}</p>
-                {{-- @if (isset($user->name) && !empty($user->name))
-                    <p>Name : {{ $user->name }}</p>
-                @else
-                    <p>Flat_Name : {{ $inv->flat_name }}</p>
-                @endif --}}
-                {{-- @isset($user->name) --}}
-                {{-- <p>name : {{ $user->name }}</p> --}}
-                {{-- @endisset
-               
-                <p>name : ..........</p> --}}
-                {{-- <p>Flat_name : {{ $inv->flat_name }}</p> --}}
             </div>
             <div class="middle-text">
                 <p>Money Receipt</p>
@@ -183,35 +175,35 @@
                 $str2 = [];
                 $words = [
                     0 => '',
-                    1 => 'one',
-                    2 => 'two',
-                    3 => 'three',
-                    4 => 'four',
-                    5 => 'five',
-                    6 => 'six',
-                    7 => 'seven',
-                    8 => 'eight',
-                    9 => 'nine',
-                    10 => 'ten',
-                    11 => 'eleven',
-                    12 => 'twelve',
-                    13 => 'thirteen',
-                    14 => 'fourteen',
-                    15 => 'fifteen',
-                    16 => 'sixteen',
-                    17 => 'seventeen',
-                    18 => 'eighteen',
-                    19 => 'nineteen',
-                    20 => 'twenty',
-                    30 => 'thirty',
-                    40 => 'forty',
-                    50 => 'fifty',
-                    60 => 'sixty',
-                    70 => 'seventy',
-                    80 => 'eighty',
-                    90 => 'ninety',
+                    1 => 'One',
+                    2 => 'Two',
+                    3 => 'Three',
+                    4 => 'Four',
+                    5 => 'Five',
+                    6 => 'Six',
+                    7 => 'Seven',
+                    8 => 'Eight',
+                    9 => 'Nine',
+                    10 => 'Ten',
+                    11 => 'Eleven',
+                    12 => 'Twelve',
+                    13 => 'Thirteen',
+                    14 => 'Fourteen',
+                    15 => 'Fifteen',
+                    16 => 'Sixteen',
+                    17 => 'Seventeen',
+                    18 => 'Eighteen',
+                    19 => 'Nineteen',
+                    20 => 'Twenty',
+                    30 => 'Thirty',
+                    40 => 'Forty',
+                    50 => 'Fifty',
+                    60 => 'Sixty',
+                    70 => 'Seventy',
+                    80 => 'Eighty',
+                    90 => 'Ninety',
                 ];
-                $digits = ['', 'hundred', 'thousand', 'lakh', 'crore'];
+                $digits = ['', 'Hundred', 'Thousand', 'Lakh', 'Crore'];
 
                 while ($i < $digits_length) {
                     $divider = $i == 2 ? 10 : 100;
@@ -282,12 +274,14 @@
                 , Collection amount of tk. (in words)
                 <strong><span
                         style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $collectionWord ? $collectionWord : 0 }}</span></strong>
-                and @if ($inv->due > 0)
-                    advanced
-                @else
-                    due
-                @endif amount of tk. (in words) <strong><span
-                        style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $dueWord ? $dueWord : 0 }}</span></strong>
+                @if ($amountWord)
+                    and @if ($inv->due > 0)
+                        advanced
+                    @else
+                        due
+                    @endif amount of tk. (in words) <strong><span
+                            style="border-bottom: 2px dotted #000; padding:0px 70px">{{ $dueWord ? $dueWord : 0 }}</span></strong>
+                @endif
                 Month of <strong><span style="border-bottom: 2px dotted #000; padding:0px 70px">
                         @if ($inv->month == 1)
                             January
@@ -315,7 +309,7 @@
                             December
                         @endif {{ $inv->year }}
                     </span> </strong>.
-                     {{-- In Cash <strong><span style="border-bottom: 2px dotted #000; padding:0px 30px">
+                {{-- In Cash <strong><span style="border-bottom: 2px dotted #000; padding:0px 30px">
                         {{ $inv->collection }}</span></strong>. --}}
         </div>
         <div class="footer">

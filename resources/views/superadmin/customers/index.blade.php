@@ -187,12 +187,15 @@
 
                                         <td>
                                             @if ($item->status == 1)
-                                                <a href="{{route('client.notactive', $item->id)}}" class="deactive_status"><i class="fas fa-thumbs-down text-danger pr-1"></i><span
-                                                    class="badge badge-success ">Active</span></a>
+                                                <a href="{{ route('client.notactive', $item->id) }}"
+                                                    class="deactive_status"><i
+                                                        class="fas fa-thumbs-down text-danger pr-1"></i><span
+                                                        class="badge badge-success ">Active</span></a>
                                             @else
-                                                <a href="{{route('client.active', $item->id)}}" class="active_status"><i
-                                                    class="fas fa-thumbs-up text-primary pr-1"></i><span
-                                                    class="badge badge-danger ">Deactive</span></a>
+                                                <a href="{{ route('client.active', $item->id) }}"
+                                                    class="active_status"><i
+                                                        class="fas fa-thumbs-up text-primary pr-1"></i><span
+                                                        class="badge badge-danger ">Deactive</span></a>
                                             @endif
                                         </td>
                                         <td>
@@ -213,33 +216,33 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-     // {{-- status ajax stert here --}}
+    // {{-- status ajax stert here --}}
     //   {{-- active_status --}}
     $('body').on('click', '.active_status', function() {
         var href = $(this).attr('href');
-      var url = href ;
-      $.ajax({
-        url: url,
-        type: 'get',
-        success: function(data) {
-          toastr.success(data);
-          window.location.reload()
-        }
-      })
+        var url = href;
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function(data) {
+                toastr.success(data);
+                window.location.reload()
+            }
+        })
     })
 
     // {{--  deactive_status --}}
     $('body').on('click', '.deactive_status', function() {
         var href = $(this).attr('href');
-        var url = href ;
-      $.ajax({
-        url: url,
-        type: 'get',
-        success: function(data) {
-          toastr.success(data);
-          window.location.reload()
-        }
-      })
+        var url = href;
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function(data) {
+                toastr.success(data);
+                window.location.reload()
+            }
+        })
     })
     // {{-- status ajax ends here --}}
 </script>

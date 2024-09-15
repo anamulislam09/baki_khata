@@ -282,8 +282,8 @@
                                         <tr style="border-top: 1px solid #ddd">
                                             <th>SL</th>
                                             <th>Package Name</th>
-                                            <th>Amount</th>
-                                            <th>Duration</th>
+                                            <th>Amount <span style="font-size: 11px; color:#fb5200">tk</span></th>
+                                            <th>Duration <span style="font-size: 11px; color:#fb5200">Days</span></th>
                                             <th> Action</th>
                                     </thead>
                                     <tbody>
@@ -291,7 +291,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $item->package_name }}</td>
-                                                <td>{{ $item->amount }}</td>
+                                                <td>{{ number_format($item->amount, 2) }}</td>
                                                 <td>{{ $item->duration }}</td>
                                                 <td>
                                                     <a href="" class="btn btn-sm btn-info edit action"

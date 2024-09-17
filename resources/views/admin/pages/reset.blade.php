@@ -7,16 +7,42 @@
     <title>Reset-Password</title>
 
     <style>
-        .login-box {
-            width: 500px !important;
-            background: #999 !important
+        @media only screen and (max-width: 600px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 600px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .login-box {
+                width: 90% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            .login-box {
+                width: 80% !important;
+                background: #999 !important
+            }
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .login-box {
+                width: 50% !important;
+                background: #999 !important
+            }
         }
 
         .login-page {
-            background-image: url(../login.png);
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
             width: 100%;
             opacity: .8;
         }
@@ -89,3 +115,4 @@
 </body>
 
 </html>
+

@@ -227,7 +227,7 @@
                                                 <td>{{ $item->name }}</td>
                                                 <td>{{ $item->phone }}</td>
                                                 <td>{{ $item->email }}</td>
-                                                <td>{{ $balance < 0 ? '(' . number_format(abs($balance), 2) .')' : number_format($balance, 2) }} </td>
+                                                <td style="text-align: right">{{ $balance < 0 ? '(' . number_format(abs($balance), 2) .')' : number_format($balance, 2) }} </td>
                                                 {{-- <td>
                                                     @if ($item->status == 0)
                                                         <span class="badge badge-danger">Deactive</span>
@@ -249,7 +249,7 @@
                                         <tr>
                                             <td colspan="3"></td>
                                             <td>Total =</td>
-                                            <td>
+                                            <td style="text-align: right">
                                                 @if (isset($Total_balance) && !empty($Total_balance))
                                                     {{ $Total_balance < 0 ? '(' . number_format(abs($Total_balance), 2) .')' : number_format($Total_balance, 2) }}
                                                 @else

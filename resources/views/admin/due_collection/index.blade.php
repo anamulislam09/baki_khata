@@ -355,11 +355,11 @@
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
                                                             <td>{{ $customer }}</td>
-                                                            <td>{{ $row->sales_amount < 0 ? '(' . number_format(abs($row->sales_amount), 2) . ')' : number_format($row->sales_amount, 2) }}
+                                                            <td style="text-align: right">{{ $row->sales_amount < 0 ? '(' . number_format(abs($row->sales_amount), 2) . ')' : number_format($row->sales_amount, 2) }}
                                                             </td>
-                                                            <td>{{ $row->collection < 0 ? '(' . number_format(abs($row->collection), 2) . ')' : number_format($row->collection, 2) }}
+                                                            <td style="text-align: right">{{ $row->collection < 0 ? '(' . number_format(abs($row->collection), 2) . ')' : number_format($row->collection, 2) }}
                                                             </td>
-                                                            <td>{{ $row->due < 0 ? '(' . number_format(abs($row->due), 2) . ')' : number_format($row->due, 2) }}
+                                                            <td style="text-align: right">{{ $row->due < 0 ? '(' . number_format(abs($row->due), 2) . ')' : number_format($row->due, 2) }}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -367,9 +367,9 @@
                                                 <tfoot>
                                                     <tr>
                                                         <td colspan="2" class="text-right"><strong>Total =</strong></td>
-                                                        <td>{{ number_format($data['total_amount'], 2) }}</td>
-                                                        <td>{{ number_format($data['total_collection'], 2) }}</td>
-                                                        <td>{{ $data['total_due'] < 0 ? '(' . number_format(abs($data['total_due']), 2) . ')' : number_format($data['total_due'], 2) }}
+                                                        <td style="text-align: right">{{ number_format($data['total_amount'], 2) }}</td>
+                                                        <td style="text-align: right">{{ number_format($data['total_collection'], 2) }}</td>
+                                                        <td style="text-align: right">{{ $data['total_due'] < 0 ? '(' . number_format(abs($data['total_due']), 2) . ')' : number_format($data['total_due'], 2) }}
                                                         </td>
                                                     </tr>
                                                 </tfoot>
@@ -401,9 +401,9 @@
                                                     <tr>
                                                         <td colspan="2" class="text-right"><strong>Total =</strong>
                                                         </td>
-                                                        <td id="amount"></td>
-                                                        <td id="total_collection"></td>
-                                                        <td id="total_due"></td>
+                                                        <td id="amount" style="text-align: right"></td>
+                                                        <td id="total_collection" style="text-align: right"></td>
+                                                        <td id="total_due" style="text-align: right"></td>
                                                         <td></td>
                                                     </tr>
                                                 </tfoot>
@@ -559,9 +559,9 @@
                         tbody += '<tr>'
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
-                        tbody += '<td>' + parseFloat(element.amount).toFixed(2) + '</td>'
-                        tbody += '<td>' + parseFloat(element.collection).toFixed(2) + '</td>'
-                        tbody += '<td>' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
+                        tbody +=  '<td style="text-align: right;">' + parseFloat(element.amount).toFixed(2) + '</td>'
+                        tbody +=  '<td style="text-align: right;">' + parseFloat(element.collection).toFixed(2) + '</td>'
+                        tbody +=  '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
                             .toFixed(2) + ')' : parseFloat(element.due).toFixed(2)) + '</td>'
                         tbody += '<td class="text-center"><a href="' + url +
                             '" target ="_blank"><span class="fa fa-book"></span></a></td>'

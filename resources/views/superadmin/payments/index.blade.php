@@ -217,9 +217,9 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $customer->name }}</td>
-                                                <td>{{ number_format($item->payment_amount, 2) }}</td>
-                                                <td>{{ number_format($paidAmount, 2) }}</td>
-                                                <td>
+                                                <td style="text-align: right">{{ number_format($item->payment_amount, 2) }}</td>
+                                                <td style="text-align: right">{{ number_format($paidAmount, 2) }}</td>
+                                                <td style="text-align: right">
                                                     @if ($due > 0)
                                                         <span class="badge badge-danger">{{ number_format($due, 2) }}</span>
                                                     @else

@@ -298,9 +298,9 @@
                                     <tfoot class="today_footer">
                                         <tr>
                                             <td colspan="3" class="text-center"><strong>Total =</strong></td>
-                                            <td id="amount">0</td>
-                                            <td id="total_collection">0</td>
-                                            <td id="total_due">0</td>
+                                            <td id="amount" style="text-align: right">0</td>
+                                            <td id="total_collection" style="text-align: right">0</td>
+                                            <td id="total_due" style="text-align: right">0</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -333,9 +333,9 @@
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
                         tbody += '<td>' + element.name + '</td>'
-                        tbody += '<td>' + element.amount.toFixed(2) + '</td>'
-                        tbody += '<td>' + element.collection.toFixed(2) + '</td>'
-                        tbody += '<td>' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
+                        tbody += '<td style="text-align: right;">' + element.amount.toFixed(2) + '</td>'
+                        tbody += '<td style="text-align: right;">' + element.collection.toFixed(2) + '</td>'
+                        tbody += '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
                             .toFixed(2) + ')' : parseFloat(element.due).toFixed(2)) + '</td>'
                         tbody += '</tr>'
                     });

@@ -196,8 +196,8 @@
             <h1>Let's you sign in</h1>
             <p>Welcome to Baki Khata</p>
             @if (Session::has('message'))
-                <div class="alert alert-danger" role="alert">
-                    <strong class="text-danger">{{ Session::get('message') }}!</strong>
+                <div class="alert alert-danger" role="alert" style="font-size: 15px">
+                    <strong class="text-danger" style="font-size: 15px">{{ Session::get('message') }}!</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif

@@ -53,7 +53,8 @@
 
         .left-section form input {
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 12px;
+            color: #ddd
             border: none;
             border-radius: 5px;
         }
@@ -112,7 +113,8 @@
             .left-section form input {
                 margin-bottom: 10px;
                 padding: 10px;
-                font-size: 14px;
+                color: #ddd
+                font-size: 12px;
                 border: none;
                 border-radius: 5px;
             }
@@ -148,7 +150,8 @@
             .left-section form input {
                 margin-bottom: 10px;
                 padding: 10px;
-                font-size: 14px;
+                font-size: 12px;
+                color: #ddd
                 border: none;
                 border-radius: 5px;
             }
@@ -207,38 +210,39 @@
                 @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Name</label>
+                        <label for="">Name </label>
                         <input type="text" placeholder="Enter Client Name" class="form-control" name="name" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Shop Name</label>
+                        <label for="">Shop Name </label>
                         <input type="text" name="shop_name" class="form-control" placeholder="Enter Shop Name" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Phone</label>
+                        <label for="">Phone </label>
                         <input type="text" placeholder="Enter Valid Phone Number" class="form-control" name="phone" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Address</label>
+                        <label for="">Address </label>
                         <input type="text" placeholder="Address" class="form-control" name="address" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">NID / NRC Number</label>
-                        <input type="text" placeholder="NID / NRC Number" class="form-control" name="nid_no">
+                        <label for="">NID / NRC Number </label>
+                        <input type="text" placeholder="NID / NRC Number" class="form-control" name="nid_no" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
                         <label for="">Email</label>
-                        <input type="email" placeholder="Enter Valid Email" class="form-control" name="email">
+                        <input type="email" placeholder="Enter Valid Email" class="form-control" name="email" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Password</label>
+                        <label for="">Password </label>
                         <input type="password" placeholder="Password" class="form-control" name="password" required>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12" class="form-group">
-                        <label for="">Password Confirmation</label>
+                        <label for="">Password Confirmation </label>
                         <input type="password" placeholder="Retype Password" class="form-control" name="password_confirmation" required>
                     </div>
                 </div>
+                <span style="color: #f96d27; font-size:11px;; margin-top:-5px; font-weight: 600;">Info: All fields are required. Email will unique.</span>
                 <button type="submit">Sign Up</button>
             </form>
 

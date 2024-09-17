@@ -228,7 +228,7 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
+                            <a href="{{ route('collections.all') }}" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -302,8 +302,8 @@
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <p>Today Total Due</p>
-                                <h3>{{ number_format($today_due, 2) }} TK</h3>
-
+                                <h3>{{ $today_due < 0 ? '(' . number_format(abs($today_due), 2) . ')' : number_format($today_due, 2) }} TK</h3>
+                                
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
@@ -514,9 +514,9 @@
                                 <tfoot class="form">
                                     <tr>
                                         <td colspan="2"><strong>Total =</strong></td>
-                                        <td id="amount"></td>
-                                        <td id="total_collection"></td>
-                                        <td id="total_due"></td>
+                                        <td id="amount" style="text-align: right"></td>
+                                        <td id="total_collection" style="text-align: right"></td>
+                                        <td id="total_due" style="text-align: right"></td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
@@ -558,10 +558,10 @@
                     tbody += '<tr>'
                     tbody += '<td>' + (index + 1) + '</td>'
                     tbody += '<td>' + element.date + '</td>'
-                    tbody += '<td>' + element.amount.toFixed(2) + '</td>'
-                    tbody += '<td>' + element.collection.toFixed(2) + '</td>'
-                    tbody += '<td>' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due)
-                        .toFixed(2)) + ')' : element.due.toFixed(2)) + '</td>'
+                    tbody +=  '<td style="text-align: right;">' + parseFloat(element.amount).toFixed(2) + '</td>'
+                    tbody +=  '<td style="text-align: right;">' + parseFloat(element.collection).toFixed(2) + '</td>'
+                    tbody +=  '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due)
+                        .toFixed(2)) + ')' : parseFloat(element.due).toFixed(2)) + '</td>'
                     tbody += '<td class="text-center"><a href="' + url +
                         '" target ="_blank"><span class="fa fa-book"></span></a></td>'
                     tbody += '</tr>'
@@ -583,12 +583,10 @@
                 url: "{{ url('admin/get-transaction') }}/" + date,
                 dataType: "json",
                 success: function(res) {
-                    // $('#user').text(res.users.name + '`s');
-                        $('#dateAmount').text(res.dateAmount.toFixed(2));
-                        $('#dateCollection').text(res.dateCollection.toFixed(2));
+                        $('#dateAmount').text(parseFloat(res.dateAmount).toFixed(2));
+                        $('#dateCollection').text(parseFloat(res.dateCollection).toFixed(2));
                         $('#dateDue').text(res.dateDue < 0 ? '(' + Math.abs(parseFloat(res
-                            .dateDue)).toFixed(2) + ')' : res.dateDue.toFixed(2));
-                        // console.log(res.dateAmount);
+                            .dateDue)).toFixed(2) + ')' : parseFloat(res.dateDue).toFixed(2));
                     }
                 });
             });

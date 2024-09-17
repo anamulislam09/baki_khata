@@ -15,19 +15,19 @@
         .header-section {
             width: 100%;
             height: 100px;
-            margin-top: -30px;
+            margin-top: -20px;
         }
 
         .header-text {
             width: 100%;
             float: left;
             text-align: center;
-            margin-top: -15px
+            margin-top: -70px
         }
 
         .header-text h1 {
             font-family: arial;
-            margin-bottom: -6Px;
+            margin-bottom: -6px;
         }
 
         .header-text p {
@@ -40,7 +40,6 @@
 
         .body p {
             line-height: 30px;
-            /* margin-top: 0px; */
         }
 
         /* table style ends here  */
@@ -73,45 +72,41 @@
             display: flex;
             justify-content: space-between;
             display: block;
-            /* padding: 15px 0px; */
-            padding-bottom: 8px;
+            margin-top: -8px;
             width: 100%;
             height: 50px;
-            /* background: #fb5200; */
         }
 
         .left-text {
             width: 25%;
             float: left;
-            /* line-height: 10px; */
+            margin-top: -10px;
         }
 
         .middle-text {
-            width: 55%;
+            width: 50%;
             float: left;
-            padding-left: 10%;
-            margin-top: -12px;
-            /* text-align: center; */
-            /* line-height: 10px; */
+            padding-left: 13%;
+            margin-top: -20px;
+             text-align: center; 
         }
 
         .middle-text p {
             width: 50%;
             text-align: center;
-            padding: 10px 5px;
+            padding: 10px 0px;
             background: #000;
             border-radius: 20px;
-            font-weight: 800;
-            font-size: 20PX;
+            font-weight: 600;
+            font-size: 18px;
             color: white;
             font-family: cursive;
-            /* line-height: 10px; */
         }
 
         .right-text {
             width: 20%;
             float: right;
-            margin-bottom: -15px;
+            margin-top: -20px;
             line-height: 0px;
         }
 
@@ -122,25 +117,17 @@
 <body>
     <div class="container">
         <div class="header-section row">
-            <div class="col-2">
-                <img src="{{ asset('admin/dist/img/logo.png') }}">
+            <div class="col-2 logo">
+                <img style="width:50px;" src="{{ asset('admin/dist/img/logo.png') }}">
             </div>
-            <div class="col-8">
-                <div class="header-text">
+            <div class="col-8 header-text">
                     <h1>{{ $customer->shop_name }}</h1>
                     <p>{{ $custDetails->address }}</p>
                     <p>{{ $custDetails->phone }}</p>
                     <p>{{ $customer->email }}</p>
-                </div>
             </div>
-            <div class="col-2"></div>
-
-            <div class="header-text">
-                <h1>{{ $customer->shop_name }}</h1>
-                <p>{{ $custDetails->address }}</p>
-                <p>{{ $custDetails->phone }}</p>
-                <p>{{ $customer->email }}</p>
-            </div>
+            <!--<div class="col-2">-->
+            <!--</div>-->
         </div>
 
         <div class="bodyInfo">
@@ -157,7 +144,6 @@
             </div>
         </div>
         @php
-
             $amountWord = numtowords($inv->amount);
             $collectionWord = numtowords($inv->collection);
             $dueWord = numtowords(abs($inv->due));
@@ -330,3 +316,4 @@
 </body>
 
 </html>
+

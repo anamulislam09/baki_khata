@@ -65,7 +65,7 @@
         <!-- /.login-logo -->
         <div style="background: #f3f2f2; padding:30px 20px; text-align:center">
             <p>Welcome <b>{{ $customer->name }}</b></p>
-            <p>Your mobile is Verified! Please wait for admin approval.</p>
+            <p>Your Mobile is Verified! Please wait for Admin Approval.</p>
             <a href="{{route('login_form')}}">Login</a>
         </div>
         <!-- /.card -->
@@ -79,3 +79,4 @@
 </body>
 
 </html>
+

@@ -25,7 +25,7 @@ class UserController extends Controller
     //  create user form another page 
     public function Store(Request $request)
     {
-        $customer = User::where('phone', '=', $request->phone)->first();
+        $customer = User::where('customer_id', Auth::guard('admin')->user()->id)->where('phone', '=', $request->phone)->first();
         if ($customer) {
             return redirect()->back()->with('message', 'This phone Number Already Used.');
         } else {

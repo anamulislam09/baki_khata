@@ -16,7 +16,7 @@ class ReportController extends Controller
         $data['customers'] = User::where('customer_id', Auth::guard('admin')->user()->id)->get();
         return view('admin.report.index', compact('data'));
     }
-
+    
     public function AllReport(Request $request)
     {
         // Initialize query with optional filters
@@ -27,12 +27,18 @@ class ReportController extends Controller
             $query->whereBetween('date', [$request->start_date, $request->end_date]);
         }
 
-        // Filter by user_id if provided (0 means all users)
+        // Check if a specific user is selected or all users
         if ($request->user_id != 0) {
             $query->where('user_id', $request->user_id);
         }
 
-        // Fetch and aggregate data
+        // Calculate totals based on the query
+        $totalsQuery = clone $query;
+        $data['total_amount'] = $totalsQuery->sum('amount');
+        $data['total_collection'] = $totalsQuery->sum('collection');
+        $data['total_due'] = $totalsQuery->sum('due');
+
+        // Fetch and aggregate data for display in the ledger
         $data['ledger'] = $query->select(
             'ledgers.*',
             DB::raw('SUM(amount) as amount'),
@@ -40,16 +46,13 @@ class ReportController extends Controller
             DB::raw('SUM(due) as due')
         )
             ->groupBy('user_id')
+            ->orderBy('date', 'asc')
             ->get();
 
-        foreach ($data['ledger'] as $key => $ledger) {
-            $data['ledger'][$key]->name = User::where('user_id', $ledger->user_id)->first()->name;
+        // Attach user names to the ledger data
+        foreach ($data['ledger'] as $ledger) {
+            $ledger->name = User::where('user_id', $ledger->user_id)->value('name');
         }
-
-        // Summing the totals
-        $data['total_amount'] = $query->sum('amount');
-        $data['total_collection'] = $query->sum('collection');
-        $data['total_due'] = $query->sum('due');
 
         return response()->json($data, 200);
     }

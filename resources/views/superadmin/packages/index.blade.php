@@ -291,7 +291,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $item->package_name }}</td>
-                                                <td>{{ number_format($item->amount, 2) }}</td>
+                                                <td style="text-align: right">{{ number_format($item->amount, 2) }}</td>
                                                 <td>{{ $item->duration }}</td>
                                                 <td>
                                                     <a href="" class="btn btn-sm btn-info edit action"

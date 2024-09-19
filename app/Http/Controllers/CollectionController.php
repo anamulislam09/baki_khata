@@ -111,7 +111,7 @@ class CollectionController extends Controller
             $message = "Total seles amount is " . $word . " And Total due amount is " . $dueword . ".";
 
             $userNumber = $phones->phone;
-            $this->sendMessage($userNumber, $message);
+            // $this->sendMessage($userNumber, $message);
         }
         $message = 'Successfully Inserted.';
         return Response::json($message, 200);
@@ -192,7 +192,7 @@ class CollectionController extends Controller
             $message = "Total Collection amount is " . $word . " And Total due amount is " . $dueword . ".";
 
             $userNumber = $phones->phone;
-            $this->sendMessage($userNumber, $message);
+            // $this->sendMessage($userNumber, $message);
         }
         $message = 'Successfully Inserted.';
         return Response::json($message, 200);

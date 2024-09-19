@@ -54,7 +54,7 @@
         .left-section form input {
             margin-bottom: 10px;
             padding: 12px;
-            color: #ddd
+            color: #ddd;
             border: none;
             border-radius: 5px;
         }

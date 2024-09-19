@@ -71,7 +71,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/customers', [UserController::class, 'Index'])->name('customers.index');
     Route::get('/customers/create', [UserController::class, 'Create'])->name('customers.create');
     Route::post('/customers/store', [UserController::class, 'Store'])->name('customers.store');
-    // Route::post('/customers/store/model', [UserController::class, 'StoreCustomer'])->name('Storecustomer');
+    Route::post('/customers/store/model', [UserController::class, 'StoreCustomer'])->name('Storecustomer');
     Route::get('/customers/edit/{user_id}', [UserController::class, 'Edit']);
     Route::post('/customers/update', [UserController::class, 'Update'])->name('customers.update');
     Route::get('/customers/delete/{user_id}', [UserController::class, 'Destroy'])->name('customers.delete');

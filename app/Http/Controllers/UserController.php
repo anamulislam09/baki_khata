@@ -52,33 +52,32 @@ class UserController extends Controller
     }
 
     //  create user form model 
-    // public function StoreCustomer(Request $request)
-    // {
-    //     $customer = User::where('phone', '=', $request->phone)->first();
-    //     if ($customer) {
-    //         return redirect()->back()->with('message', 'This phone Number Already Used.');
-    //     } else {
-    //         $c_id = 1;
-    //         $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
-    //         if ($isExist) {
-    //             $user_id = User::where('customer_id', Auth::guard('admin')->user()->id)->max('user_id');
-    //             $user_id = explode('-', $user_id)[1];
-    //             $data['user_id'] = 'CID-' . $this->formatSrl(++$user_id);
-    //         } else {
-    //             $data['user_id'] = 'CID-' . $this->formatSrl($c_id);
-    //         }
+    public function StoreCustomer(Request $request)
+    {
+        $customer = User::where('phone', '=', $request->phone)->first();
+        if ($customer) {
+            return redirect()->back()->with('message', 'This phone number already used.');
+        } else {
+            $c_id = 1;
+            $isExist = User::where('customer_id', Auth::guard('admin')->user()->id)->exists();
+            if ($isExist) {
+                $user_id = User::where('customer_id', Auth::guard('admin')->user()->id)->max('user_id');
+                $user_id = explode('-', $user_id)[1];
+                $data['user_id'] = 'CID-' . $this->formatSrl(++$user_id);
+            } else {
+                $data['user_id'] = 'CID-' . $this->formatSrl($c_id);
+            }
 
-    //         $data['customer_id'] = Auth::guard('admin')->user()->id;
-    //         $data['auth_id'] = Auth::guard('admin')->user()->id;
-    //         $data['name'] = $request->name;
-    //         $data['phone'] = $request->phone;
-    //         $data['email'] = $request->email;
-    //         $data['password'] = $request->phone;
-    //         User::create($data);
-    //         // return Response::json(true, 200);
-    //         return redirect()->back()->with('message', 'User creted successfully');
-    //     }
-    // }
+            $data['customer_id'] = Auth::guard('admin')->user()->id;
+            $data['auth_id'] = Auth::guard('admin')->user()->id;
+            $data['name'] = $request->name;
+            $data['phone'] = $request->phone;
+            $data['email'] = $request->email;
+            $data['password'] = $request->phone;
+            User::create($data);
+            return Response::json(true, 200);
+        }
+    }
 
     // unique id serial function
     public function formatSrl($srl)

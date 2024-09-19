@@ -77,6 +77,7 @@ class AdminController extends Controller
             $data['name'] = $request->name;
             $data['shop_name'] = $request->shop_name;
             $data['email'] = $request->email;
+            $data['isVerified'] = 1;
             $data['password'] = Hash::make($request->password);
             $otp = Str::random(4);
             $data['otp'] = $otp;
@@ -92,33 +93,33 @@ class AdminController extends Controller
                 $data['image'] = $request->image;
                 $data = CustomerDetail::create($data);
             }
-            if ($data) {
-                $phone = CustomerDetail::latest()->first()->phone;
-                $otp = Customer::latest()->first()->otp;
+            // if ($data) {
+            //     $phone = CustomerDetail::latest()->first()->phone;
+            //     $otp = Customer::latest()->first()->otp;
 
-                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
-                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
-                $post_values['senderid'] = "8801969908462";
-                $post_values['message'] = "Your OPT Code is: " . $otp;
-                $post_values['contact_number'] = $phone;
+            //     $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+            //     $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+            //     $post_values['senderid'] = "8801969908462";
+            //     $post_values['message'] = "Your OPT Code is: " . $otp;
+            //     $post_values['contact_number'] = $phone;
 
-                $post_string = "";
-                foreach ($post_values as $key => $value) {
-                    $post_string .= "$key=" . urlencode($value) . "&";
-                }
-                $post_string = rtrim($post_string, "& ");
+            //     $post_string = "";
+            //     foreach ($post_values as $key => $value) {
+            //         $post_string .= "$key=" . urlencode($value) . "&";
+            //     }
+            //     $post_string = rtrim($post_string, "& ");
 
-                $request = curl_init($post_url);
-                curl_setopt($request, CURLOPT_HEADER, 0);
-                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
-                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
-                $post_response = curl_exec($request);
-                curl_close($request);
-                $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+            //     $request = curl_init($post_url);
+            //     curl_setopt($request, CURLOPT_HEADER, 0);
+            //     curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+            //     curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+            //     curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+            //     $post_response = curl_exec($request);
+            //     curl_close($request);
+            //     $array =  json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
 
-                return redirect()->route('admin.verfy')->with('message', 'Registration Successfully');
-            }
+            // }
+            return redirect()->route('login_form')->with('message', 'Registration Successfully');
         }
     }
     // register method ends here
@@ -217,45 +218,115 @@ class AdminController extends Controller
     // active status method 
     public function ClientActive($id)
     {
-
+        $isverify = DB::table('customers')->where('id', $id)->first();
         if (Auth::guard('admin')->user()->role == 0) {
-            $data = Customer::findOrFail($id);
-            $status = $data->update(['status' => 1]);
+            if ($isverify->isVerified == 1) {
+                $data = Customer::findOrFail($id);
+                $status = $data->update(['status' => 1]);
 
-            if ($status) {
-                $customer = Customer::where('id', $id)->first();
-                $phone = CustomerDetail::where('customer_id', $customer->id)->first()->phone;
+                if ($status) {
+                    $customer = Customer::where('id', $id)->first();
+                    $phone = CustomerDetail::where('customer_id', $customer->id)->first()->phone;
 
-                $post_url = "http://api.smsinbd.com/sms-api/sendsms";
-                $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
-                $post_values['senderid'] = "8801969908462";
-                $post_values['message'] = "Welcome Mr/Ms " . $customer->name . "." . " We have approved you as our client, So you can now record regular balance account transactions through \"Baki-Batta\" software. Thanks for Stay with us.";
-                $post_values['contact_number'] = $phone;
+                    $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+                    $post_values['api_token'] = "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M";
+                    $post_values['senderid'] = "8801969908462";
+                    $post_values['message'] = "Welcome Mr/Ms " . $customer->name . "." . " We have approved you as our client, So you can now record regular balance account transactions through \"Baki-Batta\" software. Thanks for Stay with us.";
+                    $post_values['contact_number'] = $phone;
 
-                $post_string = "";
-                foreach ($post_values as $key => $value) {
-                    $post_string .= "$key=" . urlencode($value) . "&";
+                    $post_string = "";
+                    foreach ($post_values as $key => $value) {
+                        $post_string .= "$key=" . urlencode($value) . "&";
+                    }
+                    $post_string = rtrim($post_string, "& ");
+
+                    $request = curl_init($post_url);
+                    curl_setopt($request, CURLOPT_HEADER, 0);
+                    curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+                    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+                    $post_response = curl_exec($request);
+                    curl_close($request);
+                    json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
+
+                    return response()->json('Customer Activated Successfully');
+                } else {
+                    return response()->json('OPS! Something Went Wrong');
                 }
-                $post_string = rtrim($post_string, "& ");
-
-                $request = curl_init($post_url);
-                curl_setopt($request, CURLOPT_HEADER, 0);
-                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
-                curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
-                $post_response = curl_exec($request);
-                curl_close($request);
-                json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $post_response), true);
-
-                return response()->json('Customer Activated Successfully');
             } else {
-                return redirect()->back()->with('message', 'Something Went Wrong.');
+                return response()->json('OPS! This Client Was Not Verified');
             }
         } else {
             $notification = array('message' => 'You have no permission.', 'alert_type' => 'warning');
             return redirect()->back()->with($notification);
         }
     }
+
+    // Active status method
+// public function ClientActive($id)
+// {
+//     // Check if the admin is logged in and has the right permissions
+//     if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 0) {
+//         // Fetch the customer details
+//         $isverify = DB::table('customers')->where('id', $id)->first();
+
+//         // Check if customer exists and is verified
+//         if ($isverify && $isverify->isVerified == 1) {
+//             // Get the customer data
+//             $data = Customer::findOrFail($id);
+
+//             // Update the customer's status
+//             $status = $data->update(['status' => 1]);
+
+//             if ($status) {
+//                 // Fetch phone number from related customer details
+//                 $customer = Customer::find($id);
+//                 $customerDetail = CustomerDetail::where('customer_id', $customer->id)->first();
+
+//                 if ($customerDetail) {
+//                     $phone = $customerDetail->phone;
+
+//                     // Prepare the SMS API call
+//                     $post_url = "http://api.smsinbd.com/sms-api/sendsms";
+//                     $post_values = [
+//                         'api_token' => "V8qsvGXfqBFhS4FozsQq7MyaeqTzXY2es6ufjQ3M",
+//                         'senderid' => "8801969908462",
+//                         'message' => "Welcome Mr/Ms " . $customer->name . ". We have approved you as our client. You can now record regular balance account transactions through 'Baki-Batta' software. Thanks for staying with us.",
+//                         'contact_number' => $phone,
+//                     ];
+
+//                     $post_string = http_build_query($post_values);
+
+//                     // Send SMS via cURL
+//                     $request = curl_init($post_url);
+//                     curl_setopt($request, CURLOPT_HEADER, 0);
+//                     curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+//                     curl_setopt($request, CURLOPT_POSTFIELDS, $post_string);
+//                     curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+//                     $post_response = curl_exec($request);
+//                     curl_close($request);
+
+//                     // Optionally check the response from SMS API
+//                     $response_data = json_decode($post_response, true);
+//                     if ($response_data && isset($response_data['status']) && $response_data['status'] == 'success') {
+//                         return response()->json(['message' => 'Customer Activated and SMS sent successfully'], 200);
+//                     } else {
+//                         return response()->json(['message' => 'Customer Activated but SMS sending failed'], 200);
+//                     }
+//                 } else {
+//                     return response()->json(['message' => 'Customer activated but phone number not found'], 404);
+//                 }
+//             } else {
+//                 return response()->json(['message' => 'Failed to activate customer'], 500);
+//             }
+//         } else {
+//             return response()->json('OPS! This Client Was Not Verified');
+//         }
+//     } else {
+//         return redirect()->back()->with(['message' => 'You have no permission', 'alert_type' => 'warning']);
+//     }
+// }
+
 
 
     // not Active Status method 

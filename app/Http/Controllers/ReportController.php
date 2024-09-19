@@ -29,7 +29,7 @@ class ReportController extends Controller
 
         // Check if a specific user is selected or all users
         if ($request->user_id != 0) {
-            $query->where('user_id', $request->user_id);
+            $query->where('customer_id', Auth::guard('admin')->user()->id)->where('user_id', $request->user_id);
         }
 
         // Calculate totals based on the query
@@ -46,12 +46,12 @@ class ReportController extends Controller
             DB::raw('SUM(due) as due')
         )
             ->groupBy('user_id')
-            ->orderBy('date', 'asc')
+            ->orderBy('created_at','DESC')
             ->get();
 
         // Attach user names to the ledger data
         foreach ($data['ledger'] as $ledger) {
-            $ledger->name = User::where('user_id', $ledger->user_id)->value('name');
+            $ledger->name = User::where('user_id', $ledger->user_id)->where('customer_id', Auth::guard('admin')->user()->id)->value('name');
         }
 
         return response()->json($data, 200);

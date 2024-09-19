@@ -355,11 +355,14 @@
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
                                                             <td>{{ $customer }}</td>
-                                                            <td style="text-align: right">{{ $row->sales_amount < 0 ? '(' . number_format(abs($row->sales_amount), 2) . ')' : number_format($row->sales_amount, 2) }}
+                                                            <td style="text-align: right">
+                                                                {{ $row->sales_amount < 0 ? '(' . number_format(abs($row->sales_amount), 2) . ')' : number_format($row->sales_amount, 2) }}
                                                             </td>
-                                                            <td style="text-align: right">{{ $row->collection < 0 ? '(' . number_format(abs($row->collection), 2) . ')' : number_format($row->collection, 2) }}
+                                                            <td style="text-align: right">
+                                                                {{ $row->collection < 0 ? '(' . number_format(abs($row->collection), 2) . ')' : number_format($row->collection, 2) }}
                                                             </td>
-                                                            <td style="text-align: right">{{ $row->due < 0 ? '(' . number_format(abs($row->due), 2) . ')' : number_format($row->due, 2) }}
+                                                            <td style="text-align: right">
+                                                                {{ $row->due < 0 ? '(' . number_format(abs($row->due), 2) . ')' : number_format($row->due, 2) }}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -367,9 +370,12 @@
                                                 <tfoot>
                                                     <tr>
                                                         <td colspan="2" class="text-right"><strong>Total =</strong></td>
-                                                        <td style="text-align: right">{{ number_format($data['total_amount'], 2) }}</td>
-                                                        <td style="text-align: right">{{ number_format($data['total_collection'], 2) }}</td>
-                                                        <td style="text-align: right">{{ $data['total_due'] < 0 ? '(' . number_format(abs($data['total_due']), 2) . ')' : number_format($data['total_due'], 2) }}
+                                                        <td style="text-align: right">
+                                                            {{ number_format($data['total_amount'], 2) }}</td>
+                                                        <td style="text-align: right">
+                                                            {{ number_format($data['total_collection'], 2) }}</td>
+                                                        <td style="text-align: right">
+                                                            {{ $data['total_due'] < 0 ? '(' . number_format(abs($data['total_due']), 2) . ')' : number_format($data['total_due'], 2) }}
                                                         </td>
                                                     </tr>
                                                 </tfoot>
@@ -430,13 +436,13 @@
                     </button>
                 </div>
                 <div id="modal_body" class="modl-body">
-                    <form action="{{ route('customers.store') }}" method="POST" id="userForm">
+                    <form action="{{ route('Storecustomer') }}" method="POST" id="userForm">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3 mt-3 formlabel">
                                 <label for="user_name" class="form-label"> Customer Name:</label>
                                 <input type="text" class="form-control" value="" name="name"
-                                    placeholder="Enter Full Name">
+                                    placeholder="Enter Full Name" required>
                             </div>
 
                             <div class="mb-3 mt-3 formlabel">
@@ -448,7 +454,7 @@
                             <div class="mb-3 mt-3 formlabel">
                                 <label for="user_email" class="form-label"> Customer Email:</label>
                                 <input type="text" class="form-control" value="" name="email"
-                                    placeholder="Enter Valid Email">
+                                    placeholder="Enter Valid Email" required>
                             </div>
                         </div>
                         <div class="modal-footer formlabel mb-4">
@@ -559,9 +565,12 @@
                         tbody += '<tr>'
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
-                        tbody +=  '<td style="text-align: right;">' + parseFloat(element.amount).toFixed(2) + '</td>'
-                        tbody +=  '<td style="text-align: right;">' + parseFloat(element.collection).toFixed(2) + '</td>'
-                        tbody +=  '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
+                        tbody += '<td style="text-align: right;">' + parseFloat(element.amount).toFixed(
+                            2) + '</td>'
+                        tbody += '<td style="text-align: right;">' + parseFloat(element.collection)
+                            .toFixed(2) + '</td>'
+                        tbody += '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(
+                                parseFloat(element.due))
                             .toFixed(2) + ')' : parseFloat(element.due).toFixed(2)) + '</td>'
                         tbody += '<td class="text-center"><a href="' + url +
                             '" target ="_blank"><span class="fa fa-book"></span></a></td>'

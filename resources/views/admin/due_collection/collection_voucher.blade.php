@@ -118,7 +118,7 @@
     <div class="container">
         <div class="header-section row">
             <div class="col-2 logo">
-                <img style="width:50px;" src="{{ asset('admin/dist/img/logo.png') }}">
+                {{-- <img style="width:50px;" src="{{ asset('admin/dist/img/logo.png') }}"> --}}
             </div>
             <div class="col-8 header-text">
                     <h1>{{ $customer->shop_name }}</h1>

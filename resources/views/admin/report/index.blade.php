@@ -254,19 +254,12 @@
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 col-sm-5 formlabel">
                                             <label for="">Customer</label>
-                                            {{-- <select name="user_id" id="user_id" class="form-control select2">
-                                                <option value="0" selected>All Customers</option>
-                                                @foreach ($data['customers'] as $customer)
-                                                    <option value="{{ $customer->user_id }}">{{ $customer->name }}</option>
-                                                @endforeach
-                                            </select> --}}
                                             <select name="user_id" id="user_id" class="form-control">
                                                 <option value="0">All Customers</option>
                                                 @foreach ($data['customers'] as $customer)
                                                     <option value="{{ $customer->user_id }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
-
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-sm-5 formlabel">
                                             <label for="">From</label>
@@ -278,6 +271,11 @@
                                             <input value="" type="date" name="end_date" id="end_date"
                                                 class="form-control date">
                                         </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-5 due">
+                                          <div class="card" style="padding: -10px">
+                                            <div class="card-body"> <strong>Total Due : <span id="Due"></span></strong> </div>
+                                          </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -288,6 +286,7 @@
                                             <th width="10%">SL</th>
                                             <th width="15%">Date</th>
                                             <th width="20%">Name</th>
+                                            <th width="20%">Phone</th>
                                             <th width="20%">Sales Amount</th>
                                             <th width="15%">Receive Amount</th>
                                             <th width="15%">Due Amount</th>
@@ -297,7 +296,7 @@
 
                                     <tfoot class="today_footer">
                                         <tr>
-                                            <td colspan="3" class="text-center"><strong>Total =</strong></td>
+                                            <td colspan="4" class="text-rightr"><strong>Total =</strong></td>
                                             <td id="amount" style="text-align: right">0</td>
                                             <td id="total_collection" style="text-align: right">0</td>
                                             <td id="total_due" style="text-align: right">0</td>
@@ -333,6 +332,7 @@
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
                         tbody += '<td>' + element.name + '</td>'
+                        tbody += '<td>' + element.phone + '</td>'
                         tbody += '<td style="text-align: right;">' + element.amount.toFixed(2) + '</td>'
                         tbody += '<td style="text-align: right;">' + element.collection.toFixed(2) + '</td>'
                         tbody += '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
@@ -342,6 +342,8 @@
                     $('#item-table').html(tbody);
                     $('#amount').text(parseFloat(res.total_amount).toFixed(2));
                     $('#total_collection').text(parseFloat(res.total_collection).toFixed(2));
+                    $('#Due').text(res.total_due < 0 ? '(' + Math.abs(res.total_due) + ')' : (res
+                        .total_due).toFixed(2));
                     $('#total_due').text(res.total_due < 0 ? '(' + Math.abs(res.total_due) + ')' : (res
                         .total_due).toFixed(2));
                 }

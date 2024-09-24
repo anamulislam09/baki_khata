@@ -95,10 +95,12 @@
         <li class="nav-item">
             @if (Auth::guard('admin')->user()->role == 0)
                 <a href="{{ route('admin.dashboard') }}"
-                    class="d-block nav-link text-light">{{ Auth::guard('admin')->user()->name }}</a>
+                    class="d-block nav-link text-light">Home</a>
+                    {{-- {{ Auth::guard('admin')->user()->name }} --}}
             @else
                 <a href="{{ route('admin.dashboard') }}"
-                    class="d-block nav-link text-light">{{ Auth::guard('admin')->user()->shop_name }}</a>
+                    class="d-block nav-link text-light">Home</a>
+                    {{-- {{ Auth::guard('admin')->user()->shop_name }} --}}
             @endif
         </li>
     </ul>
@@ -135,7 +137,7 @@
             <li class="nav-item">
                 <a href="{{ route('collections.index') }}"
                     class="nav-link text-light {{ Request::routeIs('collections.index') ? 'active' : '' }}">
-                    <p style=" margin-bottom:-20px">Collections</p>
+                    <p style=" margin-bottom:-20px">Sales/Due</p>
                     {{-- <div class="breadCumb" style="margin-top: -10px">
                         <span style="padding-top:-10px; font-size:10px">Sales <i class="fa fa-slash"></i></span> 
                         <span style="padding-top:-10px; font-size:10px">Due</span>

@@ -257,7 +257,7 @@
                                             <select name="user_id" id="user_id" class="form-control">
                                                 <option value="0">All Customers</option>
                                                 @foreach ($data['customers'] as $customer)
-                                                    <option value="{{ $customer->user_id }}">{{ $customer->name }}</option>
+                                                    <option value="{{ $customer->user_id }}">{{ $customer->name }} {{ $customer->phone }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -331,8 +331,8 @@
                         tbody += '<tr>'
                         tbody += '<td>' + (index + 1) + '</td>'
                         tbody += '<td>' + element.date + '</td>'
-                        tbody += '<td>' + element.name + '</td>'
-                        tbody += '<td>' + element.phone + '</td>'
+                        tbody += '<td>' + element.user.name + '</td>'
+                        tbody += '<td>' + element.user.phone + '</td>'
                         tbody += '<td style="text-align: right;">' + element.amount.toFixed(2) + '</td>'
                         tbody += '<td style="text-align: right;">' + element.collection.toFixed(2) + '</td>'
                         tbody += '<td style="text-align: right;">' + (element.due < 0 ? '(' + Math.abs(parseFloat(element.due))
@@ -342,9 +342,9 @@
                     $('#item-table').html(tbody);
                     $('#amount').text(parseFloat(res.total_amount).toFixed(2));
                     $('#total_collection').text(parseFloat(res.total_collection).toFixed(2));
-                    $('#Due').text(res.total_due < 0 ? '(' + Math.abs(res.total_due) + ')' : (res
+                    $('#Due').text(res.total_due < 0 ? '(' + parseFloat(Math.abs(res.total_due)).toFixed(2) + ')' : (res
                         .total_due).toFixed(2));
-                    $('#total_due').text(res.total_due < 0 ? '(' + Math.abs(res.total_due) + ')' : (res
+                    $('#total_due').text(res.total_due < 0 ? '(' + parseFloat(Math.abs(res.total_due)).toFixed(2) + ')' : (res
                         .total_due).toFixed(2));
                 }
             });

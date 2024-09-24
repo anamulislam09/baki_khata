@@ -51,7 +51,7 @@ class ReportController extends Controller
 
         // Attach user names to the ledger data
         foreach ($data['ledger'] as $ledger) {
-            $ledger->name = User::where('user_id', $ledger->user_id)->where('customer_id', Auth::guard('admin')->user()->id)->value('name');
+            $ledger->user = User::where('user_id', $ledger->user_id)->where('customer_id', Auth::guard('admin')->user()->id)->first();
         }
 
         return response()->json($data, 200);
